@@ -1,707 +1,498 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>刷机 — 铎的小站</title>
+<meta name="description" content="按「从解锁到救砖」的顺序整理。每一块都写清原理、步骤和风险点 —— 先知道会发生什么，再动手。">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="description" content="刷机 —— 解锁、Root、第三方 ROM、内核与模块、刷机工具，以及把变砖的手机救回来。">
-<title>刷机 · 铎的小站</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%0A%20%20%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%2260%22%20height%3D%2260%22%20rx%3D%2212%22%20fill%3D%22%230071E3%22%2F%3E%0A%20%20%3Ctext%20x%3D%2232%22%20y%3D%2246%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23FFFFFF%22%0A%20%20%20%20font-family%3D%22system-ui%2C-apple-system%2CPingFang%20SC%2CMicrosoft%20YaHei%2Csans-serif%22%3E%E9%93%8E%3C%2Ftext%3E%0A%3C%2Fsvg%3E" type="image/svg+xml">
-<link rel="preload" href="styles.css" as="style">
-<link rel="stylesheet" href="styles.css">
-<style>
-  /* Page-specific styles for flash.html */
-  .flash-hero {
-    position: relative;
-    min-height: 70vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: calc(var(--nav-height) + var(--space-6)) 0 var(--space-8);
-  }
-
-  .flash-hero__inner {
-    position: relative;
-    z-index: 2;
-    max-width: var(--container-max);
-    padding: 0 var(--margin-mobile);
-  }
-
-  @media (min-width: 734px) {
-    .flash-hero__inner {
-      padding: 0 var(--margin-desktop);
-    }
-  }
-
-  .flash-hero__art {
-    width: 100%;
-    max-width: 500px;
-    aspect-ratio: 1;
-    margin: 0 auto var(--space-6);
-    border-radius: var(--radius-xl);
-    display: grid;
-    place-items: center;
-    border: 1px solid var(--color-border);
-    background: var(--color-bg-secondary);
-  }
-
-  .flash-hero__art svg {
-    width: 85%;
-    height: auto;
-    overflow: visible;
-  }
-
-  @media (min-width: 734px) {
-    .flash-hero__art {
-      max-width: 380px;
-      margin-bottom: 0;
-    }
-  }
-
-  .flash-hero__content {
-    flex: 1 1 320px;
-    min-width: 0;
-  }
-
-  @media (min-width: 734px) {
-    .flash-hero__content {
-      text-align: left;
-    }
-  }
-
-  .flash-grid {
-    display: grid;
-    gap: var(--space-4);
-    margin-top: var(--space-6);
-  }
-
-  @media (min-width: 620px) {
-    .flash-grid {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-
-  @media (min-width: 1000px) {
-    .flash-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  .flash-card {
-    position: relative;
-    padding: var(--space-5);
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--color-border);
-    background: var(--color-bg-primary);
-    transition: transform var(--duration-fast) var(--easing-standard),
-                background var(--duration-fast) var(--easing-standard),
-                border-color var(--duration-fast) var(--easing-standard);
-  }
-
-  .flash-card:hover {
-    transform: translateY(-4px);
-    background: var(--color-bg-secondary);
-    border-color: var(--color-accent-primary);
-  }
-
-  .flash-card__icon {
-    width: 48px;
-    height: 48px;
-    border-radius: var(--radius-md);
-    display: grid;
-    place-items: center;
-    margin-bottom: var(--space-3);
-    color: var(--color-accent-primary);
-    background: rgba(0, 113, 227, 0.1);
-  }
-
-  .flash-card__icon svg {
-    width: 24px;
-    height: 24px;
-  }
-
-  .flash-card__title {
-    margin: 0 0 var(--space-2);
-    font-size: var(--text-body);
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    color: var(--color-text-primary);
-  }
-
-  .flash-card__desc {
-    margin: 0;
-    font-size: var(--text-caption);
-    line-height: 1.75;
-    color: var(--color-text-secondary);
-  }
-
-  .flash-card__index {
-    position: absolute;
-    top: var(--space-4);
-    right: var(--space-4);
-    font-family: var(--font-family-display);
-    font-size: var(--text-caption);
-    color: var(--color-text-tertiary);
-  }
-
-  .tools-section {
-    margin-top: var(--space-8);
-  }
-
-  .tools-grid {
-    display: grid;
-    gap: var(--space-4);
-  }
-
-  @media (min-width: 734px) {
-    .tools-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  .tool-card {
-    padding: var(--space-5);
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--color-border);
-    background: var(--color-bg-primary);
-    transition: transform var(--duration-fast) var(--easing-standard),
-                border-color var(--duration-fast) var(--easing-standard);
-  }
-
-  .tool-card:hover {
-    transform: translateY(-2px);
-    border-color: var(--color-accent-primary);
-  }
-
-  .tool-card__name {
-    margin: 0 0 var(--space-2);
-    font-size: var(--text-body);
-    font-weight: 600;
-    color: var(--color-text-primary);
-  }
-
-  .tool-card__desc {
-    margin: 0 0 var(--space-3);
-    font-size: var(--text-caption);
-    line-height: 1.7;
-    color: var(--color-text-secondary);
-  }
-
-  .tool-card__tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-  }
-
-  .tool-card__tag {
-    font-size: 11px;
-    padding: 4px 10px;
-    border-radius: var(--radius-pill);
-    background: var(--color-bg-tertiary);
-    border: 1px solid var(--color-border);
-    color: var(--color-text-tertiary);
-  }
-
-  .guide-list {
-    margin-top: var(--space-6);
-  }
-
-  .guide-item {
-    display: flex;
-    gap: var(--space-4);
-    padding: var(--space-4);
-    border-radius: var(--radius-md);
-    border: 1px solid var(--color-border);
-    background: var(--color-bg-primary);
-    margin-bottom: var(--space-3);
-    transition: border-color var(--duration-fast) var(--easing-standard);
-  }
-
-  .guide-item:hover {
-    border-color: var(--color-accent-primary);
-  }
-
-  .guide-item__num {
-    flex-shrink: 0;
-    width: 32px;
-    height: 32px;
-    border-radius: var(--radius-sm);
-    display: grid;
-    place-items: center;
-    font-family: var(--font-family-display);
-    font-size: 14px;
-    font-weight: 700;
-    color: #FFFFFF;
-    background: var(--color-accent-primary);
-  }
-
-  .guide-item__content {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .guide-item__title {
-    margin: 0 0 var(--space-1);
-    font-size: var(--text-body);
-    font-weight: 600;
-    color: var(--color-text-primary);
-  }
-
-  .guide-item__desc {
-    margin: 0;
-    font-size: var(--text-caption);
-    line-height: 1.7;
-    color: var(--color-text-secondary);
-  }
-
-  @media (max-width: 560px) {
-    .guide-item {
-      flex-direction: column;
-      gap: var(--space-3);
-    }
-    .guide-item__num {
-      width: 28px;
-      height: 28px;
-      font-size: 12px;
-    }
-  }
-</style>
+<link rel="stylesheet" href="assets/css/styles.css">
+<script src="assets/js/app.js" defer></script>
 </head>
 <body>
+<a class="skip-link" href="#main">跳到主要内容</a>
 
-<!-- Progress Bar -->
-<div class="progress-rail" aria-hidden="true"><div class="progress-bar" id="pbar"></div></div>
-
-<!-- Navigation -->
-<header class="nav" id="topbar">
-  <div class="nav__inner container">
-    <a class="nav__brand" href="index.html" aria-label="回到首页">
-      <span class="nav__brand-mark">铎</span>
-      <span class="nav__brand-name">铎的小站</span>
+<header class="nav">
+  <div class="nav__inner">
+    <a class="nav__brand" href="index.html" aria-label="铎的小站，回到首页">
+      <span class="nav__mark" aria-hidden="true">铎</span>
+      <span>铎的小站</span>
     </a>
-
     <nav class="nav__links" aria-label="主导航">
-      <a class="nav__link" href="index.html">首页</a>
-      <a class="nav__link active" href="flash.html">刷机</a>
-      <a class="nav__link" href="bike.html">山地车</a>
+        <a class="nav__link" href="index.html">首页</a>
+        <a class="nav__link" href="flash.html" aria-current="page">刷机</a>
+        <a class="nav__link" href="bike.html">山地车</a>
     </nav>
-
-    <div class="nav__actions">
-      <button class="nav__toggle" id="themeBtn" type="button" aria-label="切换深浅色主题" aria-pressed="false">
-        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5l1.5 1.5M19 5l-1.5 1.5M6.5 17.5l-1.5 1.5"/>
-        </svg>
-        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/>
-        </svg>
-      </button>
-
-      <button class="nav__menu-btn" id="menuBtn" type="button" aria-label="打开菜单" aria-expanded="false" aria-controls="mobileMenu">
-        <svg class="icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M3 6h18M3 12h18M3 18h18"/>
-        </svg>
-        <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:none">
-          <path d="M18 6L6 18M6 6l12 12"/>
-        </svg>
-      </button>
-    </div>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="打开菜单" data-nav-toggle>
+      <span class="nav__toggle-bars" aria-hidden="true"></span>
+    </button>
   </div>
 </header>
 
-<!-- Mobile Menu -->
-<nav class="nav__mobile-menu" id="mobileMenu" aria-label="移动端菜单">
-  <a class="nav__mobile-link" href="index.html">首页</a>
-  <a class="nav__mobile-link active" href="flash.html">刷机</a>
-  <a class="nav__mobile-link" href="bike.html">山地车</a>
+<nav class="nav__menu" id="nav-menu" aria-label="移动导航" data-nav-menu data-open="false">
+  <a class="nav__menu-link" href="index.html">首页</a>
+  <a class="nav__menu-link" href="flash.html" aria-current="page">刷机</a>
+  <a class="nav__menu-link" href="bike.html">山地车</a>
 </nav>
 
-<main>
+<main id="main">
 
-  <!-- Page Header -->
-  <header class="page-header">
-    <div class="page-header__inner">
-      <nav class="breadcrumb" aria-label="面包屑导航">
-        <a href="index.html">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-          首页
-        </a>
-        <span aria-hidden="true">/</span>
-        <span>刷机</span>
-      </nav>
-      <h1 class="page-header__title">刷机</h1>
-      <p class="page-header__desc">解锁、Root、第三方 ROM、内核与模块、刷机工具，以及把变砖的手机救回来。</p>
+  <header class="pagehead">
+    <div class="wrap">
+      <div class="pagehead__inner">
+        <nav class="breadcrumb" aria-label="面包屑">
+          <a href="index.html">首页</a>
+          <span class="breadcrumb__sep" aria-hidden="true">/</span>
+          <span aria-current="page">刷机</span>
+        </nav>
+        <span class="eyebrow reveal">01 — Flash & Mod</span>
+        <h1 class="display reveal">刷机</h1>
+        <p class="lede reveal">按「从解锁到救砖」的顺序整理。每一块都写清原理、步骤和风险点 —— 先知道会发生什么，再动手。</p>
+        <ul class="tags reveal">
+          <li class="tag">解锁 Bootloader</li>
+          <li class="tag">Root 与分支</li>
+          <li class="tag">第三方 ROM</li>
+          <li class="tag">内核调优</li>
+          <li class="tag">模块</li>
+          <li class="tag">刷机工具</li>
+          <li class="tag">救砖备份</li>
+        </ul>
+      </div>
     </div>
   </header>
 
-  <!-- Hero Visual + Content -->
-  <section class="flash-hero" aria-labelledby="flash-hero-title">
-    <div class="flash-hero__inner container">
-      <div class="flash-hero__art" aria-hidden="true">
-        <svg viewBox="0 0 320 320" role="img" aria-label="刷机主题插画">
-          <defs>
-            <linearGradient id="flashG" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" style="stop-color:var(--color-accent-primary)"/>
-              <stop offset="1" style="stop-color:var(--color-accent-hover)"/>
-            </linearGradient>
-          </defs>
-          <circle cx="160" cy="160" r="118" fill="none" stroke="url(#flashG)" stroke-opacity=".28" stroke-width="1.6"/>
-          <circle class="trace" cx="160" cy="160" r="118" fill="none" stroke="url(#flashG)" stroke-opacity=".85" stroke-width="2" style="animation: spin 14s linear infinite; transform-origin: center;"/>
-          <g style="animation: spin 14s linear infinite; transform-origin: center;">
-            <circle cx="160" cy="42" r="6" fill="url(#flashG)"/>
-          </g>
-          <rect x="102" y="62" width="116" height="196" rx="24" fill-opacity=".75" stroke="url(#flashG)" stroke-width="2" style="fill:var(--color-bg-tertiary)"/>
-          <rect x="112" y="80" width="96" height="160" rx="16" fill="none" stroke-opacity=".55" stroke-width="1.4" style="stroke:var(--color-border)"/>
-          <g stroke="url(#flashG)" stroke-width="4" stroke-linecap="round" stroke-opacity=".85">
-            <path d="M126 112h58"/><path d="M126 128h36"/><path d="M126 202h44"/>
-          </g>
-          <g stroke-width="4" stroke-linecap="round" stroke-opacity=".5" style="stroke:var(--color-border)">
-            <path d="M126 144h64"/><path d="M126 160h48"/><path d="M126 186h70"/>
-          </g>
-          <path d="M172 128 146 172h16l-6 26 28-44h-16z" fill="url(#flashG)"/>
-        </svg>
+  <section class="section" aria-labelledby="inside-flash">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <span class="eyebrow">What&#39;s Inside</span>
+        <h2 class="headline" id="inside-flash">这里会写什么</h2>
+        <p class="lede">9 个主题，按动手的顺序排列。</p>
       </div>
-      <div class="flash-hero__content">
-        <span class="section__kicker">Flash & Mod</span>
-        <h2 id="flash-hero-title" class="section__title" style="margin-top:var(--space-2);margin-bottom:0;text-align:center;">核心分类</h2>
-        @media (min-width: 734px) {
-          .flash-hero__content .section__title { text-align: left; }
-          .flash-hero__content .section__kicker { display: inline-block; }
-        }
-        <p class="section__body" style="margin-top:var(--space-3);text-align:center;">四大核心方向，覆盖从入门到进阶的完整刷机知识体系。</p>
-        @media (min-width: 734px) {
-          .flash-hero__content .section__body { text-align: left; }
-        }
+      <div class="entry-list">
+      <details class="entry reveal">
+        <summary class="entry__summary">
+          <span class="num">01</span>
+          <span class="entry__text">
+            <span class="entry__title">Bootloader 解锁</span>
+            <span class="entry__kicker">Unlock</span>
+          </span>
+          <span class="entry__icon" aria-hidden="true"></span>
+        </summary>
+        <div class="entry__body">
+          <figure class="entry__media entry__media--pictogram">
+            <img src="assets/img/flash/bootloader.svg" alt="" loading="lazy" decoding="async">
+          </figure>
+          <p class="entry__lead">解锁 Bootloader 是刷机的起点，也是唯一不可逆的那一步：它会清空全部数据，多数厂商还会因此失去保修，部分机型在解锁后指纹支付、DRM 视频和个别系统服务会受限。所以第一步永远是 —— 备份、确认、再动手。</p>
+          <div class="field">
+            <p class="field__label">小米 / Redmi</p>
+            <p class="field__text">需要在小米社区申请解锁权限，通过后使用 Mi Unlock 工具在 fastboot 模式下解锁。绑定账号后有等待期（常见为 7 天，不同机型与时期会调整），期间设备要保持在线。解锁会清空数据。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">一加 / OPPO / realme</p>
+            <p class="field__text">一加传统上直接支持 fastboot flashing unlock。OPPO 与 realme 的国行机型多需要先通过「深度测试」申请，审核通过后才能在 fastboot 下解锁，且有名额和次数限制。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">Google Pixel</p>
+            <p class="field__text">最干净的一条路。开发者选项里打开「OEM 解锁」，然后执行 fastboot flashing unlock 即可。没有等待期，也能随时 lock 回去。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">三星</p>
+            <p class="field__text">开发者选项里打开「OEM 解锁」，关机后进下载模式（Download Mode）长按音量上确认。注意解锁会触发 Knox 熔断（Knox Warranty Void 0x1），三星支付、安全文件夹和部分银行类应用会永久失效，且不可恢复。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">华为 / 荣耀</p>
+            <p class="field__text">2018 年起官方已停止发放解锁码，官网申请通道关闭。目前没有官方途径，第三方「解锁服务」风险很高，不建议尝试。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">索尼</p>
+            <p class="field__text">在索尼官网的解锁页面提交 IMEI 申请解锁码，然后 fastboot oem unlock 0x&lt;解锁码&gt;。部分机型在解锁后会丢失相机的一部分功能。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">摩托罗拉</p>
+            <p class="field__text">在摩托官网申请解锁码，再执行 fastboot oem unlock &lt;code&gt;。部分运营商定制机不支持解锁。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">Nothing 及其他</p>
+            <p class="field__text">多数新机采用 Google 的标准方案，直接 fastboot flashing unlock 即可。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">通用流程</p>
+            <p class="field__text">adb reboot bootloader 进入 fastboot 模式 → fastboot devices 确认连接 → fastboot flashing unlock（老机型为 oem unlock）→ 在机器上用音量键确认。整个过程数据会被清空。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">解锁之后</p>
+            <p class="field__text">解锁状态下，银行、支付、流媒体等应用会通过设备完整性检测识别出设备被改动而拒绝运行。这需要用额外的隐藏手段处理，且不保证永远有效。</p>
+          </div>
+          <p class="entry__note">解锁是不可逆的分水岭：数据清空、保修受影响、部分功能永久受限。动手前请确认官方固件包已下载、数据已备份、账号等待期已过。</p>
+        </div>
+      </details>
+      <details class="entry reveal">
+        <summary class="entry__summary">
+          <span class="num">02</span>
+          <span class="entry__text">
+            <span class="entry__title">Root 权限管理</span>
+            <span class="entry__kicker">Root</span>
+          </span>
+          <span class="entry__icon" aria-hidden="true"></span>
+        </summary>
+        <div class="entry__body">
+          <figure class="entry__media entry__media--pictogram">
+            <img src="assets/img/flash/root.svg" alt="" loading="lazy" decoding="async">
+          </figure>
+          <p class="entry__lead">Root 的目的不是「为所欲为」，而是拿到系统的最高权限。今天主流是三条路线 —— Magisk、KernelSU、APatch，而它们各自还有分支。</p>
+          <div class="field">
+            <p class="field__label">Magisk（topjohnwu/Magisk，63.1k★）</p>
+            <p class="field__text">目前最主流、生态最庞大的方案。通过修补 boot 镜像实现 systemless（不修改系统分区）的 root，支持 Zygisk、模块系统与用于隐藏 root 的 DenyList。代价是每次系统更新后需要重新打补丁。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">Magisk 的分支</p>
+            <ul class="field__list">
+            <li>Magisk Delta（HuskyDG）：曾很流行的分支，加入了对 KernelSU 模块的兼容和更强的隐藏，现已归档。</li>
+            <li>KitsuneMagisk：Delta 的后继项目，同样已归档。</li>
+            <li>Magisk Alpha：国内的第三方构建，功能更新较快，但不是官方仓库，来源需要自行判断。</li>
+            </ul>
+          </div>
+          <div class="field">
+            <p class="field__label">KernelSU（tiann/KernelSU，18.9k★）</p>
+            <p class="field__text">内核级方案，root 直接实现在内核里。要求设备内核支持（GKI 机型或第三方内核）。优势是与系统结合更紧、隐藏更自然，并支持 KPM 内核模块。门槛是需要刷入支持 KernelSU 的内核。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">KernelSU 的分支</p>
+            <ul class="field__list">
+            <li>SukiSU-Ultra（6.5k★）：在 KernelSU 基础上扩展了内核模块（KPM）与更多隐藏特性。</li>
+            <li>KernelSU-Next（4.4k★）：维护活跃的分支之一。</li>
+            <li>BakaSU（原 ReSukiSU，1.7k★）：同样基于 KernelSU 的分支。</li>
+            </ul>
+          </div>
+          <div class="field">
+            <p class="field__label">APatch（bmax121/APatch，8.0k★）</p>
+            <p class="field__text">通过给内核打补丁（KernelPatch）获得 root，位置介于 Magisk 与 KernelSU 之间：不需要编译内核源码，又能提供内核级的 root 与 KPM 支持，并兼容相当一部分 Magisk 模块。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">APatch 的分支</p>
+            <ul class="field__list">
+            <li>FolkPatch（LyraVoid，1.2k★）：直接修补 boot 分区来获得内核 root，部署方式更简单。</li>
+            </ul>
+          </div>
+          <div class="field">
+            <p class="field__label">配套生态</p>
+            <ul class="field__list">
+            <li>ReZygisk（4.0k★）：为 KernelSU / APatch 提供 Zygisk 实现。</li>
+            <li>LSPosed（24.9k★）：Xposed 框架的现代继承者。</li>
+            <li>Zygisk-Assistant（2.6k★）：用于隐藏 root，适配 Magisk / KernelSU / APatch。</li>
+            <li>susfs4ksu（2.6k★）：为 KernelSU 提供内核级隐藏。</li>
+            </ul>
+          </div>
+          <div class="field">
+            <p class="field__label">历史遗留</p>
+            <p class="field__text">SuperSU 曾是最主流的 root 方案，后被转手并停止维护；更早还有 ChainsDD 的 Superuser。今天如果还有教程教你用 SuperSU，基本可以跳过。</p>
+          </div>
+          <p class="entry__note">选哪条路线取决于机型：能刷第三方内核的，KernelSU 系体验最自然；只想改 boot 镜像的，Magisk 最稳；想省去编译内核又想接近内核级 root 的，可以看 APatch。分支意味着更快的新特性，也意味着更小的用户基数和更少的踩坑资料。</p>
+        </div>
+      </details>
+      <details class="entry reveal">
+        <summary class="entry__summary">
+          <span class="num">03</span>
+          <span class="entry__text">
+            <span class="entry__title">第三方 ROM</span>
+            <span class="entry__kicker">ROM</span>
+          </span>
+          <span class="entry__icon" aria-hidden="true"></span>
+        </summary>
+        <div class="entry__body">
+          <figure class="entry__media entry__media--pictogram">
+            <img src="assets/img/flash/rom.svg" alt="" loading="lazy" decoding="async">
+          </figure>
+          <p class="entry__lead">官方停更并不等于用不下去。第三方 ROM 的差别主要在「干净程度、功能完整度、适配质量」这三件事上。</p>
+          <div class="field">
+            <p class="field__label">LineageOS</p>
+            <p class="field__text">类原生的老牌代表，代码干净、更新节奏稳定、机型覆盖广。功能克制，适合想要接近原生体验的人。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">PixelOS / PixelExperience</p>
+            <p class="field__text">把 Pixel 的界面与功能搬到其他机型上，观感统一、上手快。PixelExperience 已停止维护，PixelOS 等接力了这一部分需求。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">crDroid / Evolution X / RisingOS</p>
+            <p class="field__text">属于「功能丰富」的一派，在类原生基础上加入大量自定义选项 —— 状态栏、手势、主题、性能模式，适合喜欢折腾界面的人。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">AOSPA / OmniROM</p>
+            <p class="field__text">更偏工程与尝鲜的分支。历史上不少特性（例如手势导航）都是从这类项目里先出现的。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">GSI（通用系统镜像）</p>
+            <p class="field__text">不针对具体机型，基于 Treble 通用。好处是几乎所有支持 Treble 的机器都能刷，坏处是相机、通话、传感器这些依赖厂商适配的部分容易出问题。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">官改包</p>
+            <p class="field__text">保留官方相机与功能，只做精简和优化，风险在于来源不透明。刷之前看清作者、更新记录和已知问题。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">怎么判断值不值得刷</p>
+            <ul class="field__list">
+            <li>维护者是否还在更新；</li>
+            <li>已知问题列表是否命中你的刚需（通话、信号、相机、指纹）；</li>
+            <li>社区里有没有同机型的人长期在用。</li>
+            </ul>
+          </div>
+          <p class="entry__note">刷 ROM 前务必确认包的机型代号与你的设备完全一致 —— 代号差一个字母，结果可能就是变砖。</p>
+        </div>
+      </details>
+      <details class="entry reveal">
+        <summary class="entry__summary">
+          <span class="num">04</span>
+          <span class="entry__text">
+            <span class="entry__title">内核与调优</span>
+            <span class="entry__kicker">Kernel</span>
+          </span>
+          <span class="entry__icon" aria-hidden="true"></span>
+        </summary>
+        <div class="entry__body">
+          <figure class="entry__media entry__media--pictogram">
+            <img src="assets/img/flash/kernel.svg" alt="" loading="lazy" decoding="async">
+          </figure>
+          <p class="entry__lead">内核决定了 CPU 怎么调度、频率怎么升、内存怎么回收、发热怎么压制。厂商的默认调教偏向保守和续航，第三方内核则把选择权交回给你。</p>
+          <div class="field">
+            <p class="field__label">调度器与频率</p>
+            <p class="field__text">多数「省电内核」做的事情就是压低小核频率、延后大核上线，「性能内核」则相反。真正的差别往往体现在响应速度和待机功耗上，而不是跑分数字。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">温控</p>
+            <p class="field__text">厂商温控通常偏保守，导致玩一会儿就降频。自定义温控可以放宽阈值换取更长时间的性能，代价是更高的温度和更短的器件寿命。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">I/O 与内存</p>
+            <p class="field__text">调整读写队列与内存回收策略能影响多任务切换的流畅度，但收益通常没有想象中大，而且容易在长时间使用后暴露问题。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">现实提醒</p>
+            <p class="field__text">绝大多数「刷了就明显变快」的说法缺乏对照测试。能稳定感知的一般只有调度响应和待机功耗这两项。建议调优前先记录基线数据，改完再对比，才知道有没有用。</p>
+          </div>
+          <p class="entry__note">内核与系统版本强相关，刷错版本最常见的后果是开不了机。刷之前确认内核支持的系统版本范围。</p>
+        </div>
+      </details>
+      <details class="entry reveal">
+        <summary class="entry__summary">
+          <span class="num">05</span>
+          <span class="entry__text">
+            <span class="entry__title">模块</span>
+            <span class="entry__kicker">Modules</span>
+          </span>
+          <span class="entry__icon" aria-hidden="true"></span>
+        </summary>
+        <div class="entry__body">
+          <figure class="entry__media entry__media--pictogram">
+            <img src="assets/img/flash/module.svg" alt="" loading="lazy" decoding="async">
+          </figure>
+          <p class="entry__lead">模块是给系统打补丁最轻量的方式：改字体、换相机算法、拦广告、修掉某个耗电的后台服务，都可以用一个模块解决，而不用动系统分区。</p>
+          <div class="field">
+            <p class="field__label">模块怎么工作</p>
+            <p class="field__text">Magisk / KernelSU / APatch 的模块，本质是一段开机时被执行的脚本，加一组被挂载覆盖的文件。它不写入系统分区，所以通常能在系统更新后保留（也可能因更新失效）。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">常见用途</p>
+            <p class="field__text">字体替换、hosts 去广告、音效增强、相机算法替换、系统界面调整、性能调度切换等等。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">LSPosed 的位置</p>
+            <p class="field__text">LSPosed 本身不是模块，而是一个「让模块生效」的框架 —— Xposed 的现代实现，能在不修改 APK 的情况下改变应用行为。很多深度定制都依赖它。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">装模块的正确顺序</p>
+            <p class="field__text">一次只装一个，重启观察。如果出现开机变慢、异常发热、耗电暴涨，先禁用该模块。多个模块冲突时，用「逐一半禁用」的方式定位，比全卸再全装高效得多。</p>
+          </div>
+          <p class="entry__note">模块生态里既有认真维护的项目，也有来路不明的脚本。装之前看清它改了什么文件、要什么权限。</p>
+        </div>
+      </details>
+      <details class="entry reveal">
+        <summary class="entry__summary">
+          <span class="num">06</span>
+          <span class="entry__text">
+            <span class="entry__title">ADB 与命令行</span>
+            <span class="entry__kicker">ADB</span>
+          </span>
+          <span class="entry__icon" aria-hidden="true"></span>
+        </summary>
+        <div class="entry__body">
+          <figure class="entry__media entry__media--pictogram">
+            <img src="assets/img/flash/adb.svg" alt="" loading="lazy" decoding="async">
+          </figure>
+          <p class="entry__lead">ADB 是绕过图形界面直达系统的后门。它的能力远超多数人的想象，门槛却比看上去低。</p>
+          <div class="field">
+            <p class="field__label">基础连接</p>
+            <p class="field__text">打开开发者选项里的 USB 调试，连上电脑执行 adb devices 确认连接。Android 11 之后支持无线调试，adb pair 配对后 adb connect 即可，连数据线都省了。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">常用操作</p>
+            <p class="field__text">adb install / adb uninstall 装卸应用；adb push / adb pull 传文件；adb shell 进入设备终端；adb reboot bootloader 进 fastboot；adb sideload 刷入 OTA 包。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">排错利器 logcat</p>
+            <p class="field__text">adb logcat 能实时看到系统与应用的日志。抓崩溃时先 adb logcat -c 清空，再复现问题，然后 adb logcat -d &gt; log.txt 导出，问题基本一目了然。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">fastboot</p>
+            <p class="field__text">用来刷分区镜像，常用的是 fastboot flash boot boot.img、fastboot flash recovery、fastboot flashing unlock。注意 fastboot 模式下 adb 不可用，两者是不同模式。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">其它常用</p>
+            <p class="field__text">adb shell dumpsys 查看系统服务状态；adb shell pm list packages 列出已安装应用；adb shell top 看进程占用；adb shell getprop 读系统属性。</p>
+          </div>
+          <p class="entry__note">把 adb 和 fastboot 装好、驱动装对，是刷机路上性价比最高的一件事 —— 后面几乎所有问题都要靠它们解决。</p>
+        </div>
+      </details>
+      <details class="entry reveal">
+        <summary class="entry__summary">
+          <span class="num">07</span>
+          <span class="entry__text">
+            <span class="entry__title">救砖与备份</span>
+            <span class="entry__kicker">Rescue</span>
+          </span>
+          <span class="entry__icon" aria-hidden="true"></span>
+        </summary>
+        <div class="entry__body">
+          <figure class="entry__media entry__media--pictogram">
+            <img src="assets/img/flash/rescue.svg" alt="" loading="lazy" decoding="async">
+          </figure>
+          <p class="entry__lead">刷机真正的底气来自备份。能救回来的，通常都是那些提前准备好了官方固件和刷机工具的人。</p>
+          <div class="field">
+            <p class="field__label">先备份什么</p>
+            <p class="field__text">至少备份 boot（内核）、system / super、vendor，以及 EFS / persist 这类保存基带与传感器校准的分区。这些分区一旦误刷，可能导致无信号且难以恢复。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">恢复模式（Recovery）</p>
+            <p class="field__text">第三方 Recovery（如 TWRP）能备份与恢复分区、刷入 zip 包、挂载存储拷文件，是救砖的核心工具。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">fastboot 修复</p>
+            <p class="field__text">卡开机、刷错 boot 时，用 fastboot flash boot 重新刷回官方镜像，往往就能进系统。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">深度刷机模式</p>
+            <p class="field__text">高通平台叫 EDL（9008 模式），联发科平台叫 BROM / Preloader 模式。这是连 fastboot 都进不去时的最后手段，用厂商工具或通用工具直接写入底层分区。属于「用错了会更砖」的操作，务必确认固件与机型完全对应。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">变砖分级</p>
+            <ul class="field__list">
+            <li>能进 Recovery —— 好办；</li>
+            <li>只能进 fastboot —— 还能救；</li>
+            <li>只能进 EDL / BROM —— 需要底层工具；</li>
+            <li>连电脑都不识别 —— 可能需要拆机或专业工具。</li>
+            </ul>
+          </div>
+          <p class="entry__note">救砖的关键不是技术多高，而是「有没有原始固件、知不知道自己的机型代号」。这两件事提前准备好，绝大多数情况都能自己解决。</p>
+        </div>
+      </details>
+      <details class="entry reveal">
+        <summary class="entry__summary">
+          <span class="num">08</span>
+          <span class="entry__text">
+            <span class="entry__title">常见坑与排错</span>
+            <span class="entry__kicker">Troubleshoot</span>
+          </span>
+          <span class="entry__icon" aria-hidden="true"></span>
+        </summary>
+        <div class="entry__body">
+          <figure class="entry__media entry__media--pictogram">
+            <img src="assets/img/flash/pitfall.svg" alt="" loading="lazy" decoding="async">
+          </figure>
+          <p class="entry__lead">卡开机、无限重启、指纹失效、传感器异常、OTA 报错、电量显示乱跳 —— 这些现象背后往往就那么几个原因。</p>
+          <div class="field">
+            <p class="field__label">卡开机动画 / 无限重启</p>
+            <p class="field__text">常见原因是分区没刷干净、内核与系统版本不匹配、或模块残留。先禁用所有模块再排查，必要时格式化 data 后重刷。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">指纹 / 人脸失效</p>
+            <p class="field__text">解锁或刷 ROM 后，指纹数据与系统不匹配。部分机型可以通过恢复原厂对应分区解决。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">传感器异常</p>
+            <p class="field__text">方向、距离、光线传感器失灵，通常是 persist 分区被覆盖。刷 ROM 前务必备份该分区。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">OTA 更新失败</p>
+            <p class="field__text">system 分区被改写（装了模块、改过 hosts）会导致更新校验不通过。Magisk 提供「还原原厂镜像」的流程，还原后再更新。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">电量显示乱跳 / 掉电快</p>
+            <p class="field__text">前者一般是电池校准数据被清，需要重新校准；后者可以换内核验证是不是功耗策略的问题。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">银行 / 支付应用拒绝运行</p>
+            <p class="field__text">设备完整性检测（SafetyNet / Play Integrity）未通过。这与解锁状态、root 隐藏是否彻底都有关。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">排错顺序</p>
+            <p class="field__text">先看现象，再想最近改了什么，最后才动手重刷。反复重刷而不定位原因，只会浪费时间。</p>
+          </div>
+          <p class="entry__note">绝大多数「疑难杂症」都能通过「回想最近改了什么」来定位，而不是靠盲目重刷。</p>
+        </div>
+      </details>
+      <details class="entry reveal">
+        <summary class="entry__summary">
+          <span class="num">09</span>
+          <span class="entry__text">
+            <span class="entry__title">刷机工具</span>
+            <span class="entry__kicker">Tools</span>
+          </span>
+          <span class="entry__icon" aria-hidden="true"></span>
+        </summary>
+        <div class="entry__body">
+          <figure class="entry__media entry__media--pictogram">
+            <img src="assets/img/flash/tool.svg" alt="" loading="lazy" decoding="async">
+          </figure>
+          <p class="entry__lead">命令行能做的事最多，但图形化工具有时候更省事。下面这些是目前比较常见的。</p>
+          <div class="field">
+            <p class="field__label">UnlockTool</p>
+            <p class="field__text">Windows 平台的多品牌解锁与刷机工具，支持机型范围很广，功能偏「一站式」，属于付费软件，版本更新频繁（已到 2026.09 版）。适合需要跨品牌处理设备的人。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">刷机匣（GeekFlashTool）</p>
+            <p class="field__text">免费的安卓图形化深度刷机工具，兼容高通与联发科主流芯片，支持 Bootloader 解锁与系统刷写，能自动检测机型并匹配刷机包。对新手比较友好，不用记一堆命令。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">柚坛工具箱（Uotan ToolBox）</p>
+            <p class="field__text">开源项目，定位是现代化的 Android 与 OpenHarmony 工具箱，集成了包括第三方 Recovery 刷入在内的多种刷机工具，并配有图形界面。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">厂商官方工具</p>
+            <p class="field__text">三星用 Odin，小米用 Mi Flash（线刷），高通平台常用 QFIL / QPST，联发科平台常用 SP Flash Tool。救砖时官方工具的可靠性最高。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">通用工具</p>
+            <p class="field__text">fastboot 与 adb 是跨平台基础，几乎所有操作最后都落到这两条命令上；TWRP 等第三方 Recovery 则负责 zip 包与备份恢复。</p>
+          </div>
+          <div class="field">
+            <p class="field__label">怎么选</p>
+            <p class="field__text">日常刷机用 fastboot + Recovery 就够了；机型冷门、需要底层修复时再看 UnlockTool 这类综合工具；新手想少踩坑，刷机匣和柚坛工具箱的门槛更低。</p>
+          </div>
+          <p class="entry__note">工具只是手段。真正决定成败的是：机型代号、固件版本、以及你有没有备份。</p>
+        </div>
+      </details>
       </div>
     </div>
   </section>
-
-  <hr class="divider" style="margin:var(--space-6) 0;">
-
-  <!-- Core Categories Grid -->
-  <section class="section" aria-labelledby="categories-title">
-    <div class="container">
-      <header class="section__header reveal">
-        <span class="section__kicker">Categories</span>
-        <h2 id="categories-title" class="section__title">四大核心分类</h2>
-        <p class="section__body">每个分类下都有详细的教程、工具推荐和避坑指南。</p>
-      </header>
-
-      <div class="flash-grid">
-        <article class="flash-card reveal d1">
-          <div class="flash-card__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M12 22V12M2 12h20"/></svg>
-          </div>
-          <h3 class="flash-card__title">解锁与 Root</h3>
-          <p class="flash-card__desc">Bootloader 解锁流程、Root 方案对比、Magisk/KernelSU 安装与模块管理。</p>
-          <span class="flash-card__index">01</span>
-        </article>
-
-        <article class="flash-card reveal d2">
-          <div class="flash-card__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-          </div>
-          <h3 class="flash-card__title">第三方 ROM</h3>
-          <p class="flash-card__desc">LineageOS、Pixel Experience、crDroid 等主流 ROM 介绍、安装与维护。</p>
-          <span class="flash-card__index">02</span>
-        </article>
-
-        <article class="flash-card reveal d3">
-          <div class="flash-card__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-          </div>
-          <h3 class="flash-card__title">内核与模块</h3>
-          <p class="flash-card__desc">自定义内核刷入、性能调度、Magisk 模块推荐与兼容性排查。</p>
-          <span class="flash-card__index">03</span>
-        </article>
-
-        <article class="flash-card reveal d4">
-          <div class="flash-card__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
-          </div>
-          <h3 class="flash-card__title">救砖与备份</h3>
-          <p class="flash-card__desc">EDL/9008 模式、Fastboot 救砖、分区备份恢复、定期备份策略。</p>
-          <span class="flash-card__index">04</span>
-        </article>
+  <section class="section section--alt" aria-labelledby="notes-flash">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <span class="eyebrow">Notes</span>
+        <h2 class="headline" id="notes-flash">一点说明</h2>
       </div>
-    </div>
-  </section>
-
-  <hr class="divider" style="margin:var(--space-6) 0;">
-
-  <!-- Tools Section -->
-  <section class="section tools-section section--alt" aria-labelledby="tools-title">
-    <div class="container">
-      <header class="section__header reveal">
-        <span class="section__kicker">Tools</span>
-        <h2 id="tools-title" class="section__title">常用刷机工具</h2>
-        <p class="section__body">官方与第三方工具整理，按用途分类，附下载链接与适用场景说明。</p>
-      </header>
-
-      <div class="tools-grid">
-        <article class="tool-card reveal d1">
-          <h3 class="tool-card__name">Fastboot / ADB</h3>
-          <p class="tool-card__desc">Google 官方命令行工具，刷机、调试、日志抓取的基础套件。</p>
-          <div class="tool-card__tags">
-            <span class="tool-card__tag">官方</span>
-            <span class="tool-card__tag">命令行</span>
-            <span class="tool-card__tag">必装</span>
-          </div>
-        </article>
-
-        <article class="tool-card reveal d2">
-          <h3 class="tool-card__name">Mi Flash / Mi Unlock</h3>
-          <p class="tool-card__desc">小米官方刷机与解锁工具，支持 fastboot 线刷、EDL 深度刷机。</p>
-          <div class="tool-card__tags">
-            <span class="tool-card__tag">小米</span>
-            <span class="tool-card__tag">官方</span>
-            <span class="tool-card__tag">Windows</span>
-          </div>
-        </article>
-
-        <article class="tool-card reveal d3">
-          <h3 class="tool-card__name">Odin</h3>
-          <p class="tool-card__desc">三星官方刷机工具，支持 .tar.md5 固件刷入、分区操作。</p>
-          <div class="tool-card__tags">
-            <span class="tool-card__tag">三星</span>
-            <span class="tool-card__tag">官方</span>
-            <span class="tool-card__tag">Windows</span>
-          </div>
-        </article>
-
-        <article class="tool-card reveal d4">
-          <h3 class="tool-card__name">Platform Tools (Cross-platform)</h3>
-          <p class="tool-card__desc">适配 Windows/macOS/Linux 的 adb/fastboot 打包版，版本同步官方最新。</p>
-          <div class="tool-card__tags">
-            <span class="tool-card__tag">跨平台</span>
-            <span class="tool-card__tag">官方</span>
-            <span class="tool-card__tag">推荐</span>
-          </div>
-        </article>
-
-        <article class="tool-card reveal d5">
-          <h3 class="tool-card__name">Magisk Manager</h3>
-          <p class="tool-card__desc">Root 管理核心，支持模块仓库、Zygisk、DenyList、隐藏 Root 等功能。</p>
-          <div class="tool-card__tags">
-            <span class="tool-card__tag">Root</span>
-            <span class="tool-card__tag">模块</span>
-            <span class="tool-card__tag">必装</span>
-          </div>
-        </article>
-
-        <article class="tool-card reveal d6">
-          <h3 class="tool-card__name">KernelSU Manager</h3>
-          <p class="tool-card__desc">新一代 Kernel 级 Root 方案，兼容性更强，支持 GKI 内核。</p>
-          <div class="tool-card__tags">
-            <span class="tool-card__tag">Root</span>
-            <span class="tool-card__tag">Kernel</span>
-            <span class="tool-card__tag">新生代</span>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <hr class="divider" style="margin:var(--space-6) 0;">
-
-  <!-- Guides Section -->
-  <section class="section" aria-labelledby="guides-title">
-    <div class="container">
-      <header class="section__header reveal">
-        <span class="section__kicker">Guides</span>
-        <h2 id="guides-title" class="section__title">入门指引</h2>
-        <p class="section__body">按阶段阅读，从零开始建立完整的刷机知识体系。</p>
-      </header>
-
-      <div class="guide-list">
-        <article class="guide-item reveal d1">
-          <span class="guide-item__num">1</span>
-          <div class="guide-item__content">
-            <h3 class="guide-item__title">准备工作</h3>
-            <p class="guide-item__desc">设备型号确认、数据备份、驱动安装、开启开发者选项与 OEM 解锁、电量充足确认。</p>
-          </div>
-        </article>
-
-        <article class="guide-item reveal d2">
-          <span class="guide-item__num">2</span>
-          <div class="guide-item__content">
-            <h3 class="guide-item__title">解锁 Bootloader</h3>
-            <p class="guide-item__desc">各厂商解锁政策差异、官方解锁申请流程、fastboot oem unlock 命令执行、解锁后数据清除提醒。</p>
-          </div>
-        </article>
-
-        <article class="guide-item reveal d3">
-          <span class="guide-item__num">3</span>
-          <div class="guide-item__content">
-            <h3 class="guide-item__title">刷入 Recovery / Root</h3>
-            <p class="guide-item__desc">TWRP/Magisk 刷入流程、临时启动 Recovery、Magisk APP 补丁 boot.img、首次开机 Root 验证。</p>
-          </div>
-        </article>
-
-        <article class="guide-item reveal d4">
-          <span class="guide-item__num">4</span>
-          <div class="guide-item__content">
-            <h3 class="guide-item__title">第三方 ROM 刷入</h3>
-            <p class="guide-item__desc">ROM 下载与校验、双清、刷入 ZIP、Gapps 可选刷入、首次开机设置、常见报错排查。</p>
-          </div>
-        </article>
-
-        <article class="guide-item reveal d5">
-          <span class="guide-item__num">5</span>
-          <div class="guide-item__content">
-            <h3 class="guide-item__title">进阶与维护</h3>
-            <p class="guide-item__desc">模块推荐与冲突排查、内核调参、OTA 更新保 Root、定期备份分区、变砖应急预案。</p>
-          </div>
-        </article>
-      </div>
+      <p class="note reveal">刷机有风险，且不同机型差异极大。站内经验主要基于高通平台，其他平台思路相通但细节不同。动手前请务必自己确认机型对应的资料，并做好完整备份。</p>
     </div>
   </section>
 
 </main>
 
-<!-- Footer -->
 <footer class="footer">
-  <div class="container footer__inner">
-    <div class="footer__brand">
-      <span class="footer__brand-mark">铎</span>
-      <span>铎的小站</span>
-    </div>
-    <div class="footer__meta">
-      <span>© <span id="year">2026</span> 铎的小站 · 使用 Apple-like 设计系统手工搭建</span><br>
-      <span>本站不加载任何外部资源，字体与图标全部本地托管。</span>
+  <div class="wrap wrap--wide">
+    <div class="footer__inner">
+      <span class="footer__brand"><span class="nav__mark" aria-hidden="true">铎</span>铎的小站</span>
+      <p>© 2026 铎的小站</p>
     </div>
   </div>
 </footer>
 
-<script>
-/* ===== Theme Toggle ===== */
-(function () {
-  'use strict';
-
-  var root = document.documentElement;
-  var themeBtn = document.getElementById('themeBtn');
-  var themeMeta = document.querySelector('meta[name="theme-color"]');
-
-  var savedTheme = null;
-  try { savedTheme = localStorage.getItem('dz-theme'); } catch (e) {}
-
-  function applyTheme(dark) {
-    root.setAttribute('data-theme', dark ? 'dark' : 'light');
-    if (themeMeta) themeMeta.setAttribute('content', dark ? '#1D1D1F' : '#FFFFFF');
-    if (themeBtn) themeBtn.setAttribute('aria-pressed', String(dark));
-  }
-
-  var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  applyTheme(savedTheme ? savedTheme === 'dark' : prefersDark);
-
-  function toggleTheme() {
-    var dark = root.getAttribute('data-theme') !== 'dark';
-    applyTheme(dark);
-    try { localStorage.setItem('dz-theme', dark ? 'dark' : 'light'); } catch (e) {}
-  }
-
-  document.addEventListener('click', function (e) {
-    var el = e.target;
-    while (el && el !== document) {
-      if (el.id === 'themeBtn') { toggleTheme(); return; }
-      el = el.parentNode;
-    }
-  }, true);
-
-  if (themeBtn) {
-    themeBtn.addEventListener('click', function (e) { e.stopPropagation(); });
-  }
-
-  /* ===== Mobile Menu Toggle ===== */
-  var menuBtn = document.getElementById('menuBtn');
-  var mobileMenu = document.getElementById('mobileMenu');
-  var menuIcon = menuBtn?.querySelector('.icon-menu');
-  var closeIcon = menuBtn?.querySelector('.icon-close');
-
-  if (menuBtn && mobileMenu) {
-    menuBtn.addEventListener('click', function (e) {
-      e.stopPropagation();
-      var isOpen = mobileMenu.classList.toggle('open');
-      menuBtn.setAttribute('aria-expanded', String(isOpen));
-      if (menuIcon && closeIcon) {
-        menuIcon.style.display = isOpen ? 'none' : 'block';
-        closeIcon.style.display = isOpen ? 'block' : 'none';
-      }
-    });
-
-    mobileMenu.querySelectorAll('a').forEach(function (link) {
-      link.addEventListener('click', function () {
-        mobileMenu.classList.remove('open');
-        menuBtn.setAttribute('aria-expanded', 'false');
-        if (menuIcon && closeIcon) {
-          menuIcon.style.display = 'block';
-          closeIcon.style.display = 'none';
-        }
-      });
-    });
-
-    document.addEventListener('click', function (e) {
-      if (!mobileMenu.contains(e.target) && !menuBtn.contains(e.target)) {
-        mobileMenu.classList.remove('open');
-        menuBtn.setAttribute('aria-expanded', 'false');
-        if (menuIcon && closeIcon) {
-          menuIcon.style.display = 'block';
-          closeIcon.style.display = 'none';
-        }
-      }
-    });
-  }
-
-  /* ===== Reveal Animation ===== */
-  (function reveal() {
-    var items = document.querySelectorAll('.reveal');
-    if (!('IntersectionObserver' in window)) {
-      items.forEach(function (el) { el.classList.add('in'); });
-      return;
-    }
-    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduceMotion) {
-      items.forEach(function (el) { el.classList.add('in'); });
-      return;
-    }
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (en.isIntersecting) {
-          en.target.classList.add('in');
-          io.unobserve(en.target);
-        }
-      });
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
-    items.forEach(function (el) { io.observe(el); });
-  })();
-
-  /* ===== Scroll UI ===== */
-  (function scrollUI() {
-    var bar = document.getElementById('topbar');
-    var pbar = document.getElementById('pbar');
-    var ticking = false;
-
-    function update() {
-      var y = window.scrollY || window.pageYOffset || 0;
-      var max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-      if (bar) bar.classList.toggle('scrolled', y > 12);
-      if (pbar) pbar.style.width = Math.min(100, (y / max) * 100).toFixed(2) + '%';
-      ticking = false;
-    }
-
-    window.addEventListener('scroll', function () {
-      if (!ticking) { ticking = true; requestAnimationFrame(update); }
-    }, { passive: true });
-
-    update();
-  })();
-
-  /* ===== Year ===== */
-  var yearEl = document.getElementById('year');
-  if (yearEl) yearEl.textContent = String(new Date().getFullYear());
-
-})();
-</script>
 </body>
 </html>
