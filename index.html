@@ -322,6 +322,21 @@ main,.foot{position:relative;z-index:10}
 }
 .panel:hover::before{opacity:1}
 .panel svg{width:min(78%,420px);height:auto;overflow:visible}
+.panel img{width:100%;height:100%;object-fit:cover;display:block;border-radius:inherit}
+
+/* GitHub 资料卡 */
+.gh-avatar{display:block;padding:clamp(18px,4vw,40px);text-decoration:none;color:inherit}
+.gh-avatar img{width:100%;height:100%;object-fit:contain;display:block;border-radius:calc(var(--radius-xl) - 14px)}
+.gh-avatar.is-fallback img{display:none}
+.gh-avatar.is-fallback::after{
+  content:"DUOFreedom";font-family:var(--font-display);
+  font-size:clamp(1.1rem,3vw,1.6rem);color:var(--c-on-surface-var);letter-spacing:.02em
+}
+.gh-name{font-size:clamp(1.8rem,6vw,3.2rem);margin:0 0 8px}
+.gh-bio{margin-top:14px}
+.gh-stats li{display:inline-flex;align-items:baseline;gap:6px}
+.gh-stats strong{font-size:15px;font-weight:700;color:var(--c-on-surface);font-variant-numeric:tabular-nums}
+.gh-actions{margin-top:26px}
 .spin-slow{transform-origin:center;animation:spin 14s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .pulse{animation:pulse 3.6s var(--ease) infinite}
@@ -891,22 +906,20 @@ main,.foot{position:relative;z-index:10}
 
       <div id="gh-profile" class="grid-2 flip">
         <div class="visual">
-          <div class="panel" id="gh-avatar-wrap" aria-label="GitHub 头像">
-            <div class="img-ph" id="gh-avatar-ph">
-              <em>加载中…</em>
-            </div>
-          </div>
+          <a class="panel gh-avatar" href="https://github.com/DUOFreedom" target="_blank" rel="noopener" aria-label="在 GitHub 上查看 DUOFreedom">
+            <img src="https://avatars.githubusercontent.com/u/338660054?v=4&amp;s=440" width="440" height="440" alt="DUOFreedom 的 GitHub 头像" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add('is-fallback')">
+          </a>
         </div>
         <div class="txt">
-          <h3 id="gh-name" class="sec-title" style="font-size:clamp(1.8rem,6vw,3.2rem);margin:0 0 8px;">DUOFreedom</h3>
-          <p id="gh-bio" class="sec-body" style="margin-top:14px;">I am DUOFreedom, let's build a better open-source world together</p>
-          <div class="chips" id="gh-stats" style="margin-top:20px;">
-            <li><span id="gh-repos">—</span> 仓库</li>
-            <li><span id="gh-gists">—</span> Gist</li>
-            <li><span id="gh-followers">—</span> 关注者</li>
-            <li><span id="gh-following">—</span> 正在关注</li>
-          </div>
-          <div style="margin-top:26px;">
+          <h3 id="gh-name" class="sec-title gh-name">DUOFreedom</h3>
+          <p id="gh-bio" class="sec-body gh-bio">I am DUOFreedom, let's build a better open-source world together</p>
+          <ul class="chips gh-stats">
+            <li><strong id="gh-repos">3</strong>仓库</li>
+            <li><strong id="gh-gists">0</strong>Gist</li>
+            <li><strong id="gh-followers">1</strong>关注者</li>
+            <li><strong id="gh-following">0</strong>正在关注</li>
+          </ul>
+          <div class="gh-actions">
             <a class="btn btn-outlined" href="https://github.com/DUOFreedom" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
               打开 GitHub 主页
@@ -1280,43 +1293,43 @@ main,.foot{position:relative;z-index:10}
   var year = document.getElementById('year');
   if (year) year.textContent = String(new Date().getFullYear());
 
-  /* ---------------- GitHub Profile ---------------- */
+  /* ---------------- GitHub Profile ----------------
+     HTML 里已经写好真实数据，脚本只在请求成功时做增量刷新；
+     请求失败（断网 / 匿名限流）时保持静态内容，不会出现空占位。 */
   (function () {
-    var nameEl = document.getElementById('gh-name');
-    var bioEl = document.getElementById('gh-bio');
-    var reposEl = document.getElementById('gh-repos');
-    var gistsEl = document.getElementById('gh-gists');
-    var followersEl = document.getElementById('gh-followers');
-    var followingEl = document.getElementById('gh-following');
-    var avatarWrap = document.getElementById('gh-avatar-wrap');
-    var avatarPh = document.getElementById('gh-avatar-ph');
+    if (!window.fetch) return;
+
+    var el = {
+      name: document.getElementById('gh-name'),
+      bio: document.getElementById('gh-bio'),
+      repos: document.getElementById('gh-repos'),
+      gists: document.getElementById('gh-gists'),
+      followers: document.getElementById('gh-followers'),
+      following: document.getElementById('gh-following')
+    };
+
+    function set(node, value) {
+      if (node && value !== undefined && value !== null && value !== '') {
+        node.textContent = String(value);
+      }
+    }
 
     fetch('https://api.github.com/users/DUOFreedom', {
       headers: { 'Accept': 'application/vnd.github+json' }
     })
-      .then(function (res) { return res.ok ? res.json() : Promise.reject(res.status); })
-      .then(function (data) {
-        if (nameEl) nameEl.textContent = data.name || data.login;
-        if (bioEl) bioEl.textContent = data.bio || '暂无简介';
-        if (reposEl) reposEl.textContent = data.public_repos;
-        if (gistsEl) gistsEl.textContent = data.public_gists;
-        if (followersEl) followersEl.textContent = data.followers;
-        if (followingEl) followingEl.textContent = data.following;
-        if (avatarWrap && data.avatar_url) {
-          var img = document.createElement('img');
-          img.src = data.avatar_url + '&s=256';
-          img.alt = data.login;
-          img.style.width = '100%';
-          img.style.height = '100%';
-          img.style.objectFit = 'cover';
-          img.style.borderRadius = 'var(--radius-xl)';
-          img.onload = function () { if (avatarPh) avatarPh.style.display = 'none'; };
-          avatarWrap.appendChild(img);
-        }
+      .then(function (res) {
+        return res.ok ? res.json() : Promise.reject(new Error('HTTP ' + res.status));
       })
-      .catch(function (err) {
-        console.warn('GitHub profile load failed:', err);
-        if (bioEl) bioEl.textContent = '无法加载 GitHub 信息';
+      .then(function (d) {
+        set(el.name, d.name || d.login);
+        set(el.bio, d.bio);
+        set(el.repos, d.public_repos);
+        set(el.gists, d.public_gists);
+        set(el.followers, d.followers);
+        set(el.following, d.following);
+      })
+      .catch(function () {
+        /* 静默失败：静态数据已经可用 */
       });
   })();
 })();
