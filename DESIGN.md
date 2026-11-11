@@ -1,122 +1,272 @@
-# DESIGN.md — 铎的小站 设计令牌
+# DESIGN.md — 设计令牌规范 (v3: 蓝白 / 蓝黑双模式)
 
-苹果式极简产品叙事（Apple-like minimal product storytelling）。
-本文件是**唯一**的设计取值来源：颜色、字号、间距、圆角、动效、层级一律在此定义，
-`assets/css/styles.css` 中的 CSS 自定义属性与此表一一对应。页面与样式表内**不得**出现硬编码值。
+> 仅允许的色值来源。所有 CSS/HTML/JS 中 **严禁硬编码** 颜色、间距、圆角、阴影、动效时长。  
+> 迁移/新增样式必须在此定义令牌后再引用 `var(--token-name)`。
 
 ---
 
-## 1. 色彩
+## 1. 色彩令牌
 
-| 令牌 | 值 | 用途 |
-| --- | --- | --- |
-| `--c-bg` | `#FFFFFF` | 背景主色 |
-| `--c-bg-alt` | `#F5F5F7` | 背景次色（交替区块） |
-| `--c-text` | `#1D1D1F` | 主文字 |
-| `--c-text-muted` | `#86868B` | 次要文字 |
-| `--c-line` | `#D2D2D7` | 分隔线 |
-| `--c-accent` | `#0071E3` | 强调蓝 |
-| `--c-link` | `#0066CC` | 链接蓝 |
-| `--c-accent-hover` | `#0077ED` | 按钮 hover |
-| `--c-on-accent` | `#FFFFFF` | 强调色上的文字 |
-| `--c-nav-bg` | `rgba(255, 255, 255, 0.72)` | 导航毛玻璃底 |
-| `--c-menu-bg` | `rgba(255, 255, 255, 0.94)` | 移动端菜单底 |
+### 1.1 浅色模式 (默认) — 蓝白
+```css
+:root {
+  /* 背景层 */
+  --c-bg: #FFFFFF;           /* 页面底色 */
+  --c-bg-alt: #F5F5F7;       /* 区块交替、卡片底 */
+  --c-bg-elevated: #FFFFFF;  /* 悬浮层、模态、下拉菜单 */
 
-**禁止**：紫色 / 多彩渐变、玻璃拟态卡片堆叠、任何未列入上表的颜色。
+  /* 文字层 */
+  --c-text: #1D1D1F;         /* 主标题、正文 */
+  --c-text-muted: #86868B;   /* 次要说明、_meta_、置灰 */
+  --c-text-inverted: #FFFFFF;/* 深色背景上的文字 */
 
-## 2. 字体
+  /* 线条/分隔 */
+  --c-line: #D2D2D7;         /* 分割线、边框、输入框边框 */
 
+  /* 品牌/强调 */
+  --c-accent: #0071E3;       /* 主按钮、链接、关键交互、选中态 */
+  --c-accent-hover: #0077ED; /* hover 态 */
+  --c-accent-press: #005BBB; /* active/press 态 */
+  --c-accent-soft: rgba(0, 113, 227, 0.12); /* 轻量背景、chip 选中 */
+
+  /* 语义色（仅状态指示） */
+  --c-success: #30D158;
+  --c-warning: #FF9F0A;
+  --c-error: #FF453A;
+
+  /* 导航栏 */
+  --c-nav-bg: rgba(255, 255, 255, 0.72);
+  --c-nav-border: rgba(210, 210, 215, 0.5);
+  --c-nav-blur: blur(20px) saturate(180%);
+
+  /* 选中/焦点 */
+  --c-focus: #0071E3;
+  --c-focus-offset: 2px;
+}
 ```
---font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
-             "Helvetica Neue", Arial, sans-serif;
+
+### 1.2 深色模式 — 蓝黑
+```css
+@media (prefers-color-scheme: dark) {
+  :root:not(.theme-light) {
+    /* 背景层 */
+    --c-bg: #000000;             /* 纯黑底 */
+    --c-bg-alt: #1D1D1F;         /* 卡片、区块交替 */
+    --c-bg-elevated: #1D1D1F;    /* 悬浮层 */
+
+    /* 文字层 */
+    --c-text: #FFFFFF;
+    --c-text-muted: #86868B;
+    --c-text-inverted: #000000;
+
+    /* 线条/分隔 */
+    --c-line: #2D2D2D;
+
+    /* 品牌/强调（同浅色，保持品牌识别度） */
+    --c-accent: #0071E3;
+    --c-accent-hover: #0077ED;
+    --c-accent-press: #005BBB;
+    --c-accent-soft: rgba(0, 113, 227, 0.18);
+
+    /* 语义色 */
+    --c-success: #30D158;
+    --c-warning: #FF9F0A;
+    --c-error: #FF453A;
+
+    /* 导航栏 */
+    --c-nav-bg: rgba(0, 0, 0, 0.72);
+    --c-nav-border: rgba(255, 255, 255, 0.1);
+    --c-nav-blur: blur(20px) saturate(180%);
+
+    /* 选中/焦点 */
+    --c-focus: #0071E3;
+  }
+}
+
+/* 手动切换类（JS 控制） */
+.theme-light { /* 强制浅色 */ }
+.theme-dark  { /* 强制深色 */ }
 ```
 
-不使用、不下载、不复制 SF 字体文件，以上栈为系统字体近似。
+> **禁用**：任何紫色/渐变/彩色主题色、玻璃拟态堆叠、重阴影、发光、霓虹色。
 
-| 令牌 | 字号 | 字重 | 行高 | 字距 | 用途 |
-| --- | --- | --- | --- | --- | --- |
-| `--fs-hero` | `clamp(2.75rem, 6vw, 5rem)` (44–80px) | 600 | `--lh-tight` 1.05 | `--ls-tight` -0.015em | 首屏大标题 |
-| `--fs-section` | `clamp(2rem, 4.4vw, 3.5rem)` (32–56px) | 600 | 1.1 | -0.015em | 区块标题 |
-| `--fs-title` | `clamp(1.375rem, 2.4vw, 1.75rem)` (22–28px) | 600 | 1.2 | -0.01em | 条目标题 |
-| `--fs-body` | `1.0625rem` (17px) | 400 | `--lh-body` 1.47 | 0 | 正文 |
-| `--fs-sm` | `0.875rem` (14px) | 400 | `--lh-sm` 1.43 | 0 | 次要说明 |
-| `--fs-nav` | `0.75rem` (12px) | 400 | 1 | 0.02em | 导航链接 |
-| `--fs-btn` | `1.0625rem` (17px) | 400 | 1 | 0 | 按钮文字 |
+---
 
-移动端按上表 `clamp()` 下限阶梯下降，不额外覆盖。
+## 2. 字体令牌
 
-## 3. 间距
+```css
+:root {
+  /* 系统字体栈（禁用外部字体文件、base64 字体、SF Pro 字体文件） */
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+               "Helvetica Neue", "PingFang SC", "Hiragino Sans GB",
+               "Microsoft YaHei", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
-基础单位 8px，阶梯 8 / 16 / 24 / 32 / 48 / 64 / 80 / 120。
+  /* 字号阶梯（clamp 响应式） */
+  --fs-hero: clamp(48px, 8vw, 80px);       /* Hero 主标题 48–80px */
+  --fs-section: clamp(40px, 6vw, 56px);    /* 区块标题 40–56px */
+  --fs-body: 17px;                          /* 正文 17px */
+  --fs-body-sm: 14px;                       /* 次要说明 14px */
+  --fs-nav: 12px;                           /* 导航链接 12px */
+  --fs-btn: 17px;                           /* 按钮文字 17px */
 
-| 令牌 | 值 |
-| --- | --- |
-| `--s-1` | 8px |
-| `--s-2` | 16px |
-| `--s-3` | 24px |
-| `--s-4` | 32px |
-| `--s-5` | 48px |
-| `--s-6` | 64px |
-| `--s-7` | 80px |
-| `--s-8` | 120px |
-| `--section-y` | 桌面 `--s-8` / 移动 `--s-6`（区块垂直间距） |
-| `--pad-x` | 移动 20px / ≥734px 32px（左右边距） |
-| `--nav-h` | 48px |
+  /* 行高 */
+  --lh-hero: 1.05;
+  --lh-section: 1.1;
+  --lh-body: 1.47;
+  --lh-body-sm: 1.43;
 
-## 4. 布局与断点
+  /* 字重 */
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
 
-| 令牌 | 值 | 用途 |
-| --- | --- | --- |
-| `--w-content` | 980px | 内容最大宽度 |
-| `--w-wide` | 1200px | 宽版容器（导航 / 页脚） |
-| `--bp-sm` | 734px | 断点一 |
-| `--bp-lg` | 1068px | 断点二 |
+  /* 字间距 */
+  --tracking-hero: -0.015em;
+  --tracking-tight: -0.02em;
+  --tracking-wide: 0.14em;   /* eyebrow/标签 */
+}
+```
 
-## 5. 圆角与描边
+---
 
-| 令牌 | 值 | 用途 |
-| --- | --- | --- |
-| `--r-card` | 18px | 卡片 / 图片 |
-| `--r-pill` | 980px | 胶囊按钮、标签 |
-| `--bw` | 1px | 分隔线、描边 |
+## 3. 间距与布局令牌
 
-不使用重阴影。阴影仅保留一层极浅的抬升（`--shadow-raise`），且仅用于首屏浮层类元素。
+```css
+:root {
+  /* 基础单位 8px */
+  --s-1: 8px;   --s-2: 16px;   --s-3: 24px;
+  --s-4: 32px;  --s-5: 48px;   --s-6: 64px;
+  --s-7: 80px;  --s-8: 120px;
 
-| 令牌 | 值 |
-| --- | --- |
-| `--shadow-raise` | `0 1px 2px rgba(0, 0, 0, 0.04)` |
+  /* 区块垂直间距 */
+  --section-y: var(--s-7);       /* 桌面 80px */
+  --section-y-mobile: var(--s-6);/* 移动 64px */
 
-## 6. 动效
+  /* 容器宽度 */
+  --w-content: 980px;   /* 标准内容最大宽 */
+  --w-wide: 1200px;     /* 宽版容器 */
 
-| 令牌 | 值 |
-| --- | --- |
-| `--dur-fast` | 200ms |
-| `--dur` | 300ms |
-| `--dur-slow` | 400ms |
-| `--ease` | `cubic-bezier(0.4, 0, 0.2, 1)` |
+  /* 移动端左右边距 */
+  --pad-x: 20px;
 
-只动画 `opacity` 与 `transform`。`prefers-reduced-motion: reduce` 时全部时长归零、位移动画取消。
+  /* 断点 */
+  --bp-sm: 734px;
+  --bp-md: 1068px;
 
-## 7. 层级
+  /* 导航栏高度 */
+  --nav-h: 48px;
+}
+```
 
-| 令牌 | 值 | 用途 |
-| --- | --- | --- |
-| `--z-nav` | 100 | 固定导航 |
-| `--z-menu` | 200 | 移动端下拉菜单 |
-| `--z-modal` | 1000 | 模态（预留） |
-| `--z-toast` | 1100 | Toast（预留） |
+---
 
-## 8. 组件规格
+## 4. 圆角与边框令牌
 
-- **主按钮**：背景 `--c-accent`，文字 `--c-on-accent`，圆角 `--r-pill`，内边距 `12px 22px`，hover `--c-accent-hover`。
-- **次按钮**：透明背景，文字 `--c-accent`，`1px` 描边 `--c-accent`。
-- **卡片**：`--c-bg` 或 `--c-bg-alt`，圆角 `--r-card`，无重阴影。
-- **导航**：高 `--nav-h`，背景 `--c-nav-bg`，`backdrop-filter: blur(20px) saturate(180%)`，底部 `1px` `--c-line`。
-- **焦点**：`outline: 2px solid var(--c-accent)`，`outline-offset: 2px`。
+```css
+:root {
+  --r-card: 18px;      /* 卡片、面板 */
+  --r-pill: 980px;     /* 胶囊按钮、chip、标签 */
+  --r-input: 10px;     /* 输入框、下拉 */
+  --r-xl: 24px;        /* 大型面板、Hero 视觉区 */
+  --bw: 1px;           /* 统一细边框 */
+}
+```
 
-## 9. 响应式与可访问性
+---
 
-- 移动端单列，触控目标最小 44px。
-- 语义 HTML（`header` / `nav` / `main` / `section` / `article` / `footer`），跳转锚点带 `scroll-margin-top`。
-- 键盘可操作：导航、菜单、锚点、按钮均可用 Tab / Enter / Esc 完成。
-- 正文对比度：`#1D1D1F` on `#FFFFFF` = 16.9:1；`#86868B` on `#FFFFFF` = 4.6:1（次要文字达标）。
+## 5. 阴影令牌
+
+```css
+:root {
+  /* 仅允许极浅阴影，禁止重阴影 */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --shadow-focus: 0 0 0 2px var(--c-focus);
+}
+```
+
+> 深色模式下阴影可视性极低，主要靠边框与背景层级区分。
+
+---
+
+## 6. 动效令牌
+
+```css
+:root {
+  --dur-fast: 200ms;
+  --dur: 300ms;
+  --dur-slow: 400ms;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);    /* 标准缓动 */
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);  /* 退出缓动 */
+
+  /* 仅允许动画的属性 */
+  --anim-props: opacity, transform, color, background-color, border-color, box-shadow;
+}
+```
+
+> **强制**：`prefers-reduced-motion: reduce` 时，所有动效时长归零（见 CSS 基础重置）。
+
+---
+
+## 7. Z-index 层级
+
+```css
+:root {
+  --z-bg: 0;          /* 背景 Canvas/粒子 */
+  --z-content: 10;    /* 主内容 */
+  --z-nav: 100;       /* 固定导航 */
+  --z-dropdown: 200;  /* 下拉菜单 */
+  --z-modal: 1000;    /* 模态框 */
+  --z-toast: 1100;    /* Toast/通知 */
+}
+```
+
+---
+
+## 8. 组件规范摘要
+
+| 组件 | 规范 |
+|------|------|
+| **主按钮** | 背景 `var(--c-accent)`，文字 `var(--c-text-inverted)`，圆角 `var(--r-pill)`，padding `12px 22px`，高度 44px |
+| **次按钮** | 透明背景，文字 `var(--c-accent)`，1px 边框 `var(--c-accent)`，同尺寸 |
+| **卡片** | 背景 `var(--c-bg-elevated)` / `var(--c-bg-alt)`，圆角 `var(--r-card)`，边框 `var(--bw) solid var(--c-line)`，**无重阴影** |
+| **导航栏** | 高 `var(--nav-h)`，背景 `var(--c-nav-bg)`，`backdrop-filter: var(--c-nav-blur)`，底部 1px `var(--c-nav-border)` |
+| **Chip/标签** | 背景 `var(--c-bg-alt)`，文字 `var(--c-text-muted)`，边框 `var(--c-line)`，圆角 `var(--r-pill)` |
+| **焦点态** | `outline: 2px solid var(--c-focus)`，`outline-offset: var(--c-focus-offset)` |
+| **分隔线** | `1px solid var(--c-line)` 或渐变淡入淡出 |
+
+---
+
+## 9. 响应式策略
+
+- **桌面 (≥1068px)**：大留白、双列/三列网格、最大宽 980px/1200px
+- **平板 (734–1067px)**：单列或双列、字号阶梯微降、边距 32px
+- **手机 (<734px)**：单列、字号再降、左右边距 20px、触控目标 ≥44px、导航折叠为汉堡菜单
+
+---
+
+## 10. 可访问性基线
+
+- 对比度：正文 ≥4.5:1，大号文本 ≥3:1（WCAG AA）
+- 焦点可见：所有可交互元素有 `:focus-visible` 样式
+- 语义 HTML：`header`/`nav`/`main`/`section`/`article`/`footer`/`aside`
+- 键盘可操作：Tab 顺序合理，Esc 关闭菜单/模态
+- `prefers-reduced-motion`：动效归零
+- 图片有 `alt`，SVG 装饰性用 `aria-hidden="true"`
+
+---
+
+## 11. 迁移清单（从旧版 MD3 紫色主题）
+
+- [x] 移除 `--mdui-color-*` 所有 MDUI 变量
+- [x] 移除 `@font-face` base64 `Xiaoxin Chaoku`
+- [x] 移除 Canvas 极光/粒子背景（`#bg`、`.bg-veil`、`.bg-grain`）
+- [x] 移除滚动进度条（`.progress-rail`、`.progress-bar`）
+- [x] 移除紫色渐变、发光、霓虹、玻璃拟态堆叠
+- [x] 统一圆角为 `--r-card`/`--r-pill`/`--r-xl`
+- [x] 统一动效为 `--dur-fast/--dur/--dur-slow` + `--ease`
+- [x] 统一 Z-index 为 `--z-*`
+- [x] 仅保留 `opacity`/`transform`/`color`/`background`/`border`/`box-shadow` 动画

@@ -1,857 +1,760 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>山地车 — 铎的小站</title>
-<meta name="description" content="围绕「选车 — 装备 — 保养 — 上路」这条线整理。写得尽量像给朋友的建议，而不是产品说明书。">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#FFFFFF">
+<meta name="description" content="山地车 —— 车型分类、关键部件、装备保养、国内山地车公园与骑行技巧。">
+<title>山地车 · 铎的小站</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%0A%20%20%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%2260%22%20height%3D%2260%22%20rx%3D%2216%22%20fill%3D%22%230071E3%22%2F%3E%0A%20%20%3Ctext%20x%3D%2232%22%20y%3D%2246%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23FFFFFF%22%0A%20%20%20%20%20%20font-family%3D%22system-ui%2C-apple-system%2CPingFang%20SC%2CMicrosoft%20YaHei%2Csans-serif%22%3E%E9%93%8E%3C%2Ftext%3E%0A%3C%2Fsvg%3E%0A" type="image/svg+xml">
 <link rel="stylesheet" href="assets/css/styles.css">
-<script src="assets/js/app.js" defer></script>
 </head>
-<body>
-<a class="skip-link" href="#main">跳到主要内容</a>
+<body data-page="bike">
 
-<header class="nav">
-  <div class="nav__inner">
-    <a class="nav__brand" href="index.html" aria-label="铎的小站，回到首页">
-      <span class="nav__mark" aria-hidden="true">铎</span>
-      <span>铎的小站</span>
+<div class="progress-rail" aria-hidden="true"><div class="progress-bar" id="pbar"></div></div>
+
+<header class="topbar" id="topbar">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="回到首页">
+      <span class="mark">铎</span>
+      <span class="name">铎的小站</span>
     </a>
-    <nav class="nav__links" aria-label="主导航">
-        <a class="nav__link" href="index.html">首页</a>
-        <a class="nav__link" href="flash.html">刷机</a>
-        <a class="nav__link" href="bike.html" aria-current="page">山地车</a>
+    <nav class="nav" aria-label="主导航">
+      <a href="index.html">首页</a>
+      <a href="flash.html">刷机</a>
+      <a href="bike.html" class="active">山地车</a>
     </nav>
-    <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="打开菜单" data-nav-toggle>
-      <span class="nav__toggle-bars" aria-hidden="true"></span>
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="切换深浅色主题" aria-pressed="false">
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/>
+      </svg>
+      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/>
+      </svg>
     </button>
   </div>
 </header>
 
-<nav class="nav__menu" id="nav-menu" aria-label="移动导航" data-nav-menu data-open="false">
-  <a class="nav__menu-link" href="index.html">首页</a>
-  <a class="nav__menu-link" href="flash.html">刷机</a>
-  <a class="nav__menu-link" href="bike.html" aria-current="page">山地车</a>
-</nav>
+<main>
 
-<main id="main">
+  <section class="page-head">
+    <div class="wrap">
+      <nav class="crumb reveal" aria-label="面包屑">
+        <a href="index.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 6 8 12l6 6"/></svg>
+          首页
+        </a>
+        <span>/</span><span>山地车</span>
+      </nav>
 
-  <header class="pagehead">
-    <div class="wrap">
-      <div class="pagehead__inner">
-        <nav class="breadcrumb" aria-label="面包屑">
-          <a href="index.html">首页</a>
-          <span class="breadcrumb__sep" aria-hidden="true">/</span>
-          <span aria-current="page">山地车</span>
-        </nav>
-        <span class="eyebrow reveal">02 — Mountain Bike</span>
-        <h1 class="display reveal">山地车</h1>
-        <p class="lede reveal">围绕「选车 — 装备 — 保养 — 上路」这条线整理。写得尽量像给朋友的建议，而不是产品说明书。</p>
-        <ul class="tags reveal">
-          <li class="tag">车型分类</li>
-          <li class="tag">国内公园</li>
-          <li class="tag">关键部件</li>
-          <li class="tag">装备清单</li>
-          <li class="tag">保养维护</li>
-          <li class="tag">技巧姿态</li>
-        </ul>
+      <div class="page-hero-row">
+        <div class="page-hero-text">
+          <div class="sec-head reveal"><span class="sec-num">02</span><span class="sec-kicker">Mountain Bike</span></div>
+          <h1 class="sec-title reveal d1">山地车</h1>
+          <p class="sec-body reveal d2">从入门的第一台车，到林道里的每一个弯。装备怎么选、车怎么养、路线怎么骑 —— <b>把踩过的坑和爽到的瞬间都记下来</b>。</p>
+          <ul class="chips reveal d3">
+            <li>车型分类</li>
+            <li>国内公园</li>
+            <li>关键部件</li>
+            <li>装备清单</li>
+            <li>保养维护</li>
+            <li>技巧姿态</li>
+          </ul>
+        </div>
+        <div class="page-hero-art reveal d2">
+          <svg viewBox="0 0 320 320" role="img" aria-label="山地车主题插画">
+            <defs>
+              <linearGradient id="gB" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#0077ED"/>
+                <stop offset="1" stop-color="#0071E3"/>
+              </linearGradient>
+            </defs>
+            <circle class="pulse" cx="238" cy="76" r="26" fill="url(#gB)" fill-opacity=".22"/>
+            <circle cx="238" cy="76" r="15" fill="url(#gB)" fill-opacity=".55"/>
+            <path d="M12 240 96 128l52 70 34-46 116 88z" fill-opacity=".16" fill="#0071E3"/>
+            <path d="M12 240 96 128l52 70 34-46 116 88" fill="none" stroke="url(#gB)" stroke-width="2" stroke-linejoin="round"/>
+            <path class="trace" d="M30 268c46-30 78 14 122-8s66-40 138-22" fill="none" stroke="url(#gB)" stroke-width="2.6" stroke-linecap="round" stroke-opacity=".9"/>
+            <g>
+              <circle cx="112" cy="252" r="40" fill="none" stroke="url(#gB)" stroke-width="3.2"/>
+              <circle cx="112" cy="252" r="7" fill="url(#gB)"/>
+              <g class="spin-slow" stroke="url(#gB)" stroke-width="1.8" stroke-opacity=".8">
+                <path d="M112 216v72M76 252h72M86 226l52 52M138 226l-52 52"/>
+              </g>
+            </g>
+            <g>
+              <circle cx="224" cy="252" r="30" fill="none" stroke="url(#gB)" stroke-width="3.2"/>
+              <circle cx="224" cy="252" r="6" fill="url(#gB)"/>
+              <g class="spin-slow" stroke="url(#gB)" stroke-width="1.6" stroke-opacity=".75">
+                <path d="M224 224v56M196 252h56M204 232l40 40M244 232l-40 40"/>
+              </g>
+            </g>
+            <path d="m112 252 26-52h44l42 52" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke="#86868B"/>
+          </svg>
+        </div>
       </div>
     </div>
-  </header>
+  </section>
 
-  <section class="section" aria-labelledby="grp-1">
+  <hr class="rule">
+
+  <section class="section" data-list-view>
     <div class="wrap">
-      <div class="section__head reveal">
-        <span class="eyebrow">What&#39;s Inside</span>
-        <h2 class="headline" id="inside-bike">这里会写什么</h2>
-        <p class="lede">24 个条目，分成车型、公园与技巧三组。</p>
-      </div>
-      <div class="group__head reveal">
-        <h3 class="group__title" id="grp-1">车型分类</h3>
-        <p class="group__count">9 条</p>
-      </div>
-      <div class="entry-list">
-      <details class="entry reveal">
-        <summary class="entry__summary">
-          <span class="num">01</span>
-          <span class="entry__text">
-            <span class="entry__title">XC · 越野</span>
-            <span class="entry__kicker">Cross Country</span>
-          </span>
-          <span class="entry__icon" aria-hidden="true"></span>
-        </summary>
-        <div class="entry__body">
-          <figure class="entry__media">
-            <img src="assets/img/bike/xc.jpg" alt="XC · 越野" loading="lazy" decoding="async">
-          </figure>
-          <p class="entry__lead">XC 是山地车最基础也最「竞技」的方向：爬坡为主，讲究效率和体能，赛道通常是起伏的土路、林道和短坡。</p>
-          <div class="field">
-            <p class="field__label">特征</p>
-            <p class="field__text">避震行程一般在 100–120mm，车架轻、几何偏爬坡，头管角度较大（更「立」），坐姿前倾。整车重量往往是同价位里最轻的。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">适合谁</p>
-            <p class="field__text">想兼顾通勤、拉练和轻度越野的人；也适合作为第一台山地车 —— 轻、好骑、上手快。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">代表场景</p>
-            <p class="field__text">越野世界杯的 XCO 项目就是典型的 XC 赛道：短圈、高心率、反复爬坡。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">短板</p>
-            <p class="field__text">下坡时信心不足，遇到落差和碎石会明显吃力。想要更多下坡乐趣，就往 Trail 或 Enduro 方向选。</p>
-          </div>
-        </div>
-      </details>
-      <details class="entry reveal">
-        <summary class="entry__summary">
-          <span class="num">02</span>
-          <span class="entry__text">
-            <span class="entry__title">Trail · 林道</span>
-            <span class="entry__kicker">Trail</span>
-          </span>
-          <span class="entry__icon" aria-hidden="true"></span>
-        </summary>
-        <div class="entry__body">
-          <figure class="entry__media">
-            <img src="assets/img/bike/trail.jpg" alt="Trail · 林道" loading="lazy" decoding="async">
-          </figure>
-          <p class="entry__lead">Trail 是目前最主流、也最「好用」的一类：上坡能骑、下坡不虚，是大多数人的第一台「正经」山地车。</p>
-          <div class="field">
-            <p class="field__label">特征</p>
-            <p class="field__text">避震行程约 120–150mm，几何介于爬坡与下坡之间，头管角度约 65–67 度。整车比 XC 重一些，但下坡稳定性提升明显。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">适合谁</p>
-            <p class="field__text">想要一台车什么都能干的人 —— 周末进山、林道巡航、偶尔去车公园都行。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">细分</p>
-            <p class="field__text">Trail 内部还分短行程（约 120–130mm，更偏爬坡）和长行程（约 140–150mm，更偏下坡），按常跑的路线选。</p>
-          </div>
-        </div>
-      </details>
-      <details class="entry reveal">
-        <summary class="entry__summary">
-          <span class="num">03</span>
-          <span class="entry__text">
-            <span class="entry__title">DC · 下坡越野</span>
-            <span class="entry__kicker">Downcountry</span>
-          </span>
-          <span class="entry__icon" aria-hidden="true"></span>
-        </summary>
-        <div class="entry__body">
-          <figure class="entry__media">
-            <img src="assets/img/bike/dc.jpg" alt="DC · 下坡越野" loading="lazy" decoding="async">
-          </figure>
-          <p class="entry__lead">DC（Downcountry）是近几年冒出来的词：用 XC 的轻量，配上 Trail 的几何。上坡像 XC，下坡像 Trail。</p>
-          <div class="field">
-            <p class="field__label">特征</p>
-            <p class="field__text">避震行程多在 110–130mm，但头管角度更趴、更稳，配用更宽的外胎和升降座管。整车重量接近 XC。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">为什么存在</p>
-            <p class="field__text">很多人发现 XC 车的下坡太紧、Trail 车又太重，于是出现了这个「折中得刚刚好」的类别。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">适合谁</p>
-            <p class="field__text">爬坡多、但下坡也不想怂的人；也适合把 XC 车架改造成「能打的轻装车」的玩家。</p>
-          </div>
-        </div>
-      </details>
-      <details class="entry reveal">
-        <summary class="entry__summary">
-          <span class="num">04</span>
-          <span class="entry__text">
-            <span class="entry__title">AM · 全山地</span>
-            <span class="entry__kicker">All Mountain</span>
-          </span>
-          <span class="entry__icon" aria-hidden="true"></span>
-        </summary>
-        <div class="entry__body">
-          <figure class="entry__media entry__media--pictogram">
-            <img src="assets/img/bike/am.svg" alt="" loading="lazy" decoding="async">
-          </figure>
-          <p class="entry__lead">AM 是个逐渐被 Trail / Enduro 吞并的词，指「整座山都能骑」——上得去、下得来，不偏向任何一端。</p>
-          <div class="field">
-            <p class="field__label">特征</p>
-            <p class="field__text">避震行程约 140–160mm，几何偏下坡，但保留了可接受的踩踏效率。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">现在怎么选</p>
-            <p class="field__text">今天多数厂商不再单列 AM，而是把它并进长行程 Trail 或短行程 Enduro。买的时候按行程和几何判断，比看名字靠谱。</p>
-          </div>
-        </div>
-      </details>
-      <details class="entry reveal">
-        <summary class="entry__summary">
-          <span class="num">05</span>
-          <span class="entry__text">
-            <span class="entry__title">Enduro · 耐力</span>
-            <span class="entry__kicker">Enduro</span>
-          </span>
-          <span class="entry__icon" aria-hidden="true"></span>
-        </summary>
-        <div class="entry__body">
-          <figure class="entry__media">
-            <img src="assets/img/bike/enduro.jpg" alt="Enduro · 耐力" loading="lazy" decoding="async">
-          </figure>
-          <p class="entry__lead">Enduro 是「要自己骑上去的速降」。比赛形式是分段计时：爬坡路段不计时，下坡赛段全力冲。</p>
-          <div class="field">
-            <p class="field__label">特征</p>
-            <p class="field__text">避震行程约 160–180mm，几何明显偏下坡，头管角度约 63–65 度，车重上升但下坡能力接近速降车。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">适合谁</p>
-            <p class="field__text">想在自然山道上放速下坡、又不想扛着车走的人。目前是业余玩家最热门的方向之一。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">代价</p>
-            <p class="field__text">爬坡会比 Trail 车累不少，长距离骑行对体能要求更高。</p>
-          </div>
-        </div>
-      </details>
-      <details class="entry reveal">
-        <summary class="entry__summary">
-          <span class="num">06</span>
-          <span class="entry__text">
-            <span class="entry__title">DH · 速降</span>
-            <span class="entry__kicker">Downhill</span>
-          </span>
-          <span class="entry__icon" aria-hidden="true"></span>
-        </summary>
-        <div class="entry__body">
-          <figure class="entry__media">
-            <img src="assets/img/bike/dh.jpg" alt="DH · 速降" loading="lazy" decoding="async">
-          </figure>
-          <p class="entry__lead">DH 只做一件事：用最快的速度冲下坡。赛道多为陡坡、乱石、大落差和大跳台。</p>
-          <div class="field">
-            <p class="field__label">特征</p>
-            <p class="field__text">避震行程约 200mm，双肩前叉、重型车架、粗胎、大碟刹。整车常超过 16kg，基本不具备爬坡能力。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">怎么骑</p>
-            <p class="field__text">靠缆车、摆渡车或推车上山，只骑下坡。需要全套护具 —— 全盔、护胸、护膝护肘，几乎是必需品。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">代表赛事</p>
-            <p class="field__text">速降世界杯（DH World Cup）是这个方向的最高舞台，赛道通常修在陡峭的山体上。</p>
-          </div>
-        </div>
-      </details>
-      <details class="entry reveal">
-        <summary class="entry__summary">
-          <span class="num">07</span>
-          <span class="entry__text">
-            <span class="entry__title">FR · 自由骑</span>
-            <span class="entry__kicker">Freeride</span>
-          </span>
-          <span class="entry__icon" aria-hidden="true"></span>
-        </summary>
-        <div class="entry__body">
-          <figure class="entry__media">
-            <img src="assets/img/bike/fr.jpg" alt="FR · 自由骑" loading="lazy" decoding="async">
-          </figure>
-          <p class="entry__lead">FR 不追求最快，追求「怎么飞得好看」。大跳台、悬崖落差、空中动作，是自由骑的日常。</p>
-          <div class="field">
-            <p class="field__label">特征</p>
-            <p class="field__text">车与 DH 接近但更强调强度与稳定性，几何允许更大幅度的动态动作，很多车用单速或小范围变速。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">场地</p>
-            <p class="field__text">常见于车公园的跳台线、土坡场地和专门修建的落差赛段。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">门槛</p>
-            <p class="field__text">是所有方向里对技术要求最高的之一：动作失误的代价很直接，护具和循序渐进缺一不可。</p>
-          </div>
-        </div>
-      </details>
-      <details class="entry reveal">
-        <summary class="entry__summary">
-          <span class="num">08</span>
-          <span class="entry__text">
-            <span class="entry__title">DJ · 土坡</span>
-            <span class="entry__kicker">Dirt Jump</span>
-          </span>
-          <span class="entry__icon" aria-hidden="true"></span>
-        </summary>
-        <div class="entry__body">
-          <figure class="entry__media entry__media--pictogram">
-            <img src="assets/img/bike/dj.svg" alt="" loading="lazy" decoding="async">
-          </figure>
-          <p class="entry__lead">DJ 用的是接近硬架的小车，在连续的土坡之间起跳、做动作。核心是节奏、控车和空中姿态。</p>
-          <div class="field">
-            <p class="field__label">特征</p>
-            <p class="field__text">车架小巧、坐垫极低、多为硬架或短行程，轮胎偏小、胎压偏高，方便起跳和落地。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">场地</p>
-            <p class="field__text">土坡场地、泵道（pump track）和车公园的跳台区。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">和 BMX 的区别</p>
-            <p class="field__text">DJ 用的是山地车规格的轮组和避震前叉，能承受更大的落地冲击，也更适合户外土坡。</p>
-          </div>
-        </div>
-      </details>
-      <details class="entry reveal">
-        <summary class="entry__summary">
-          <span class="num">09</span>
-          <span class="entry__text">
-            <span class="entry__title">Trials · 攀爬</span>
-            <span class="entry__kicker">Trials</span>
-          </span>
-          <span class="entry__icon" aria-hidden="true"></span>
-        </summary>
-        <div class="entry__body">
-          <figure class="entry__media entry__media--pictogram">
-            <img src="assets/img/bike/trials.svg" alt="" loading="lazy" decoding="async">
-          </figure>
-          <p class="entry__lead">攀爬车没有坐垫、齿比极轻，目标是用最慢的速度越过障碍物，比的是平衡与控制。</p>
-          <div class="field">
-            <p class="field__label">特征</p>
-            <p class="field__text">车架极小、无坐垫或只有装饰性坐垫，齿比很轻，刹车极强，胎压极低以增加抓地。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">玩法</p>
-            <p class="field__text">在岩石、木箱、台阶上做定点平衡和跳跃，是「低速高难」的技术流。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">对实战有没有用</p>
-            <p class="field__text">有 —— 练过攀爬的人，在山道上的低速控车和定点能力通常会明显更好。</p>
-          </div>
-        </div>
-      </details>
+      <header class="sub-head reveal">
+        <span class="sec-kicker">What's Inside</span>
+        <h2>这里会写什么</h2>
+        <p>共 24 个分项，围绕「选车 — 装备 — 保养 — 上路」这条线整理。写得尽量像给朋友的建议，而不是产品说明书。<b>点任意一张卡片看详细内容</b>。</p>
+      </header>
+      <div class="crumb" data-breadcrumb></div>
+      <div class="detail-grid" data-card-grid></div>
+      <div class="sub-head reveal" style="margin-top:clamp(44px,7vw,70px)">
+        <span class="sec-kicker">Notes</span>
+        <h2>一点说明</h2>
+        <p>这里写的是自己骑车踩出来的经验，不追参数、不报价格。路况和体重因人而异，任何设置都建议先小范围试，觉得不对就调回去。</p>
       </div>
     </div>
   </section>
-  <section class="section section--alt" aria-labelledby="grp-2">
-    <div class="wrap">
-      <div class="group__head reveal">
-        <h3 class="group__title" id="grp-2">国内山地车公园</h3>
-        <p class="group__count">9 条</p>
-      </div>
-      <div class="entry-list">
-      <details class="entry reveal">
-        <summary class="entry__summary">
-          <span class="num">10</span>
-          <span class="entry__text">
-            <span class="entry__title">极峰山地车公园</span>
-            <span class="entry__kicker">安徽 · 马鞍山</span>
-          </span>
-          <span class="entry__icon" aria-hidden="true"></span>
-        </summary>
-        <div class="entry__body">
-          <figure class="entry__media">
-            <img src="assets/img/bike/park-jifeng.jpg" alt="极峰山地车公园" loading="lazy" decoding="async">
-          </figure>
-          <p class="entry__lead">极峰山地车公园位于安徽省马鞍山市博望区丹阳镇丹东村，2023 年建成开放，由筑路师丁再刚设计修建，是苏皖地区少见的专业山地车公园。</p>
-          <div class="field">
-            <p class="field__label">基本信息</p>
-            <p class="field__text">园区共有 7 条专业赛道，按难度分级，从入门到进阶都有覆盖。地处苏皖交界，从南京方向经常合高速「横溪」出口下高速后按导航即可到达。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">为什么值得跑一趟</p>
-            <p class="field__text">华东地区能修出成体系赛道的场地并不多，极峰填补了苏皖一带的空白，也带动了当地的骑行氛围。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">出发前</p>
-            <p class="field__text">门票、开放时间与赛道维护情况会随季节调整，出发前建议先在其官方账号确认当天是否开放。</p>
-          </div>
-          <p class="entry__note">本条信息整理自公开报道，具体开放安排请以园区官方发布为准。</p>
-        </div>
-      </details>
-      <details class="entry reveal">
-        <summary class="entry__summary">
-          <span class="num">11</span>
-          <span class="entry__text">
-            <span class="entry__title">崇礼 · 张家口</span>
-            <span class="entry__kicker">河北</span>
-          </span>
-          <span class="entry__icon" aria-hidden="true"></span>
-        </summary>
-        <div class="entry__body">
-          <figure class="entry__media">
-            <img src="assets/img/bike/park-chongli.jpg" alt="崇礼 · 张家口" loading="lazy" decoding="async">
-          </figure>
-          <p class="entry__lead">崇礼是华北地区最有名的山地度假区之一，依托雪场的山地资源，夏季转为山地车公园运营，有成熟的缆车与赛道体系。</p>
-          <div class="field">
-            <p class="field__label">为什么适合骑车</p>
-            <p class="field__text">海拔较高、夏季凉爽，缆车可以带车上山，省掉大量爬升，非常适合练下坡和速降。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">玩法</p>
-            <p class="field__text">以车公园式的下坡赛道为主，难度分层，既能新手体验，也能满足进阶玩家。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">交通</p>
-            <p class="field__text">距北京约 3 小时车程，高铁到崇礼站后转接驳也方便。</p>
-          </div>
-          <p class="entry__note">各雪场的夏季运营方案逐年调整，出行前请确认当年是否开放骑行项目。</p>
-        </div>
-      </details>
-      <details class="entry reveal">
-        <summary class="entry__summary">
-          <span class="num">12</span>
-          <span class="entry__text">
-            <span class="entry__title">莫干山 · 湖州</span>
-            <span class="entry__kicker">浙江</span>
-          </span>
-          <span class="entry__icon" aria-hidden="true"></span>
-        </summary>
-        <div class="entry__body">
-          <figure class="entry__media entry__media--pictogram">
-            <img src="assets/img/bike/park-moganshan.svg" alt="" loading="lazy" decoding="async">
-          </figure>
-          <p class="entry__lead">莫干山一带竹林密布、坡度多变，是江浙沪骑行圈常去的目的地。周边发展出多条成熟的林道与骑行路线。</p>
-          <div class="field">
-            <p class="field__label">路况特点</p>
-            <p class="field__text">以竹林土路和林道为主，起伏密集、弯多，考验控车与体能，和下坡公园的玩法不太一样。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">配套</p>
-            <p class="field__text">莫干山周边民宿与骑行服务完善，适合安排两天的周末骑行。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">注意</p>
-            <p class="field__text">部分林道属于村民生产道路或受保护区域，请勿在禁行区域骑行，并遵守当地规定。</p>
-          </div>
-        </div>
-      </details>
-      <details class="entry reveal">
-        <summary class="entry__summary">
-          <span class="num">13</span>
-          <span class="entry__text">
-            <span class="entry__title">北京 · 香山一带</span>
-            <span class="entry__kicker">北京</span>
-          </span>
-          <span class="entry__icon" aria-hidden="true"></span>
-        </summary>
-        <div class="entry__body">
-          <figure class="entry__media entry__media--pictogram">
-            <img src="assets/img/bike/park-beijing.svg" alt="" loading="lazy" decoding="async">
-          </figure>
-          <p class="entry__lead">北京的山地车氛围集中在西郊的香山、模式口、凤凰岭一带，多年来形成了不少民间林道。</p>
-          <div class="field">
-            <p class="field__label">特点</p>
-            <p class="field__text">以自然山道和手工修整的林道为主，路线多样，从缓坡到技术路段都有。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">注意</p>
-            <p class="field__text">部分区域属于景区或受保护山地，骑行前请确认是否允许进入，避免与徒步游客及管理者冲突。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">室内补充</p>
-            <p class="field__text">北京周边也有室内泵道与土坡场地，适合冬天或雨天练习基本功。</p>
-          </div>
-        </div>
-      </details>
-      <details class="entry reveal">
-        <summary class="entry__summary">
-          <span class="num">14</span>
-          <span class="entry__text">
-            <span class="entry__title">成都 · 龙泉山</span>
-            <span class="entry__kicker">四川</span>
-          </span>
-          <span class="entry__icon" aria-hidden="true"></span>
-        </summary>
-        <div class="entry__body">
-          <figure class="entry__media entry__media--pictogram">
-            <img src="assets/img/bike/park-chengdu.svg" alt="" loading="lazy" decoding="async">
-          </figure>
-          <p class="entry__lead">成都周边以龙泉山为代表的丘陵地形，是西南地区骑行热度很高的区域，公路与山地玩法都很活跃。</p>
-          <div class="field">
-            <p class="field__label">特点</p>
-            <p class="field__text">坡长适中、起伏连续，适合拉练和技巧练习；周边也有专门修建的越野与土坡场地。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">氛围</p>
-            <p class="field__text">成都骑行群体规模大，周末的山道上总能遇到同好，也便于结伴出行。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">注意</p>
-            <p class="field__text">热门路段人车混行情况较多，下坡时务必控速、留出安全距离。</p>
-          </div>
-        </div>
-      </details>
-      <details class="entry reveal">
-        <summary class="entry__summary">
-          <span class="num">15</span>
-          <span class="entry__text">
-            <span class="entry__title">大理 · 苍山</span>
-            <span class="entry__kicker">云南</span>
-          </span>
-          <span class="entry__icon" aria-hidden="true"></span>
-        </summary>
-        <div class="entry__body">
-          <figure class="entry__media entry__media--pictogram">
-            <img src="assets/img/bike/park-dali.svg" alt="" loading="lazy" decoding="async">
-          </figure>
-          <p class="entry__lead">大理是很多人心中的骑行目的地：海拔适中、气候温和，苍山脚下的土路与林道资源丰富。</p>
-          <div class="field">
-            <p class="field__label">特点</p>
-            <p class="field__text">海拔落差明显，路线从环湖公路到山中土路都有，风景是最大的加分项。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">注意</p>
-            <p class="field__text">高海拔地区的天气变化快，紫外线强，长距离骑行要带足补给和保暖衣物。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">适合</p>
-            <p class="field__text">适合把骑行和旅行结合起来的玩法，慢节奏、多停留。</p>
-          </div>
-        </div>
-      </details>
-      <details class="entry reveal">
-        <summary class="entry__summary">
-          <span class="num">16</span>
-          <span class="entry__text">
-            <span class="entry__title">安吉 · 湖州</span>
-            <span class="entry__kicker">浙江</span>
-          </span>
-          <span class="entry__icon" aria-hidden="true"></span>
-        </summary>
-        <div class="entry__body">
-          <figure class="entry__media entry__media--pictogram">
-            <img src="assets/img/bike/park-anji.svg" alt="" loading="lazy" decoding="async">
-          </figure>
-          <p class="entry__lead">安吉竹林与丘陵资源丰富，是长三角地区骑行活动频繁的县区，也有成规模的骑行基地与赛事。</p>
-          <div class="field">
-            <p class="field__label">特点</p>
-            <p class="field__text">地形以丘陵为主，坡度平缓、路网密集，适合新手入门和长距离骑行。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">配套</p>
-            <p class="field__text">当地文旅配套成熟，骑行驿站、租车和住宿都比较方便。</p>
-          </div>
-        </div>
-      </details>
-      <details class="entry reveal">
-        <summary class="entry__summary">
-          <span class="num">17</span>
-          <span class="entry__text">
-            <span class="entry__title">深圳 · 光明及周边</span>
-            <span class="entry__kicker">广东</span>
-          </span>
-          <span class="entry__icon" aria-hidden="true"></span>
-        </summary>
-        <div class="entry__body">
-          <figure class="entry__media entry__media--pictogram">
-            <img src="assets/img/bike/park-shenzhen.svg" alt="" loading="lazy" decoding="async">
-          </figure>
-          <p class="entry__lead">珠三角的骑行人口基数大，深圳及周边的山体与郊野公园中也发展出不少林道和练习场地。</p>
-          <div class="field">
-            <p class="field__label">特点</p>
-            <p class="field__text">以短途林道和技巧练习场为主，周末半天就能跑一趟，适合上班族保持状态。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">注意</p>
-            <p class="field__text">南方湿热、雨季长，山路湿滑时抓地力下降明显，雨后两天内不建议猛骑下坡。</p>
-          </div>
-        </div>
-      </details>
-      <details class="entry reveal">
-        <summary class="entry__summary">
-          <span class="num">18</span>
-          <span class="entry__text">
-            <span class="entry__title">泉林大河 · 中山</span>
-            <span class="entry__kicker">广东 · 中山</span>
-          </span>
-          <span class="entry__icon" aria-hidden="true"></span>
-        </summary>
-        <div class="entry__body">
-          <figure class="entry__media">
-            <img src="assets/img/bike/park-quanlin.jpg" alt="泉林大河 · 中山" loading="lazy" decoding="async">
-          </figure>
-          <p class="entry__lead">泉林大河山地车公园位于广东省中山市三乡镇泉林欢乐世界园区内，是华南地区少有的、配备缆车的全季型山地车公园，占地约 800 亩，山体落差约 280 米。</p>
-          <div class="field">
-            <p class="field__label">位置与交通</p>
-            <p class="field__text">地址在中山市三乡镇泉林欢乐世界内，靠近金龙路，紧邻广珠西线三乡出口。广州、深圳自驾约 1 小时，中山市区与珠海约 40 分钟。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">赛道</p>
-            <p class="field__text">园区有多条赛道，按难度分了蓝道与黑道，另设沥青 Pumptrack 场地，从入门到高级都有对应选择。其中黑线赛道全长约 1.7 公里，落差 280 米，包含落差跳台、弯墙、乱石等高难度元素，面向高级骑手。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">设施与服务</p>
-            <ul class="field__list">
-            <li>缆车：华南地区唯一配备缆车的山地车公园，省掉推车上山的力气</li>
-            <li>服务中心，提供自行车租赁与维修、护具租赁</li>
-            <li>园区内有酒店（大河 SPORT 酒店）与餐饮</li>
-            <li>除山地车外还有卡丁车、ATV 越野车、水上漂流等项目</li>
-            </ul>
-          </div>
-          <div class="field">
-            <p class="field__label">开放与票价</p>
-            <ul class="field__list">
-            <li>全年开放，四季皆可骑</li>
-            <li>缆车：单次 50 元 / 三次 120 元 / 全日无限次 268 元</li>
-            <li>Mini Bike Park 入场票：7 岁以上 50 元两小时，器材租赁另计</li>
-            </ul>
-          </div>
-          <div class="field">
-            <p class="field__label">赛事与培训</p>
-            <p class="field__text">园区承办过 GDL 速降联赛等赛事，也提供儿童与青少年的骑行培训课程，适合带小孩一起玩。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">出发前</p>
-            <p class="field__text">票价、开放时间与赛道维护情况会随季节和园区安排调整，出发前建议先在园区官方渠道确认当天缆车是否运营、是否需要预约。</p>
-          </div>
-          <p class="entry__note">本条信息整理自公开资料（美骑网 / 携程 / 知乎 / 大众点评等），票价与开放安排可能变动，请以园区官方发布为准。</p>
-        </div>
-      </details>
-      </div>
-    </div>
-  </section>
-  <section class="section" aria-labelledby="grp-3">
-    <div class="wrap">
-      <div class="group__head reveal">
-        <h3 class="group__title" id="grp-3">知识与技巧</h3>
-        <p class="group__count">6 条</p>
-      </div>
-      <div class="entry-list">
-      <details class="entry reveal">
-        <summary class="entry__summary">
-          <span class="num">19</span>
-          <span class="entry__text">
-            <span class="entry__title">关键部件</span>
-            <span class="entry__kicker">Parts</span>
-          </span>
-          <span class="entry__icon" aria-hidden="true"></span>
-        </summary>
-        <div class="entry__body">
-          <figure class="entry__media entry__media--pictogram">
-            <img src="assets/img/bike/parts.svg" alt="" loading="lazy" decoding="async">
-          </figure>
-          <p class="entry__lead">看懂几个核心部件，比记住一堆品牌型号更有用。</p>
-          <div class="field">
-            <p class="field__label">车架与几何</p>
-            <p class="field__text">车架是整车的骨架。真正影响骑乘感受的是几何参数：头管角度（越小越稳、越适合下坡）、后下叉长度、以及跨高。尺寸买错，再贵的配置也救不回来。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">前叉与后胆</p>
-            <p class="field__text">行程决定能承受多大的冲击。前叉除了行程，还要看阻尼结构和可调范围 —— 便宜的叉往往只有弹簧和回弹，贵的叉能调压缩阻尼。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">传动</p>
-            <p class="field__text">现在是 1x 单盘的天下，前面一个牙盘、后面一整排飞轮。看的是齿比范围和变速平顺度，链条张力对下坡稳定性影响很大。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">刹车</p>
-            <p class="field__text">碟刹是标配。来令片材质（树脂 / 金属）影响手感和耐磨，碟片尺寸影响散热。长时间下坡时的热衰减，多半是碟片和来令片的问题。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">轮组与轮胎</p>
-            <p class="field__text">轮径 27.5 灵活、29 通过性好。轮胎的胎面花纹、宽度和胎压，是性价比最高的「性能改装」—— 同一台车换条胎，手感可以完全不同。</p>
-          </div>
-        </div>
-      </details>
-      <details class="entry reveal">
-        <summary class="entry__summary">
-          <span class="num">20</span>
-          <span class="entry__text">
-            <span class="entry__title">装备清单</span>
-            <span class="entry__kicker">Gear</span>
-          </span>
-          <span class="entry__icon" aria-hidden="true"></span>
-        </summary>
-        <div class="entry__body">
-          <figure class="entry__media entry__media--pictogram">
-            <img src="assets/img/bike/gear.svg" alt="" loading="lazy" decoding="async">
-          </figure>
-          <p class="entry__lead">装备的意义是「出事的时候能兜住」。顺序上，先护具后性能。</p>
-          <div class="field">
-            <p class="field__label">必买</p>
-            <ul class="field__list">
-            <li>头盔：第一优先级。速降/自由骑建议全盔，林道可用带后脑保护的半盔。</li>
-            <li>手套：摔车时本能撑地，手套是最直接的保障。</li>
-            <li>护膝（进阶加护肘）：山地骑行膝盖受伤概率很高。</li>
-            </ul>
-          </div>
-          <div class="field">
-            <p class="field__label">强烈建议</p>
-            <p class="field__text">骑行裤（减少长时间骑行的不适）、护目镜（挡树枝和飞虫）、以及一双能踩稳脚踏的鞋。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">随身工具</p>
-            <p class="field__text">便携气筒、胶条或补胎片、内胎、快拆链条扣、多功能工具。有这些，大多数小故障能现场处理掉。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">补给</p>
-            <p class="field__text">按每小时约一升水估算，长距离再补盐分和能量胶。夏天要把量算足，脱水会直接导致判断力下降。</p>
-          </div>
-        </div>
-      </details>
-      <details class="entry reveal">
-        <summary class="entry__summary">
-          <span class="num">21</span>
-          <span class="entry__text">
-            <span class="entry__title">保养与维护</span>
-            <span class="entry__kicker">Care</span>
-          </span>
-          <span class="entry__icon" aria-hidden="true"></span>
-        </summary>
-        <div class="entry__body">
-          <figure class="entry__media entry__media--pictogram">
-            <img src="assets/img/bike/care.svg" alt="" loading="lazy" decoding="async">
-          </figure>
-          <p class="entry__lead">花十分钟保养，能换回一整个月的顺畅。山地车的损耗速度远高于公路车，日常维护是刚需。</p>
-          <div class="field">
-            <p class="field__label">链条</p>
-            <p class="field__text">最容易被忽视、也最影响手感的部件。每次湿骑后擦干上油，能明显减少传动损耗。链条拉伸超过限度就该换，否则会把飞轮一起磨废。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">刹车</p>
-            <p class="field__text">看两件事：来令片厚度是否还够、碟片有没有沾油。沾油的碟片会发出异响且制动力骤降，需要清洁或更换。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">避震</p>
-            <p class="field__text">按厂商建议做周期保养（换油、换密封件）。气压按体重和路况调，每次骑前快速检查一下回弹。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">胎压</p>
-            <p class="field__text">别照抄胎壁上的上限值。按体重和路况往下调一点，抓地力会好很多 —— 这是零成本提升操控的办法。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">骑前检查</p>
-            <p class="field__text">快拆/桶轴是否锁紧、刹车是否正常、胎压是否合适、头盔有无损伤。三十秒，能避开很多麻烦。</p>
-          </div>
-        </div>
-      </details>
-      <details class="entry reveal">
-        <summary class="entry__summary">
-          <span class="num">22</span>
-          <span class="entry__text">
-            <span class="entry__title">技巧与姿态</span>
-            <span class="entry__kicker">Skills</span>
-          </span>
-          <span class="entry__icon" aria-hidden="true"></span>
-        </summary>
-        <div class="entry__body">
-          <figure class="entry__media entry__media--pictogram">
-            <img src="assets/img/bike/skill.svg" alt="" loading="lazy" decoding="async">
-          </figure>
-          <p class="entry__lead">下坡时的姿势，比你骑了多久更重要。</p>
-          <div class="field">
-            <p class="field__label">基本站姿</p>
-            <p class="field__text">下坡时重心压低、髋部后移、手臂微屈别锁死。身体要能随地形前后移动 —— 这就是所谓的「动态平衡」。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">过弯</p>
-            <p class="field__text">入弯前把速度降够，弯中尽量少捏刹车。外侧脚踩实、身体压向弯内，视线看向弯的出口而不是前轮。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">刹车</p>
-            <p class="field__text">刹车点尽量选在直道上，前后刹配合使用。湿滑路面时后刹比重可以大一些，避免前轮抱死。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">爬坡</p>
-            <p class="field__text">保持踏频，别用大盘硬踩。重心略微前移压住前轮，避免在陡坡上翘头。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">跳跃</p>
-            <p class="field__text">从最小的落差开始。起跳前保持稳定速度，靠推把而不是拉把完成起跳，落地时用身体吸收冲击。</p>
-          </div>
-        </div>
-      </details>
-      <details class="entry reveal">
-        <summary class="entry__summary">
-          <span class="num">23</span>
-          <span class="entry__text">
-            <span class="entry__title">体能与训练</span>
-            <span class="entry__kicker">Fitness</span>
-          </span>
-          <span class="entry__icon" aria-hidden="true"></span>
-        </summary>
-        <div class="entry__body">
-          <figure class="entry__media entry__media--pictogram">
-            <img src="assets/img/bike/fitness.svg" alt="" loading="lazy" decoding="async">
-          </figure>
-          <p class="entry__lead">骑行的强度大半由心肺决定，而恢复和训练同样重要。</p>
-          <div class="field">
-            <p class="field__label">有氧基础</p>
-            <p class="field__text">大部分里程应该放在能正常说话的低强度骑行上。基础打牢，高强度训练才有意义。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">间歇</p>
-            <p class="field__text">每周 1–2 次间歇练习可以提升有氧上限：短时间高强度 + 充分恢复，重复若干组。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">力量</p>
-            <p class="field__text">下肢力量训练（深蹲、箭步蹲）能提升踩踏效率，也保护膝盖。核心力量对上身的稳定尤其重要。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">恢复</p>
-            <p class="field__text">睡眠不足还连着猛练，进步反而更慢。训练日的间隔、拉伸和睡眠，是同等重要的组成部分。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">心态</p>
-            <p class="field__text">骑得久，比骑得猛更重要。山地车是长期爱好，能持续出门才是一切的前提。</p>
-          </div>
-        </div>
-      </details>
-      <details class="entry reveal">
-        <summary class="entry__summary">
-          <span class="num">24</span>
-          <span class="entry__text">
-            <span class="entry__title">路上故障处理</span>
-            <span class="entry__kicker">Field Fix</span>
-          </span>
-          <span class="entry__icon" aria-hidden="true"></span>
-        </summary>
-        <div class="entry__body">
-          <figure class="entry__media entry__media--pictogram">
-            <img src="assets/img/bike/fix.svg" alt="" loading="lazy" decoding="async">
-          </figure>
-          <p class="entry__lead">在人烟稀少的林道中间，能不能自己把车弄回去，决定了你今天的心情。</p>
-          <div class="field">
-            <p class="field__label">掉链</p>
-            <p class="field__text">多半是链条松或后拨限位不对。装回去后顺手检查后拨限位螺丝，能避免再次发生。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">爆胎 / 扎胎</p>
-            <p class="field__text">带内胎就直接换，带补胎片就现场补。真空胎可以插胶条应急。先把异物从外胎里挑出来再处理，否则补了还会漏。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">刹车异响</p>
-            <p class="field__text">通常是有油污或来令片磨完了。前者清洁碟片和来令片，后者只能换片。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">变速不准</p>
-            <p class="field__text">多半是线管老化或后拨需要微调。用后拨上的微调旋钮边骑边调，通常能撑到回家。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">断链条</p>
-            <p class="field__text">带上快拆链条扣就能现场接回去。接好后避免大齿比硬踩，回家再换新链条。</p>
-          </div>
-          <p class="entry__note">这些都不是大故障，但不会处理就得推车回家。出发前花两分钟检查工具是否带齐，比什么都实在。</p>
-        </div>
-      </details>
-      </div>
-    </div>
-  </section>
-  <section class="section section--alt" aria-labelledby="notes-bike">
-    <div class="wrap">
-      <div class="section__head reveal">
-        <span class="eyebrow">Notes</span>
-        <h2 class="headline" id="notes-bike">一点说明</h2>
-      </div>
-      <p class="note reveal">这里写的是自己骑车踩出来的经验，不追参数、不报价格。路况和体重因人而异，任何设置都建议先小范围试，觉得不对就调回去。</p>
-    </div>
-  </section>
+
+  <section class="section" data-detail-view hidden></section>
 
 </main>
 
-<footer class="footer">
-  <div class="wrap wrap--wide">
-    <div class="footer__inner">
-      <span class="footer__brand"><span class="nav__mark" aria-hidden="true">铎</span>铎的小站</span>
-      <p>© 2026 铎的小站</p>
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-brand"><span class="mark">铎</span>铎的小站</div>
+    <div class="foot-meta">
+      <span>© <span id="year">2026</span> 铎的小站</span><br>
+      <span>蓝白/蓝黑双模式 · 系统字体栈 · 零外部依赖</span>
     </div>
   </div>
 </footer>
 
+<script src="assets/js/app.js"></script>
+<script>
+/* 山地车 · 分项内容数据 */
+window.DZ = window.DZ || {};
+DZ.groups = DZ.groups || {};
+
+DZ.groups.bike = {
+  key: 'bike',
+  label: '山地车',
+  kicker: 'Mountain Bike',
+  num: '02',
+  intro: '围绕「选车 — 装备 — 保养 — 上路」这条线整理。写得尽量像给朋友的建议，而不是产品说明书。',
+  topics: [
+    {
+      group: '车型分类',
+      id: 'xc',
+      title: 'XC · 越野',
+      kicker: 'Cross Country',
+      lead: 'XC 是山地车最基础也最「竞技」的方向：爬坡为主，讲究效率和体能，赛道通常是起伏的土路、林道和短坡。',
+      blocks: [
+        { t: '特征', p: '避震行程一般在 100–120mm，车架轻、几何偏爬坡，头管角度较大（更「立」），坐姿前倾。整车重量往往是同价位里最轻的。' },
+        { t: '适合谁', p: '想兼顾通勤、拉练和轻度越野的人；也适合作为第一台山地车 —— 轻、好骑、上手快。' },
+        { t: '代表场景', p: '越野世界杯的 XCO 项目就是典型的 XC 赛道：短圈、高心率、反复爬坡。' },
+        { t: '短板', p: '下坡时信心不足，遇到落差和碎石会明显吃力。想要更多下坡乐趣，就往 Trail 或 Enduro 方向选。' }
+      ]
+    },
+    {
+      group: '车型分类',
+      id: 'trail',
+      title: 'Trail · 林道',
+      kicker: 'Trail',
+      lead: 'Trail 是目前最主流、也最「好用」的一类：上坡能骑、下坡不虚，是大多数人的第一台「正经」山地车。',
+      blocks: [
+        { t: '特征', p: '避震行程约 120–150mm，几何介于爬坡与下坡之间，头管角度约 65–67 度。整车比 XC 重一些，但下坡稳定性提升明显。' },
+        { t: '适合谁', p: '想要一台车什么都能干的人 —— 周末进山、林道巡航、偶尔去车公园都行。' },
+        { t: '细分', p: 'Trail 内部还分短行程（约 120–130mm，更偏爬坡）和长行程（约 140–150mm，更偏下坡），按常跑的路线选。' }
+      ]
+    },
+    {
+      group: '车型分类',
+      id: 'dc',
+      title: 'DC · 下坡越野',
+      kicker: 'Downcountry',
+      lead: 'DC（Downcountry）是近几年冒出来的词：用 XC 的轻量，配上 Trail 的几何。上坡像 XC，下坡像 Trail。',
+      blocks: [
+        { t: '特征', p: '避震行程多在 110–130mm，但头管角度更趴、更稳，配用更宽的外胎和升降座管。整车重量接近 XC。' },
+        { t: '为什么存在', p: '很多人发现 XC 车的下坡太紧、Trail 车又太重，于是出现了这个「折中得刚刚好」的类别。' },
+        { t: '适合谁', p: '爬坡多、但下坡也不想怂的人；也适合把 XC 车架改造成「能打的轻装车」的玩家。' }
+      ]
+    },
+    {
+      group: '车型分类',
+      id: 'am',
+      title: 'AM · 全山地',
+      kicker: 'All Mountain',
+      lead: 'AM 是个逐渐被 Trail / Enduro 吞并的词，指「整座山都能骑」——上得去、下得来，不偏向任何一端。',
+      blocks: [
+        { t: '特征', p: '避震行程约 140–160mm，几何偏下坡，但保留了可接受的踩踏效率。' },
+        { t: '现在怎么选', p: '今天多数厂商不再单列 AM，而是把它并进长行程 Trail 或短行程 Enduro。买的时候按行程和几何判断，比看名字靠谱。' }
+      ]
+    },
+    {
+      group: '车型分类',
+      id: 'enduro',
+      title: 'Enduro · 耐力',
+      kicker: 'Enduro',
+      lead: 'Enduro 是「要自己骑上去的速降」。比赛形式是分段计时：爬坡路段不计时，下坡赛段全力冲。',
+      blocks: [
+        { t: '特征', p: '避震行程约 160–180mm，几何明显偏下坡，头管角度约 63–65 度，车重上升但下坡能力接近速降车。' },
+        { t: '适合谁', p: '想在自然山道上放速下坡、又不想扛着车走的人。目前是业余玩家最热门的方向之一。' },
+        { t: '代价', p: '爬坡会比 Trail 车累不少，长距离骑行对体能要求更高。' }
+      ]
+    },
+    {
+      group: '车型分类',
+      id: 'dh',
+      title: 'DH · 速降',
+      kicker: 'Downhill',
+      lead: 'DH 只做一件事：用最快的速度冲下坡。赛道多为陡坡、乱石、大落差和大跳台。',
+      blocks: [
+        { t: '特征', p: '避震行程约 200mm，双肩前叉、重型车架、粗胎、大碟刹。整车常超过 16kg，基本不具备爬坡能力。' },
+        { t: '怎么骑', p: '靠缆车、摆渡车或推车上山，只骑下坡。需要全套护具 —— 全盔、护胸、护膝护肘，几乎是必需品。' },
+        { t: '代表赛事', p: '速降世界杯（DH World Cup）是这个方向的最高舞台，赛道通常修在陡峭的山体上。' }
+      ]
+    },
+    {
+      group: '车型分类',
+      id: 'fr',
+      title: 'FR · 自由骑',
+      kicker: 'Freeride',
+      lead: 'FR 不追求最快，追求「怎么飞得好看」。大跳台、悬崖落差、空中动作，是自由骑的日常。',
+      blocks: [
+        { t: '特征', p: '车与 DH 接近但更强调强度与稳定性，几何允许更大幅度的动态动作，很多车用单速或小范围变速。' },
+        { t: '场地', p: '常见于车公园的跳台线、土坡场地和专门修建的落差赛段。' },
+        { t: '门槛', p: '是所有方向里对技术要求最高的之一：动作失误的代价很直接，护具和循序渐进缺一不可。' }
+      ]
+    },
+    {
+      group: '车型分类',
+      id: 'dj',
+      title: 'DJ · 土坡',
+      kicker: 'Dirt Jump',
+      lead: 'DJ 用的是接近硬架的小车，在连续的土坡之间起跳、做动作。核心是节奏、控车和空中姿态。',
+      blocks: [
+        { t: '特征', p: '车架小巧、坐垫极低、多为硬架或短行程，轮胎偏小、胎压偏高，方便起跳和落地。' },
+        { t: '场地', p: '土坡场地、泵道（pump track）和车公园的跳台区。' },
+        { t: '和 BMX 的区别', p: 'DJ 用的是山地车规格的轮组和避震前叉，能承受更大的落地冲击，也更适合户外土坡。' }
+      ]
+    },
+    {
+      group: '车型分类',
+      id: 'trials',
+      title: 'Trials · 攀爬',
+      kicker: 'Trials',
+      lead: '攀爬车没有坐垫、齿比极轻，目标是用最慢的速度越过障碍物，比的是平衡与控制。',
+      blocks: [
+        { t: '特征', p: '车架极小、无坐垫或只有装饰性坐垫，齿比很轻，刹车极强，胎压极低以增加抓地。' },
+        { t: '玩法', p: '在岩石、木箱、台阶上做定点平衡和跳跃，是「低速高难」的技术流。' },
+        { t: '对实战有没有用', p: '有 —— 练过攀爬的人，在山道上的低速控车和定点能力通常会明显更好。' }
+      ]
+    },
+    {
+      group: '国内山地车公园',
+      id: 'park-jifeng',
+      title: '极峰山地车公园',
+      kicker: '安徽 · 马鞍山',
+      geo: [31.63, 118.71],
+      sub: '安徽 · 马鞍山',
+      lead: '极峰山地车公园位于安徽省马鞍山市博望区丹阳镇丹东村，2023 年建成开放，由筑路师丁再刚设计修建，是苏皖地区少见的专业山地车公园。',
+      blocks: [
+        { t: '基本信息', p: '园区共有 7 条专业赛道，按难度分级，从入门到进阶都有覆盖。地处苏皖交界，从南京方向经常合高速「横溪」出口下高速后按导航即可到达。' },
+        { t: '为什么值得跑一趟', p: '华东地区能修出成体系赛道的场地并不多，极峰填补了苏皖一带的空白，也带动了当地的骑行氛围。' },
+        { t: '出发前', p: '门票、开放时间与赛道维护情况会随季节调整，出发前建议先在其官方账号确认当天是否开放。' }
+      ],
+      note: '本条信息整理自公开报道，具体开放安排请以园区官方发布为准。'
+    },
+    {
+      group: '国内山地车公园',
+      id: 'park-chongli',
+      title: '崇礼 · 张家口',
+      kicker: '河北',
+      geo: [40.98, 115.28],
+      sub: '河北 · 张家口',
+      lead: '崇礼是华北地区最有名的山地度假区之一，依托雪场的山地资源，夏季转为山地车公园运营，有成熟的缆车与赛道体系。',
+      blocks: [
+        { t: '为什么适合骑车', p: '海拔较高、夏季凉爽，缆车可以带车上山，省掉大量爬升，非常适合练下坡和速降。' },
+        { t: '玩法', p: '以车公园式的下坡赛道为主，难度分层，既能新手体验，也能满足进阶玩家。' },
+        { t: '交通', p: '距北京约 3 小时车程，高铁到崇礼站后转接驳也方便。' }
+      ],
+      note: '各雪场的夏季运营方案逐年调整，出行前请确认当年是否开放骑行项目。'
+    },
+    {
+      group: '国内山地车公园',
+      id: 'park-moganshan',
+      title: '莫干山 · 湖州',
+      kicker: '浙江',
+      geo: [30.6, 119.88],
+      sub: '浙江 · 湖州',
+      lead: '莫干山一带竹林密布、坡度多变，是江浙沪骑行圈常去的目的地。周边发展出多条成熟的林道与骑行路线。',
+      blocks: [
+        { t: '路况特点', p: '以竹林土路和林道为主，起伏密集、弯多，考验控车与体能，和下坡公园的玩法不太一样。' },
+        { t: '配套', p: '莫干山周边民宿与骑行服务完善，适合安排两天的周末骑行。' },
+        { t: '注意', p: '部分林道属于村民生产道路或受保护区域，请勿在禁行区域骑行，并遵守当地规定。' }
+      ]
+    },
+    {
+      group: '国内山地车公园',
+      id: 'park-beijing',
+      title: '北京 · 香山一带',
+      kicker: '北京',
+      geo: [39.99, 116.19],
+      sub: '北京 · 香山',
+      lead: '北京的山地车氛围集中在西郊的香山、模式口、凤凰岭一带，多年来形成了不少民间林道。',
+      blocks: [
+        { t: '特点', p: '以自然山道和手工修整的林道为主，路线多样，从缓坡到技术路段都有。' },
+        { t: '注意', p: '部分区域属于景区或受保护山地，骑行前请确认是否允许进入，避免与徒步游客及管理者冲突。' },
+        { t: '室内补充', p: '北京周边也有室内泵道与土坡场地，适合冬天或雨天练习基本功。' }
+      ]
+    },
+    {
+      group: '国内山地车公园',
+      id: 'park-chengdu',
+      title: '成都 · 龙泉山',
+      kicker: '四川',
+      geo: [30.55, 104.27],
+      sub: '四川 · 成都',
+      lead: '成都周边以龙泉山为代表的丘陵地形，是西南地区骑行热度很高的区域，公路与山地玩法都很活跃。',
+      blocks: [
+        { t: '特点', p: '坡长适中、起伏连续，适合拉练和技巧练习；周边也有专门修建的越野与土坡场地。' },
+        { t: '氛围', p: '成都骑行群体规模大，周末的山道上总能遇到同好，也便于结伴出行。' },
+        { t: '注意', p: '热门路段人车混行情况较多，下坡时务必控速、留出安全距离。' }
+      ]
+    },
+    {
+      group: '国内山地车公园',
+      id: 'park-dali',
+      title: '大理 · 苍山',
+      kicker: '云南',
+      geo: [25.61, 100.27],
+      sub: '云南 · 大理',
+      lead: '大理是很多人心中的骑行目的地：海拔适中、气候温和，苍山脚下的土路与林道资源丰富。',
+      blocks: [
+        { t: '特点', p: '海拔落差明显，路线从环湖公路到山中土路都有，风景是最大的加分项。' },
+        { t: '注意', p: '高海拔地区的天气变化快，紫外线强，长距离骑行要带足补给和保暖衣物。' },
+        { t: '适合', p: '适合把骑行和旅行结合起来的玩法，慢节奏、多停留。' }
+      ]
+    },
+    {
+      group: '国内山地车公园',
+      id: 'park-anji',
+      title: '安吉 · 湖州',
+      kicker: '浙江',
+      geo: [30.64, 119.68],
+      sub: '浙江 · 湖州',
+      lead: '安吉竹林与丘陵资源丰富，是长三角地区骑行活动频繁的县区，也有成规模的骑行基地与赛事。',
+      blocks: [
+        { t: '特点', p: '地形以丘陵为主，坡度平缓、路网密集，适合新手入门和长距离骑行。' },
+        { t: '配套', p: '当地文旅配套成熟，骑行驿站、租车和住宿都比较方便。' }
+      ]
+    },
+    {
+      group: '国内山地车公园',
+      id: 'park-shenzhen',
+      title: '深圳 · 光明及周边',
+      kicker: '广东',
+      geo: [22.75, 113.94],
+      sub: '广东 · 深圳',
+      lead: '珠三角的骑行人口基数大，深圳及周边的山体与郊野公园中也发展出不少林道和练习场地。',
+      blocks: [
+        { t: '特点', p: '以短途林道和技巧练习场为主，周末半天就能跑一趟，适合上班族保持状态。' },
+        { t: '注意', p: '南方湿热、雨季长，山路湿滑时抓地力下降明显，雨后两天内不建议猛骑下坡。' }
+      ]
+    },
+    {
+      group: '国内山地车公园',
+      id: 'park-quanlin',
+      title: '泉林大河 · 中山',
+      kicker: '广东 · 中山',
+      geo: [22.36, 113.44],
+      sub: '广东 · 中山',
+      lead: '泉林大河山地车公园位于广东省中山市三乡镇泉林欢乐世界园区内，是华南地区少有的、配备缆车的全季型山地车公园，占地约 800 亩，山体落差约 280 米。',
+      blocks: [
+        { t: '位置与交通', p: '地址在中山市三乡镇泉林欢乐世界内，靠近金龙路，紧邻广珠西线三乡出口。广州、深圳自驾约 1 小时，中山市区与珠海约 40 分钟。' },
+        { t: '赛道', p: '园区有多条赛道，按难度分了蓝道与黑道，另设沥青 Pumptrack 场地，从入门到高级都有对应选择。其中黑线赛道全长约 1.7 公里，落差 280 米，包含落差跳台、弯墙、乱石等高难度元素，面向高级骑手。' },
+        { t: '设施与服务', ul: [
+          '缆车：华南地区唯一配备缆车的山地车公园，省掉推车上山的力气',
+          '服务中心，提供自行车租赁与维修、护具租赁',
+          '园区内有酒店（大河 SPORT 酒店）与餐饮',
+          '除山地车外还有卡丁车、ATV 越野车、水上漂流等项目'
+        ] },
+        { t: '开放与票价', ul: [
+          '全年开放，四季皆可骑',
+          '缆车：单次 50 元 / 三次 120 元 / 全日无限次 268 元',
+          'Mini Bike Park 入场票：7 岁以上 50 元两小时，器材租赁另计'
+        ] },
+        { t: '赛事与培训', p: '园区承办过 GDL 速降联赛等赛事，也提供儿童与青少年的骑行培训课程，适合带小孩一起玩。' },
+        { t: '出发前', p: '票价、开放时间与赛道维护情况会随季节和园区安排调整，出发前建议先在园区官方渠道确认当天缆车是否运营、是否需要预约。' }
+      ],
+      note: '本条信息整理自公开资料（美骑网 / 携程 / 知乎 / 大众点评等），票价与开放安排可能变动，请以园区官方发布为准。'
+    },
+    {
+      group: '知识与技巧',
+      id: 'parts',
+      title: '关键部件',
+      kicker: 'Parts',
+      lead: '看懂几个核心部件，比记住一堆品牌型号更有用。',
+      blocks: [
+        { t: '车架与几何', p: '车架是整车的骨架。真正影响骑乘感受的是几何参数：头管角度（越小越稳、越适合下坡）、后下叉长度、以及跨高。尺寸买错，再贵的配置也救不回来。' },
+        { t: '前叉与后胆', p: '行程决定能承受多大的冲击。前叉除了行程，还要看阻尼结构和可调范围 —— 便宜的叉往往只有弹簧和回弹，贵的叉能调压缩阻尼。' },
+        { t: '传动', p: '现在是 1x 单盘的天下，前面一个牙盘、后面一整排飞轮。看的是齿比范围和变速平顺度，链条张力对下坡稳定性影响很大。' },
+        { t: '刹车', p: '碟刹是标配。来令片材质（树脂 / 金属）影响手感和耐磨，碟片尺寸影响散热。长时间下坡时的热衰减，多半是碟片和来令片的问题。' },
+        { t: '轮组与轮胎', p: '轮径 27.5 灵活、29 通过性好。轮胎的胎面花纹、宽度和胎压，是性价比最高的「性能改装」—— 同一台车换条胎，手感可以完全不同。' }
+      ]
+    },
+    {
+      group: '知识与技巧',
+      id: 'gear',
+      title: '装备清单',
+      kicker: 'Gear',
+      lead: '装备的意义是「出事的时候能兜住」。顺序上，先护具后性能。',
+      blocks: [
+        { t: '必买', ul: [
+          '头盔：第一优先级。速降/自由骑建议全盔，林道可用带后脑保护的半盔。',
+          '手套：摔车时本能撑地，手套是最直接的保障。',
+          '护膝（进阶加护肘）：山地骑行膝盖受伤概率很高。'
+        ] },
+        { t: '强烈建议', p: '骑行裤（减少长时间骑行的不适）、护目镜（挡树枝和飞虫）、以及一双能踩稳脚踏的鞋。' },
+        { t: '随身工具', p: '便携气筒、胶条或补胎片、内胎、快拆链条扣、多功能工具。有这些，大多数小故障能现场处理掉。' },
+        { t: '补给', p: '按每小时约一升水估算，长距离再补盐分和能量胶。夏天要把量算足，脱水会直接导致判断力下降。' }
+      ]
+    },
+    {
+      group: '知识与技巧',
+      id: 'care',
+      title: '保养与维护',
+      kicker: 'Care',
+      lead: '花十分钟保养，能换回一整个月的顺畅。山地车的损耗速度远高于公路车，日常维护是刚需。',
+      blocks: [
+        { t: '链条', p: '最容易被忽视、也最影响手感的部件。每次湿骑后擦干上油，能明显减少传动损耗。链条拉伸超过限度就该换，否则会把飞轮一起磨废。' },
+        { t: '刹车', p: '看两件事：来令片厚度是否还够、碟片有没有沾油。沾油的碟片会发出异响且制动力骤降，需要清洁或更换。' },
+        { t: '避震', p: '按厂商建议做周期保养（换油、换密封件）。气压按体重和路况调，每次骑前快速检查一下回弹。' },
+        { t: '胎压', p: '别照抄胎壁上的上限值。按体重和路况往下调一点，抓地力会好很多 —— 这是零成本提升操控的办法。' },
+        { t: '骑前检查', p: '快拆/桶轴是否锁紧、刹车是否正常、胎压是否合适、头盔有无损伤。三十秒，能避开很多麻烦。' }
+      ]
+    },
+    {
+      group: '知识与技巧',
+      id: 'skill',
+      title: '技巧与姿态',
+      kicker: 'Skills',
+      lead: '下坡时的姿势，比你骑了多久更重要。',
+      blocks: [
+        { t: '基本站姿', p: '下坡时重心压低、髋部后移、手臂微屈别锁死。身体要能随地形前后移动 —— 这就是所谓的「动态平衡」。' },
+        { t: '过弯', p: '入弯前把速度降够，弯中尽量少捏刹车。外侧脚踩实、身体压向弯内，视线看向弯的出口而不是前轮。' },
+        { t: '刹车', p: '刹车点尽量选在直道上，前后刹配合使用。湿滑路面时后刹比重可以大一些，避免前轮抱死。' },
+        { t: '爬坡', p: '保持踏频，别用大盘硬踩。重心略微前移压住前轮，避免在陡坡上翘头。' },
+        { t: '跳跃', p: '从最小的落差开始。起跳前保持稳定速度，靠推把而不是拉把完成起跳，落地时用身体吸收冲击。' }
+      ]
+    },
+    {
+      group: '知识与技巧',
+      id: 'fitness',
+      title: '体能与训练',
+      kicker: 'Fitness',
+      lead: '骑行的强度大半由心肺决定，而恢复和训练同样重要。',
+      blocks: [
+        { t: '有氧基础', p: '大部分里程应该放在能正常说话的低强度骑行上。基础打牢，高强度训练才有意义。' },
+        { t: '间歇', p: '每周 1–2 次间歇练习可以提升有氧上限：短时间高强度 + 充分恢复，重复若干组。' },
+        { t: '力量', p: '下肢力量训练（深蹲、箭步蹲）能提升踩踏效率，也保护膝盖。核心力量对上身的稳定尤其重要。' },
+        { t: '恢复', p: '睡眠不足还连着猛练，进步反而更慢。训练日的间隔、拉伸和睡眠，是同等重要的组成部分。' },
+        { t: '心态', p: '骑得久，比骑得猛更重要。山地车是长期爱好，能持续出门才是一切的前提。' }
+      ]
+    },
+    {
+      group: '知识与技巧',
+      id: 'fix',
+      title: '路上故障处理',
+      kicker: 'Field Fix',
+      lead: '在人烟稀少的林道中间，能不能自己把车弄回去，决定了你今天的心情。',
+      blocks: [
+        { t: '掉链', p: '多半是链条松或后拨限位不对。装回去后顺手检查后拨限位螺丝，能避免再次发生。' },
+        { t: '爆胎 / 扎胎', p: '带内胎就直接换，带补胎片就现场补。真空胎可以插胶条应急。先把异物从外胎里挑出来再处理，否则补了还会漏。' },
+        { t: '刹车异响', p: '通常是有油污或来令片磨完了。前者清洁碟片和来令片，后者只能换片。' },
+        { t: '变速不准', p: '多半是线管老化或后拨需要微调。用后拨上的微调旋钮边骑边调，通常能撑到回家。' },
+        { t: '断链条', p: '带上快拆链条扣就能现场接回去。接好后避免大齿比硬踩，回家再换新链条。' }
+      ],
+      note: '这些都不是大故障，但不会处理就得推车回家。出发前花两分钟检查工具是否带齐，比什么都实在。'
+    }
+  ]
+};
+</script>
+<script>
+/* ============================================================
+   铎的小站 — 刷机/山地车 详情页交互
+   卡片网格渲染、详情视图渲染、面包屑、侧边栏、锚点高亮
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var root = document.documentElement;
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var finePointer = window.matchMedia('(pointer: fine)').matches;
+
+  var wrap = document.querySelector('.wrap');
+  var grid = document.querySelector('[data-card-grid]');
+  var listView = document.querySelector('[data-list-view]');
+  var detailView = document.querySelector('[data-detail-view]');
+  var bcNav = document.querySelector('[data-breadcrumb]');
+  var tocToggle = document.getElementById('tocToggle');
+  var side = document.querySelector('.side');
+
+  var group = DZ.groups.bike;
+  var topics = group.topics || [];
+
+  var iconMap = {
+    xc: 'assets/img/bike/xc.jpg',
+    trail: 'assets/img/bike/trail.jpg',
+    dc: 'assets/img/bike/dc.jpg',
+    am: 'assets/img/bike/am.svg',
+    enduro: 'assets/img/bike/enduro.jpg',
+    dh: 'assets/img/bike/dh.jpg',
+    fr: 'assets/img/bike/fr.jpg',
+    dj: 'assets/img/bike/dj.svg',
+    trials: 'assets/img/bike/trials.svg',
+    'park-jifeng': 'assets/img/bike/park-jifeng.jpg',
+    'park-chongli': 'assets/img/bike/park-chongli.jpg',
+    'park-moganshan': 'assets/img/bike/park-moganshan.svg',
+    'park-beijing': 'assets/img/bike/park-beijing.svg',
+    'park-chengdu': 'assets/img/bike/park-chengdu.svg',
+    'park-dali': 'assets/img/bike/park-dali.svg',
+    'park-anji': 'assets/img/bike/park-anji.svg',
+    'park-shenzhen': 'assets/img/bike/park-shenzhen.svg',
+    'park-quanlin': 'assets/img/bike/park-quanlin.jpg',
+    parts: 'assets/img/bike/parts.svg',
+    gear: 'assets/img/bike/gear.svg',
+    care: 'assets/img/bike/care.svg',
+    skill: 'assets/img/bike/skill.svg',
+    fitness: 'assets/img/bike/fitness.svg',
+    fix: 'assets/img/bike/fix.svg'
+  };
+
+  var mediaMap = {
+    xc: 'assets/img/bike/xc.jpg',
+    trail: 'assets/img/bike/trail.jpg',
+    dc: 'assets/img/bike/dc.jpg',
+    am: 'assets/img/bike/am.svg',
+    enduro: 'assets/img/bike/enduro.jpg',
+    dh: 'assets/img/bike/dh.jpg',
+    fr: 'assets/img/bike/fr.jpg',
+    dj: 'assets/img/bike/dj.svg',
+    trials: 'assets/img/bike/trials.svg',
+    'park-jifeng': 'assets/img/bike/park-jifeng.jpg',
+    'park-chongli': 'assets/img/bike/park-chongli.jpg',
+    'park-moganshan': 'assets/img/bike/park-moganshan.svg',
+    'park-beijing': 'assets/img/bike/park-beijing.svg',
+    'park-chengdu': 'assets/img/bike/park-chengdu.svg',
+    'park-dali': 'assets/img/bike/park-dali.svg',
+    'park-anji': 'assets/img/bike/park-anji.svg',
+    'park-shenzhen': 'assets/img/bike/park-shenzhen.svg',
+    'park-quanlin': 'assets/img/bike/park-quanlin.jpg',
+    parts: 'assets/img/bike/parts.svg',
+    gear: 'assets/img/bike/gear.svg',
+    care: 'assets/img/bike/care.svg',
+    skill: 'assets/img/bike/skill.svg',
+    fitness: 'assets/img/bike/fitness.svg',
+    fix: 'assets/img/bike/fix.svg'
+  };
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return ({ '&': '&', '<': '<', '>': '>', '"': '"', "'": ''' })[c];
+    });
+  }
+
+  function renderBlocks(blocks) {
+    if (!blocks || !blocks.length) return '';
+    return blocks.map(function (b) {
+      if (b.ul && b.ul.length) {
+        return '<div class="entry-block"><h3>' + esc(b.t) + '</h3><ul>' +
+          b.ul.map(function (li) { return '<li>' + esc(li) + '</li>'; }).join('') +
+          '</ul></div>';
+      }
+      return '<div class="entry-block"><h3>' + esc(b.t) + '</h3><p>' + esc(b.p || '') + '</p></div>';
+    }).join('');
+  }
+
+  function getGroupTitle(topic) {
+    var idx = topics.indexOf(topic);
+    if (idx === -1) return '';
+    var prev = topics[idx - 1];
+    if (topic.group && (!prev || prev.group !== topic.group)) {
+      return topic.group;
+    }
+    return '';
+  }
+
+  function renderEntry(topic, index) {
+    var num = String(index + 1).padStart(2, '0');
+    var media = mediaMap[topic.id] || 'assets/img/bike/parts.svg';
+    var icon = iconMap[topic.id] || 'assets/img/bike/parts.svg';
+    var isImg = media.endsWith('.jpg') || media.endsWith('.png') || media.endsWith('.webp');
+    var groupTitle = getGroupTitle(topic);
+    return '' +
+      '<details class="entry reveal" data-id="' + esc(topic.id) + '">' +
+      '  <summary class="entry-summary">' +
+      '    <div class="entry-icon" aria-hidden="true">' +
+      (isImg ?
+        '<img src="' + esc(icon) + '" alt="" loading="lazy">' :
+        '<img src="' + esc(icon) + '" alt="" loading="lazy">') +
+      '    </div>' +
+      '    <div class="entry-meta">' +
+      '      <span class="entry-num">' + esc(group.num) + '-' + esc(num) + '</span>' +
+      '      <h3 class="entry-title">' + esc(topic.title) + '</h3>' +
+      '      <span class="entry-kicker">' + esc(topic.kicker) + (groupTitle ? ' · ' + esc(groupTitle) : '') + '</span>' +
+      '    </div>' +
+      '    <span class="entry-chevron" aria-hidden="true">' +
+      '      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>' +
+      '    </span>' +
+      '  </summary>' +
+      '  <div class="entry-content">' +
+      '    <div class="entry-media" style="--media:' + (isImg ? 'url(' + esc(media) + ')' : 'none') + ';">' +
+      (isImg ? '<img src="' + esc(media) + '" alt="" loading="lazy">' : '') +
+      '    </div>' +
+      (topic.sub ? '<p class="entry-sub">' + esc(topic.sub) + '</p>' : '') +
+      '    <p class="entry-lead">' + esc(topic.lead) + '</p>' +
+      renderBlocks(topic.blocks) +
+      (topic.note ? '<div class="entry-block note"><strong>提示</strong> ' + esc(topic.note) + '</div>' : '') +
+      '  </div>' +
+      '</details>';
+  }
+
+  function renderCard(topic, index) {
+    var num = String(index + 1).padStart(2, '0');
+    var media = mediaMap[topic.id] || 'assets/img/bike/parts.svg';
+    var isImg = media.endsWith('.jpg') || media.endsWith('.png') || media.endsWith('.webp');
+    return '' +
+      '<article class="tile reveal" data-go="' + esc(topic.id) + '" data-tilt data-glare>' +
+      '  <div class="tile-media">' +
+      (isImg ?
+        '<img src="' + esc(media) + '" alt="" loading="lazy">' :
+        '<img src="' + esc(media) + '" alt="" loading="lazy">') +
+      '  </div>' +
+      '  <div class="tile-body">' +
+      '    <span class="tile-no">' + esc(group.num) + '-' + esc(num) + '</span>' +
+      '    <h3>' + esc(topic.title) + '</h3>' +
+      '    <p>' + esc(topic.lead) + '</p>' +
+      '    <span class="tile-more">查看详情<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>' +
+      '  </div>' +
+      '</article>';
+  }
+
+  function renderGrid() {
+    if (!grid) return;
+    grid.innerHTML = topics.map(function (t, i) { return renderCard(t, i); }).join('');
+    grid.querySelectorAll('.tile').forEach(function (el, i) {
+      el.style.animationDelay = (i * 0.055) + 's';
+    });
+  }
+
+  function renderBreadcrumb(currentId) {
+    if (!bcNav) return;
+    var current = topics.find(function (t) { return t.id === currentId; });
+    bcNav.innerHTML = '' +
+      '<a href="bike.html" data-go="list"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6 8 12l6 6"/></svg> 全部 ' + esc(group.num) + ' 个分项</a>' +
+      (current ? ' <span>/</span> <span>' + esc(current.title) + '</span>' : '');
+  }
+
+  function renderDetail(id) {
+    if (!detailView) return;
+    var idx = topics.findIndex(function (t) { return t.id === id; });
+    if (idx === -1) return;
+    detailView.innerHTML = renderEntry(topics[idx], idx);
+    detailView.hidden = false;
+    listView.hidden = true;
+    detailView.querySelectorAll('.entry').forEach(function (el, i) {
+      el.style.animationDelay = (i * 0.055) + 's';
+    });
+    renderBreadcrumb(id);
+    updateTOC(id);
+    window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+  }
+
+  function renderList() {
+    if (!detailView || !listView) return;
+    detailView.hidden = true;
+    listView.hidden = false;
+    renderBreadcrumb(null);
+    updateTOC(null);
+    window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+  }
+
+  function updateTOC(activeId) {
+    if (!side) return;
+    var html = '<nav class="side-nav" aria-label="本页目录">';
+    var currentGroup = '';
+    topics.forEach(function (t, i) {
+      var active = t.id === activeId;
+      if (t.group && t.group !== currentGroup) {
+        currentGroup = t.group;
+        html += '<div class="side-group"><span>' + esc(t.group) + '</span>';
+      }
+      html += '<a href="#' + esc(t.id) + '" data-go="' + esc(t.id) + '" class="' + (active ? 'active' : '') + '">' +
+        '<em>' + esc(group.num) + '-' + String(i + 1).padStart(2, '0') + '</em>' +
+        esc(t.title) +
+        '</a>';
+      if (t.group && (!topics[i + 1] || topics[i + 1].group !== t.group)) {
+        html += '</div>';
+      }
+    });
+    html += '</nav>';
+    side.innerHTML = html;
+  }
+
+  grid?.addEventListener('click', function (e) {
+    var card = e.target.closest('[data-go]');
+    if (card && card.dataset.go !== 'list') {
+      e.preventDefault();
+      renderDetail(card.dataset.go);
+      history.pushState({ id: card.dataset.go }, '', '#' + card.dataset.go);
+    }
+  });
+
+  bcNav?.addEventListener('click', function (e) {
+    var link = e.target.closest('[data-go="list"]');
+    if (link) {
+      e.preventDefault();
+      renderList();
+      history.pushState({ id: 'list' }, '', 'bike.html');
+    }
+  });
+
+  detailView?.addEventListener('click', function (e) {
+    var link = e.target.closest('[data-go]');
+    if (link && link.dataset.go !== 'list') {
+      e.preventDefault();
+      renderDetail(link.dataset.go);
+      history.pushState({ id: link.dataset.go }, '', '#' + link.dataset.go);
+    }
+  });
+
+  window.addEventListener('popstate', function (e) {
+    var state = e.state;
+    if (state && state.id && state.id !== 'list') {
+      renderDetail(state.id);
+    } else {
+      renderList();
+    }
+  });
+
+  if (location.hash) {
+    var id = location.hash.slice(1);
+    if (topics.some(function (t) { return t.id === id; })) {
+      setTimeout(function () { renderDetail(id); }, 0);
+    }
+  }
+
+  if (tocToggle && side) {
+    tocToggle.addEventListener('click', function () {
+      var expanded = tocToggle.getAttribute('aria-expanded') === 'true';
+      tocToggle.setAttribute('aria-expanded', String(!expanded));
+      side.classList.toggle('open', !expanded);
+    });
+  }
+
+  renderGrid();
+  renderList();
+})();
+</script>
 </body>
 </html>

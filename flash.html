@@ -1,498 +1,517 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>刷机 — 铎的小站</title>
-<meta name="description" content="按「从解锁到救砖」的顺序整理。每一块都写清原理、步骤和风险点 —— 先知道会发生什么，再动手。">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#FFFFFF">
+<meta name="description" content="刷机 —— 解锁、Root、第三方 ROM、内核与模块、刷机工具，以及把变砖的手机救回来。">
+<title>刷机 · 铎的小站</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%0A%20%20%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%2260%22%20height%3D%2260%22%20rx%3D%2216%22%20fill%3D%22%230071E3%22%2F%3E%0A%20%20%3Ctext%20x%3D%2232%22%20y%3D%2246%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23FFFFFF%22%0A%20%20%20%20%20%20font-family%3D%22system-ui%2C-apple-system%2CPingFang%20SC%2CMicrosoft%20YaHei%2Csans-serif%22%3E%E9%93%8E%3C%2Ftext%3E%0A%3C%2Fsvg%3E%0A" type="image/svg+xml">
 <link rel="stylesheet" href="assets/css/styles.css">
-<script src="assets/js/app.js" defer></script>
 </head>
-<body>
-<a class="skip-link" href="#main">跳到主要内容</a>
+<body data-page="flash">
 
-<header class="nav">
-  <div class="nav__inner">
-    <a class="nav__brand" href="index.html" aria-label="铎的小站，回到首页">
-      <span class="nav__mark" aria-hidden="true">铎</span>
-      <span>铎的小站</span>
+<div class="progress-rail" aria-hidden="true"><div class="progress-bar" id="pbar"></div></div>
+
+<header class="topbar" id="topbar">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="回到首页">
+      <span class="mark">铎</span>
+      <span class="name">铎的小站</span>
     </a>
-    <nav class="nav__links" aria-label="主导航">
-        <a class="nav__link" href="index.html">首页</a>
-        <a class="nav__link" href="flash.html" aria-current="page">刷机</a>
-        <a class="nav__link" href="bike.html">山地车</a>
+    <nav class="nav" aria-label="主导航">
+      <a href="index.html">首页</a>
+      <a href="flash.html" class="active">刷机</a>
+      <a href="bike.html">山地车</a>
     </nav>
-    <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="打开菜单" data-nav-toggle>
-      <span class="nav__toggle-bars" aria-hidden="true"></span>
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="切换深浅色主题" aria-pressed="false">
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/>
+      </svg>
+      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/>
+      </svg>
     </button>
   </div>
 </header>
 
-<nav class="nav__menu" id="nav-menu" aria-label="移动导航" data-nav-menu data-open="false">
-  <a class="nav__menu-link" href="index.html">首页</a>
-  <a class="nav__menu-link" href="flash.html" aria-current="page">刷机</a>
-  <a class="nav__menu-link" href="bike.html">山地车</a>
-</nav>
+<main>
 
-<main id="main">
-
-  <header class="pagehead">
+  <section class="page-head">
     <div class="wrap">
-      <div class="pagehead__inner">
-        <nav class="breadcrumb" aria-label="面包屑">
-          <a href="index.html">首页</a>
-          <span class="breadcrumb__sep" aria-hidden="true">/</span>
-          <span aria-current="page">刷机</span>
-        </nav>
-        <span class="eyebrow reveal">01 — Flash & Mod</span>
-        <h1 class="display reveal">刷机</h1>
-        <p class="lede reveal">按「从解锁到救砖」的顺序整理。每一块都写清原理、步骤和风险点 —— 先知道会发生什么，再动手。</p>
-        <ul class="tags reveal">
-          <li class="tag">解锁 Bootloader</li>
-          <li class="tag">Root 与分支</li>
-          <li class="tag">第三方 ROM</li>
-          <li class="tag">内核调优</li>
-          <li class="tag">模块</li>
-          <li class="tag">刷机工具</li>
-          <li class="tag">救砖备份</li>
-        </ul>
-      </div>
-    </div>
-  </header>
+      <nav class="crumb reveal" aria-label="面包屑">
+        <a href="index.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 6 8 12l6 6"/></svg>
+          首页
+        </a>
+        <span>/</span><span>刷机</span>
+      </nav>
 
-  <section class="section" aria-labelledby="inside-flash">
-    <div class="wrap">
-      <div class="section__head reveal">
-        <span class="eyebrow">What&#39;s Inside</span>
-        <h2 class="headline" id="inside-flash">这里会写什么</h2>
-        <p class="lede">9 个主题，按动手的顺序排列。</p>
-      </div>
-      <div class="entry-list">
-      <details class="entry reveal">
-        <summary class="entry__summary">
-          <span class="num">01</span>
-          <span class="entry__text">
-            <span class="entry__title">Bootloader 解锁</span>
-            <span class="entry__kicker">Unlock</span>
-          </span>
-          <span class="entry__icon" aria-hidden="true"></span>
-        </summary>
-        <div class="entry__body">
-          <figure class="entry__media entry__media--pictogram">
-            <img src="assets/img/flash/bootloader.svg" alt="" loading="lazy" decoding="async">
-          </figure>
-          <p class="entry__lead">解锁 Bootloader 是刷机的起点，也是唯一不可逆的那一步：它会清空全部数据，多数厂商还会因此失去保修，部分机型在解锁后指纹支付、DRM 视频和个别系统服务会受限。所以第一步永远是 —— 备份、确认、再动手。</p>
-          <div class="field">
-            <p class="field__label">小米 / Redmi</p>
-            <p class="field__text">需要在小米社区申请解锁权限，通过后使用 Mi Unlock 工具在 fastboot 模式下解锁。绑定账号后有等待期（常见为 7 天，不同机型与时期会调整），期间设备要保持在线。解锁会清空数据。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">一加 / OPPO / realme</p>
-            <p class="field__text">一加传统上直接支持 fastboot flashing unlock。OPPO 与 realme 的国行机型多需要先通过「深度测试」申请，审核通过后才能在 fastboot 下解锁，且有名额和次数限制。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">Google Pixel</p>
-            <p class="field__text">最干净的一条路。开发者选项里打开「OEM 解锁」，然后执行 fastboot flashing unlock 即可。没有等待期，也能随时 lock 回去。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">三星</p>
-            <p class="field__text">开发者选项里打开「OEM 解锁」，关机后进下载模式（Download Mode）长按音量上确认。注意解锁会触发 Knox 熔断（Knox Warranty Void 0x1），三星支付、安全文件夹和部分银行类应用会永久失效，且不可恢复。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">华为 / 荣耀</p>
-            <p class="field__text">2018 年起官方已停止发放解锁码，官网申请通道关闭。目前没有官方途径，第三方「解锁服务」风险很高，不建议尝试。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">索尼</p>
-            <p class="field__text">在索尼官网的解锁页面提交 IMEI 申请解锁码，然后 fastboot oem unlock 0x&lt;解锁码&gt;。部分机型在解锁后会丢失相机的一部分功能。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">摩托罗拉</p>
-            <p class="field__text">在摩托官网申请解锁码，再执行 fastboot oem unlock &lt;code&gt;。部分运营商定制机不支持解锁。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">Nothing 及其他</p>
-            <p class="field__text">多数新机采用 Google 的标准方案，直接 fastboot flashing unlock 即可。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">通用流程</p>
-            <p class="field__text">adb reboot bootloader 进入 fastboot 模式 → fastboot devices 确认连接 → fastboot flashing unlock（老机型为 oem unlock）→ 在机器上用音量键确认。整个过程数据会被清空。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">解锁之后</p>
-            <p class="field__text">解锁状态下，银行、支付、流媒体等应用会通过设备完整性检测识别出设备被改动而拒绝运行。这需要用额外的隐藏手段处理，且不保证永远有效。</p>
-          </div>
-          <p class="entry__note">解锁是不可逆的分水岭：数据清空、保修受影响、部分功能永久受限。动手前请确认官方固件包已下载、数据已备份、账号等待期已过。</p>
+      <div class="page-hero-row">
+        <div class="page-hero-text">
+          <div class="sec-head reveal"><span class="sec-num">01</span><span class="sec-kicker">Flash & Mod</span></div>
+          <h1 class="sec-title reveal d1">刷机</h1>
+          <p class="sec-body reveal d2">从解锁 Bootloader 到刷入第三方系统，再到把变砖的手机救回来。<br>这里记的是<b>为什么这么做、哪里容易翻车、翻车了怎么救</b>，而不是一句「照着敲」。</p>
+          <ul class="chips reveal d3">
+            <li>解锁 Bootloader</li>
+            <li>Root 与分支</li>
+            <li>第三方 ROM</li>
+            <li>内核调优</li>
+            <li>模块</li>
+            <li>刷机工具</li>
+            <li>救砖备份</li>
+          </ul>
         </div>
-      </details>
-      <details class="entry reveal">
-        <summary class="entry__summary">
-          <span class="num">02</span>
-          <span class="entry__text">
-            <span class="entry__title">Root 权限管理</span>
-            <span class="entry__kicker">Root</span>
-          </span>
-          <span class="entry__icon" aria-hidden="true"></span>
-        </summary>
-        <div class="entry__body">
-          <figure class="entry__media entry__media--pictogram">
-            <img src="assets/img/flash/root.svg" alt="" loading="lazy" decoding="async">
-          </figure>
-          <p class="entry__lead">Root 的目的不是「为所欲为」，而是拿到系统的最高权限。今天主流是三条路线 —— Magisk、KernelSU、APatch，而它们各自还有分支。</p>
-          <div class="field">
-            <p class="field__label">Magisk（topjohnwu/Magisk，63.1k★）</p>
-            <p class="field__text">目前最主流、生态最庞大的方案。通过修补 boot 镜像实现 systemless（不修改系统分区）的 root，支持 Zygisk、模块系统与用于隐藏 root 的 DenyList。代价是每次系统更新后需要重新打补丁。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">Magisk 的分支</p>
-            <ul class="field__list">
-            <li>Magisk Delta（HuskyDG）：曾很流行的分支，加入了对 KernelSU 模块的兼容和更强的隐藏，现已归档。</li>
-            <li>KitsuneMagisk：Delta 的后继项目，同样已归档。</li>
-            <li>Magisk Alpha：国内的第三方构建，功能更新较快，但不是官方仓库，来源需要自行判断。</li>
-            </ul>
-          </div>
-          <div class="field">
-            <p class="field__label">KernelSU（tiann/KernelSU，18.9k★）</p>
-            <p class="field__text">内核级方案，root 直接实现在内核里。要求设备内核支持（GKI 机型或第三方内核）。优势是与系统结合更紧、隐藏更自然，并支持 KPM 内核模块。门槛是需要刷入支持 KernelSU 的内核。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">KernelSU 的分支</p>
-            <ul class="field__list">
-            <li>SukiSU-Ultra（6.5k★）：在 KernelSU 基础上扩展了内核模块（KPM）与更多隐藏特性。</li>
-            <li>KernelSU-Next（4.4k★）：维护活跃的分支之一。</li>
-            <li>BakaSU（原 ReSukiSU，1.7k★）：同样基于 KernelSU 的分支。</li>
-            </ul>
-          </div>
-          <div class="field">
-            <p class="field__label">APatch（bmax121/APatch，8.0k★）</p>
-            <p class="field__text">通过给内核打补丁（KernelPatch）获得 root，位置介于 Magisk 与 KernelSU 之间：不需要编译内核源码，又能提供内核级的 root 与 KPM 支持，并兼容相当一部分 Magisk 模块。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">APatch 的分支</p>
-            <ul class="field__list">
-            <li>FolkPatch（LyraVoid，1.2k★）：直接修补 boot 分区来获得内核 root，部署方式更简单。</li>
-            </ul>
-          </div>
-          <div class="field">
-            <p class="field__label">配套生态</p>
-            <ul class="field__list">
-            <li>ReZygisk（4.0k★）：为 KernelSU / APatch 提供 Zygisk 实现。</li>
-            <li>LSPosed（24.9k★）：Xposed 框架的现代继承者。</li>
-            <li>Zygisk-Assistant（2.6k★）：用于隐藏 root，适配 Magisk / KernelSU / APatch。</li>
-            <li>susfs4ksu（2.6k★）：为 KernelSU 提供内核级隐藏。</li>
-            </ul>
-          </div>
-          <div class="field">
-            <p class="field__label">历史遗留</p>
-            <p class="field__text">SuperSU 曾是最主流的 root 方案，后被转手并停止维护；更早还有 ChainsDD 的 Superuser。今天如果还有教程教你用 SuperSU，基本可以跳过。</p>
-          </div>
-          <p class="entry__note">选哪条路线取决于机型：能刷第三方内核的，KernelSU 系体验最自然；只想改 boot 镜像的，Magisk 最稳；想省去编译内核又想接近内核级 root 的，可以看 APatch。分支意味着更快的新特性，也意味着更小的用户基数和更少的踩坑资料。</p>
+        <div class="page-hero-art reveal d2">
+          <svg viewBox="0 0 320 320" role="img" aria-label="刷机主题插画">
+            <defs>
+              <linearGradient id="gA" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#0071E3"/>
+                <stop offset="1" stop-color="#0077ED"/>
+              </linearGradient>
+            </defs>
+            <circle cx="160" cy="160" r="118" fill="none" stroke="url(#gA)" stroke-opacity=".28" stroke-width="1.6"/>
+            <circle class="trace" cx="160" cy="160" r="118" fill="none" stroke="url(#gA)" stroke-opacity=".85" stroke-width="2"/>
+            <g class="spin-slow"><circle cx="160" cy="42" r="6" fill="url(#gA)"/></g>
+            <rect x="102" y="62" width="116" height="196" rx="24" fill-opacity=".75" stroke="url(#gA)" stroke-width="2" fill="#F5F5F7"/>
+            <rect x="112" y="80" width="96" height="160" rx="16" fill="none" stroke-opacity=".55" stroke-width="1.4" stroke="#D2D2D7"/>
+            <rect x="150" y="70" width="20" height="5" rx="2.5" fill-opacity=".75" fill="#86868B"/>
+            <g stroke="url(#gA)" stroke-width="4" stroke-linecap="round" stroke-opacity=".85">
+              <path d="M126 112h58"/><path d="M126 128h36"/><path d="M126 202h44"/>
+            </g>
+            <g stroke-width="4" stroke-linecap="round" stroke-opacity=".5" stroke="#D2D2D7">
+              <path d="M126 144h64"/><path d="M126 160h48"/><path d="M126 186h70"/>
+            </g>
+            <path d="M172 128 146 172h16l-6 26 28-44h-16z" fill="url(#gA)"/>
+          </svg>
         </div>
-      </details>
-      <details class="entry reveal">
-        <summary class="entry__summary">
-          <span class="num">03</span>
-          <span class="entry__text">
-            <span class="entry__title">第三方 ROM</span>
-            <span class="entry__kicker">ROM</span>
-          </span>
-          <span class="entry__icon" aria-hidden="true"></span>
-        </summary>
-        <div class="entry__body">
-          <figure class="entry__media entry__media--pictogram">
-            <img src="assets/img/flash/rom.svg" alt="" loading="lazy" decoding="async">
-          </figure>
-          <p class="entry__lead">官方停更并不等于用不下去。第三方 ROM 的差别主要在「干净程度、功能完整度、适配质量」这三件事上。</p>
-          <div class="field">
-            <p class="field__label">LineageOS</p>
-            <p class="field__text">类原生的老牌代表，代码干净、更新节奏稳定、机型覆盖广。功能克制，适合想要接近原生体验的人。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">PixelOS / PixelExperience</p>
-            <p class="field__text">把 Pixel 的界面与功能搬到其他机型上，观感统一、上手快。PixelExperience 已停止维护，PixelOS 等接力了这一部分需求。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">crDroid / Evolution X / RisingOS</p>
-            <p class="field__text">属于「功能丰富」的一派，在类原生基础上加入大量自定义选项 —— 状态栏、手势、主题、性能模式，适合喜欢折腾界面的人。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">AOSPA / OmniROM</p>
-            <p class="field__text">更偏工程与尝鲜的分支。历史上不少特性（例如手势导航）都是从这类项目里先出现的。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">GSI（通用系统镜像）</p>
-            <p class="field__text">不针对具体机型，基于 Treble 通用。好处是几乎所有支持 Treble 的机器都能刷，坏处是相机、通话、传感器这些依赖厂商适配的部分容易出问题。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">官改包</p>
-            <p class="field__text">保留官方相机与功能，只做精简和优化，风险在于来源不透明。刷之前看清作者、更新记录和已知问题。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">怎么判断值不值得刷</p>
-            <ul class="field__list">
-            <li>维护者是否还在更新；</li>
-            <li>已知问题列表是否命中你的刚需（通话、信号、相机、指纹）；</li>
-            <li>社区里有没有同机型的人长期在用。</li>
-            </ul>
-          </div>
-          <p class="entry__note">刷 ROM 前务必确认包的机型代号与你的设备完全一致 —— 代号差一个字母，结果可能就是变砖。</p>
-        </div>
-      </details>
-      <details class="entry reveal">
-        <summary class="entry__summary">
-          <span class="num">04</span>
-          <span class="entry__text">
-            <span class="entry__title">内核与调优</span>
-            <span class="entry__kicker">Kernel</span>
-          </span>
-          <span class="entry__icon" aria-hidden="true"></span>
-        </summary>
-        <div class="entry__body">
-          <figure class="entry__media entry__media--pictogram">
-            <img src="assets/img/flash/kernel.svg" alt="" loading="lazy" decoding="async">
-          </figure>
-          <p class="entry__lead">内核决定了 CPU 怎么调度、频率怎么升、内存怎么回收、发热怎么压制。厂商的默认调教偏向保守和续航，第三方内核则把选择权交回给你。</p>
-          <div class="field">
-            <p class="field__label">调度器与频率</p>
-            <p class="field__text">多数「省电内核」做的事情就是压低小核频率、延后大核上线，「性能内核」则相反。真正的差别往往体现在响应速度和待机功耗上，而不是跑分数字。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">温控</p>
-            <p class="field__text">厂商温控通常偏保守，导致玩一会儿就降频。自定义温控可以放宽阈值换取更长时间的性能，代价是更高的温度和更短的器件寿命。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">I/O 与内存</p>
-            <p class="field__text">调整读写队列与内存回收策略能影响多任务切换的流畅度，但收益通常没有想象中大，而且容易在长时间使用后暴露问题。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">现实提醒</p>
-            <p class="field__text">绝大多数「刷了就明显变快」的说法缺乏对照测试。能稳定感知的一般只有调度响应和待机功耗这两项。建议调优前先记录基线数据，改完再对比，才知道有没有用。</p>
-          </div>
-          <p class="entry__note">内核与系统版本强相关，刷错版本最常见的后果是开不了机。刷之前确认内核支持的系统版本范围。</p>
-        </div>
-      </details>
-      <details class="entry reveal">
-        <summary class="entry__summary">
-          <span class="num">05</span>
-          <span class="entry__text">
-            <span class="entry__title">模块</span>
-            <span class="entry__kicker">Modules</span>
-          </span>
-          <span class="entry__icon" aria-hidden="true"></span>
-        </summary>
-        <div class="entry__body">
-          <figure class="entry__media entry__media--pictogram">
-            <img src="assets/img/flash/module.svg" alt="" loading="lazy" decoding="async">
-          </figure>
-          <p class="entry__lead">模块是给系统打补丁最轻量的方式：改字体、换相机算法、拦广告、修掉某个耗电的后台服务，都可以用一个模块解决，而不用动系统分区。</p>
-          <div class="field">
-            <p class="field__label">模块怎么工作</p>
-            <p class="field__text">Magisk / KernelSU / APatch 的模块，本质是一段开机时被执行的脚本，加一组被挂载覆盖的文件。它不写入系统分区，所以通常能在系统更新后保留（也可能因更新失效）。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">常见用途</p>
-            <p class="field__text">字体替换、hosts 去广告、音效增强、相机算法替换、系统界面调整、性能调度切换等等。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">LSPosed 的位置</p>
-            <p class="field__text">LSPosed 本身不是模块，而是一个「让模块生效」的框架 —— Xposed 的现代实现，能在不修改 APK 的情况下改变应用行为。很多深度定制都依赖它。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">装模块的正确顺序</p>
-            <p class="field__text">一次只装一个，重启观察。如果出现开机变慢、异常发热、耗电暴涨，先禁用该模块。多个模块冲突时，用「逐一半禁用」的方式定位，比全卸再全装高效得多。</p>
-          </div>
-          <p class="entry__note">模块生态里既有认真维护的项目，也有来路不明的脚本。装之前看清它改了什么文件、要什么权限。</p>
-        </div>
-      </details>
-      <details class="entry reveal">
-        <summary class="entry__summary">
-          <span class="num">06</span>
-          <span class="entry__text">
-            <span class="entry__title">ADB 与命令行</span>
-            <span class="entry__kicker">ADB</span>
-          </span>
-          <span class="entry__icon" aria-hidden="true"></span>
-        </summary>
-        <div class="entry__body">
-          <figure class="entry__media entry__media--pictogram">
-            <img src="assets/img/flash/adb.svg" alt="" loading="lazy" decoding="async">
-          </figure>
-          <p class="entry__lead">ADB 是绕过图形界面直达系统的后门。它的能力远超多数人的想象，门槛却比看上去低。</p>
-          <div class="field">
-            <p class="field__label">基础连接</p>
-            <p class="field__text">打开开发者选项里的 USB 调试，连上电脑执行 adb devices 确认连接。Android 11 之后支持无线调试，adb pair 配对后 adb connect 即可，连数据线都省了。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">常用操作</p>
-            <p class="field__text">adb install / adb uninstall 装卸应用；adb push / adb pull 传文件；adb shell 进入设备终端；adb reboot bootloader 进 fastboot；adb sideload 刷入 OTA 包。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">排错利器 logcat</p>
-            <p class="field__text">adb logcat 能实时看到系统与应用的日志。抓崩溃时先 adb logcat -c 清空，再复现问题，然后 adb logcat -d &gt; log.txt 导出，问题基本一目了然。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">fastboot</p>
-            <p class="field__text">用来刷分区镜像，常用的是 fastboot flash boot boot.img、fastboot flash recovery、fastboot flashing unlock。注意 fastboot 模式下 adb 不可用，两者是不同模式。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">其它常用</p>
-            <p class="field__text">adb shell dumpsys 查看系统服务状态；adb shell pm list packages 列出已安装应用；adb shell top 看进程占用；adb shell getprop 读系统属性。</p>
-          </div>
-          <p class="entry__note">把 adb 和 fastboot 装好、驱动装对，是刷机路上性价比最高的一件事 —— 后面几乎所有问题都要靠它们解决。</p>
-        </div>
-      </details>
-      <details class="entry reveal">
-        <summary class="entry__summary">
-          <span class="num">07</span>
-          <span class="entry__text">
-            <span class="entry__title">救砖与备份</span>
-            <span class="entry__kicker">Rescue</span>
-          </span>
-          <span class="entry__icon" aria-hidden="true"></span>
-        </summary>
-        <div class="entry__body">
-          <figure class="entry__media entry__media--pictogram">
-            <img src="assets/img/flash/rescue.svg" alt="" loading="lazy" decoding="async">
-          </figure>
-          <p class="entry__lead">刷机真正的底气来自备份。能救回来的，通常都是那些提前准备好了官方固件和刷机工具的人。</p>
-          <div class="field">
-            <p class="field__label">先备份什么</p>
-            <p class="field__text">至少备份 boot（内核）、system / super、vendor，以及 EFS / persist 这类保存基带与传感器校准的分区。这些分区一旦误刷，可能导致无信号且难以恢复。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">恢复模式（Recovery）</p>
-            <p class="field__text">第三方 Recovery（如 TWRP）能备份与恢复分区、刷入 zip 包、挂载存储拷文件，是救砖的核心工具。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">fastboot 修复</p>
-            <p class="field__text">卡开机、刷错 boot 时，用 fastboot flash boot 重新刷回官方镜像，往往就能进系统。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">深度刷机模式</p>
-            <p class="field__text">高通平台叫 EDL（9008 模式），联发科平台叫 BROM / Preloader 模式。这是连 fastboot 都进不去时的最后手段，用厂商工具或通用工具直接写入底层分区。属于「用错了会更砖」的操作，务必确认固件与机型完全对应。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">变砖分级</p>
-            <ul class="field__list">
-            <li>能进 Recovery —— 好办；</li>
-            <li>只能进 fastboot —— 还能救；</li>
-            <li>只能进 EDL / BROM —— 需要底层工具；</li>
-            <li>连电脑都不识别 —— 可能需要拆机或专业工具。</li>
-            </ul>
-          </div>
-          <p class="entry__note">救砖的关键不是技术多高，而是「有没有原始固件、知不知道自己的机型代号」。这两件事提前准备好，绝大多数情况都能自己解决。</p>
-        </div>
-      </details>
-      <details class="entry reveal">
-        <summary class="entry__summary">
-          <span class="num">08</span>
-          <span class="entry__text">
-            <span class="entry__title">常见坑与排错</span>
-            <span class="entry__kicker">Troubleshoot</span>
-          </span>
-          <span class="entry__icon" aria-hidden="true"></span>
-        </summary>
-        <div class="entry__body">
-          <figure class="entry__media entry__media--pictogram">
-            <img src="assets/img/flash/pitfall.svg" alt="" loading="lazy" decoding="async">
-          </figure>
-          <p class="entry__lead">卡开机、无限重启、指纹失效、传感器异常、OTA 报错、电量显示乱跳 —— 这些现象背后往往就那么几个原因。</p>
-          <div class="field">
-            <p class="field__label">卡开机动画 / 无限重启</p>
-            <p class="field__text">常见原因是分区没刷干净、内核与系统版本不匹配、或模块残留。先禁用所有模块再排查，必要时格式化 data 后重刷。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">指纹 / 人脸失效</p>
-            <p class="field__text">解锁或刷 ROM 后，指纹数据与系统不匹配。部分机型可以通过恢复原厂对应分区解决。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">传感器异常</p>
-            <p class="field__text">方向、距离、光线传感器失灵，通常是 persist 分区被覆盖。刷 ROM 前务必备份该分区。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">OTA 更新失败</p>
-            <p class="field__text">system 分区被改写（装了模块、改过 hosts）会导致更新校验不通过。Magisk 提供「还原原厂镜像」的流程，还原后再更新。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">电量显示乱跳 / 掉电快</p>
-            <p class="field__text">前者一般是电池校准数据被清，需要重新校准；后者可以换内核验证是不是功耗策略的问题。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">银行 / 支付应用拒绝运行</p>
-            <p class="field__text">设备完整性检测（SafetyNet / Play Integrity）未通过。这与解锁状态、root 隐藏是否彻底都有关。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">排错顺序</p>
-            <p class="field__text">先看现象，再想最近改了什么，最后才动手重刷。反复重刷而不定位原因，只会浪费时间。</p>
-          </div>
-          <p class="entry__note">绝大多数「疑难杂症」都能通过「回想最近改了什么」来定位，而不是靠盲目重刷。</p>
-        </div>
-      </details>
-      <details class="entry reveal">
-        <summary class="entry__summary">
-          <span class="num">09</span>
-          <span class="entry__text">
-            <span class="entry__title">刷机工具</span>
-            <span class="entry__kicker">Tools</span>
-          </span>
-          <span class="entry__icon" aria-hidden="true"></span>
-        </summary>
-        <div class="entry__body">
-          <figure class="entry__media entry__media--pictogram">
-            <img src="assets/img/flash/tool.svg" alt="" loading="lazy" decoding="async">
-          </figure>
-          <p class="entry__lead">命令行能做的事最多，但图形化工具有时候更省事。下面这些是目前比较常见的。</p>
-          <div class="field">
-            <p class="field__label">UnlockTool</p>
-            <p class="field__text">Windows 平台的多品牌解锁与刷机工具，支持机型范围很广，功能偏「一站式」，属于付费软件，版本更新频繁（已到 2026.09 版）。适合需要跨品牌处理设备的人。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">刷机匣（GeekFlashTool）</p>
-            <p class="field__text">免费的安卓图形化深度刷机工具，兼容高通与联发科主流芯片，支持 Bootloader 解锁与系统刷写，能自动检测机型并匹配刷机包。对新手比较友好，不用记一堆命令。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">柚坛工具箱（Uotan ToolBox）</p>
-            <p class="field__text">开源项目，定位是现代化的 Android 与 OpenHarmony 工具箱，集成了包括第三方 Recovery 刷入在内的多种刷机工具，并配有图形界面。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">厂商官方工具</p>
-            <p class="field__text">三星用 Odin，小米用 Mi Flash（线刷），高通平台常用 QFIL / QPST，联发科平台常用 SP Flash Tool。救砖时官方工具的可靠性最高。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">通用工具</p>
-            <p class="field__text">fastboot 与 adb 是跨平台基础，几乎所有操作最后都落到这两条命令上；TWRP 等第三方 Recovery 则负责 zip 包与备份恢复。</p>
-          </div>
-          <div class="field">
-            <p class="field__label">怎么选</p>
-            <p class="field__text">日常刷机用 fastboot + Recovery 就够了；机型冷门、需要底层修复时再看 UnlockTool 这类综合工具；新手想少踩坑，刷机匣和柚坛工具箱的门槛更低。</p>
-          </div>
-          <p class="entry__note">工具只是手段。真正决定成败的是：机型代号、固件版本、以及你有没有备份。</p>
-        </div>
-      </details>
       </div>
     </div>
   </section>
-  <section class="section section--alt" aria-labelledby="notes-flash">
+
+  <hr class="rule">
+
+  <section class="section" data-list-view>
     <div class="wrap">
-      <div class="section__head reveal">
-        <span class="eyebrow">Notes</span>
-        <h2 class="headline" id="notes-flash">一点说明</h2>
+      <header class="sub-head reveal">
+        <span class="sec-kicker">What's Inside</span>
+        <h2>这里会写什么</h2>
+        <p>共 9 个分项，按「从解锁到救砖」的顺序整理。每一块都写清原理、步骤和风险点 —— <b>点任意一张卡片看详细内容</b>。</p>
+      </header>
+      <div class="crumb" data-breadcrumb></div>
+      <div class="detail-grid" data-card-grid></div>
+      <div class="sub-head reveal" style="margin-top:clamp(44px,7vw,70px)">
+        <span class="sec-kicker">Notes</span>
+        <h2>一点说明</h2>
+        <p>刷机有风险，且不同机型差异极大。站内经验主要基于高通平台，其他平台思路相通但细节不同。<b>动手前请务必自己确认机型对应的资料</b>，并做好完整备份。</p>
       </div>
-      <p class="note reveal">刷机有风险，且不同机型差异极大。站内经验主要基于高通平台，其他平台思路相通但细节不同。动手前请务必自己确认机型对应的资料，并做好完整备份。</p>
     </div>
   </section>
+
+  <section class="section" data-detail-view hidden></section>
 
 </main>
 
-<footer class="footer">
-  <div class="wrap wrap--wide">
-    <div class="footer__inner">
-      <span class="footer__brand"><span class="nav__mark" aria-hidden="true">铎</span>铎的小站</span>
-      <p>© 2026 铎的小站</p>
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-brand"><span class="mark">铎</span>铎的小站</div>
+    <div class="foot-meta">
+      <span>© <span id="year">2026</span> 铎的小站</span><br>
+      <span>蓝白/蓝黑双模式 · 系统字体栈 · 零外部依赖</span>
     </div>
   </div>
 </footer>
 
+<script src="assets/js/app.js"></script>
+<script>
+/* 刷机 · 分项内容数据 */
+window.DZ = window.DZ || {};
+DZ.groups = DZ.groups || {};
+
+DZ.groups.flash = {
+  key: 'flash',
+  label: '刷机',
+  kicker: 'Flash & Mod',
+  num: '01',
+  intro: '按「从解锁到救砖」的顺序整理。每一块都写清原理、步骤和风险点 —— 先知道会发生什么，再动手。',
+  topics: [
+    {
+      id: 'bootloader', title: 'Bootloader 解锁', kicker: 'Unlock',
+      lead: '解锁 Bootloader 是刷机的起点，也是唯一不可逆的那一步：它会清空全部数据，多数厂商还会因此失去保修，部分机型在解锁后指纹支付、DRM 视频和个别系统服务会受限。所以第一步永远是 —— 备份、确认、再动手。',
+      blocks: [
+        { t: '小米 / Redmi', p: '需要在小米社区申请解锁权限，通过后使用 Mi Unlock 工具在 fastboot 模式下解锁。绑定账号后有等待期（常见为 7 天，不同机型与时期会调整），期间设备要保持在线。解锁会清空数据。' },
+        { t: '一加 / OPPO / realme', p: '一加传统上直接支持 fastboot flashing unlock。OPPO 与 realme 的国行机型多需要先通过「深度测试」申请，审核通过后才能在 fastboot 下解锁，且有名额和次数限制。' },
+        { t: 'Google Pixel', p: '最干净的一条路。开发者选项里打开「OEM 解锁」，然后执行 fastboot flashing unlock 即可。没有等待期，也能随时 lock 回去。' },
+        { t: '三星', p: '开发者选项里打开「OEM 解锁」，关机后进下载模式（Download Mode）长按音量上确认。注意解锁会触发 Knox 熔断（Knox Warranty Void 0x1），三星支付、安全文件夹和部分银行类应用会永久失效，且不可恢复。' },
+        { t: '华为 / 荣耀', p: '2018 年起官方已停止发放解锁码，官网申请通道关闭。目前没有官方途径，第三方「解锁服务」风险很高，不建议尝试。' },
+        { t: '索尼', p: '在索尼官网的解锁页面提交 IMEI 申请解锁码，然后 fastboot oem unlock 0x<解锁码>。部分机型在解锁后会丢失相机的一部分功能。' },
+        { t: '摩托罗拉', p: '在摩托官网申请解锁码，再执行 fastboot oem unlock <code>。部分运营商定制机不支持解锁。' },
+        { t: 'Nothing 及其他', p: '多数新机采用 Google 的标准方案，直接 fastboot flashing unlock 即可。' },
+        { t: '通用流程', p: 'adb reboot bootloader 进入 fastboot 模式 → fastboot devices 确认连接 → fastboot flashing unlock（老机型为 oem unlock）→ 在机器上用音量键确认。整个过程数据会被清空。' },
+        { t: '解锁之后', p: '解锁状态下，银行、支付、流媒体等应用会通过设备完整性检测识别出设备被改动而拒绝运行。这需要用额外的隐藏手段处理，且不保证永远有效。' }
+      ],
+      note: '解锁是不可逆的分水岭：数据清空、保修受影响、部分功能永久受限。动手前请确认官方固件包已下载、数据已备份、账号等待期已过。'
+    },
+    {
+      id: 'root', title: 'Root 权限管理', kicker: 'Root',
+      lead: 'Root 的目的不是「为所欲为」，而是拿到系统的最高权限。今天主流是三条路线 —— Magisk、KernelSU、APatch，而它们各自还有分支。',
+      blocks: [
+        { t: 'Magisk（topjohnwu/Magisk，63.1k★）', p: '目前最主流、生态最庞大的方案。通过修补 boot 镜像实现 systemless（不修改系统分区）的 root，支持 Zygisk、模块系统与用于隐藏 root 的 DenyList。代价是每次系统更新后需要重新打补丁。' },
+        { t: 'Magisk 的分支', ul: [
+          'Magisk Delta（HuskyDG）：曾很流行的分支，加入了对 KernelSU 模块的兼容和更强的隐藏，现已归档。',
+          'KitsuneMagisk：Delta 的后继项目，同样已归档。',
+          'Magisk Alpha：国内的第三方构建，功能更新较快，但不是官方仓库，来源需要自行判断。'
+        ] },
+        { t: 'KernelSU（tiann/KernelSU，18.9k★）', p: '内核级方案，root 直接实现在内核里。要求设备内核支持（GKI 机型或第三方内核）。优势是与系统结合更紧、隐藏更自然，并支持 KPM 内核模块。门槛是需要刷入支持 KernelSU 的内核。' },
+        { t: 'KernelSU 的分支', ul: [
+          'SukiSU-Ultra（6.5k★）：在 KernelSU 基础上扩展了内核模块（KPM）与更多隐藏特性。',
+          'KernelSU-Next（4.4k★）：维护活跃的分支之一。',
+          'BakaSU（原 ReSukiSU，1.7k★）：同样基于 KernelSU 的分支。'
+        ] },
+        { t: 'APatch（bmax121/APatch，8.0k★）', p: '通过给内核打补丁（KernelPatch）获得 root，位置介于 Magisk 与 KernelSU 之间：不需要编译内核源码，又能提供内核级的 root 与 KPM 支持，并兼容相当一部分 Magisk 模块。' },
+        { t: 'APatch 的分支', ul: [
+          'FolkPatch（LyraVoid，1.2k★）：直接修补 boot 分区来获得内核 root，部署方式更简单。'
+        ] },
+        { t: '配套生态', ul: [
+          'ReZygisk（4.0k★）：为 KernelSU / APatch 提供 Zygisk 实现。',
+          'LSPosed（24.9k★）：Xposed 框架的现代继承者。',
+          'Zygisk-Assistant（2.6k★）：用于隐藏 root，适配 Magisk / KernelSU / APatch。',
+          'susfs4ksu（2.6k★）：为 KernelSU 提供内核级隐藏。'
+        ] },
+        { t: '历史遗留', p: 'SuperSU 曾是最主流的 root 方案，后被转手并停止维护；更早还有 ChainsDD 的 Superuser。今天如果还有教程教你用 SuperSU，基本可以跳过。' }
+      ],
+      note: '选哪条路线取决于机型：能刷第三方内核的，KernelSU 系体验最自然；只想改 boot 镜像的，Magisk 最稳；想省去编译内核又想接近内核级 root 的，可以看 APatch。分支意味着更快的新特性，也意味着更小的用户基数和更少的踩坑资料。'
+    },
+    {
+      id: 'rom', title: '第三方 ROM', kicker: 'ROM',
+      lead: '官方停更并不等于用不下去。第三方 ROM 的差别主要在「干净程度、功能完整度、适配质量」这三件事上。',
+      blocks: [
+        { t: 'LineageOS', p: '类原生的老牌代表，代码干净、更新节奏稳定、机型覆盖广。功能克制，适合想要接近原生体验的人。' },
+        { t: 'PixelOS / PixelExperience', p: '把 Pixel 的界面与功能搬到其他机型上，观感统一、上手快。PixelExperience 已停止维护，PixelOS 等接力了这一部分需求。' },
+        { t: 'crDroid / Evolution X / RisingOS', p: '属于「功能丰富」的一派，在类原生基础上加入大量自定义选项 —— 状态栏、手势、主题、性能模式，适合喜欢折腾界面的人。' },
+        { t: 'AOSPA / OmniROM', p: '更偏工程与尝鲜的分支。历史上不少特性（例如手势导航）都是从这类项目里先出现的。' },
+        { t: 'GSI（通用系统镜像）', p: '不针对具体机型，基于 Treble 通用。好处是几乎所有支持 Treble 的机器都能刷，坏处是相机、通话、传感器这些依赖厂商适配的部分容易出问题。' },
+        { t: '官改包', p: '保留官方相机与功能，只做精简和优化，风险在于来源不透明。刷之前看清作者、更新记录和已知问题。' },
+        { t: '怎么判断值不值得刷', ul: [
+          '维护者是否还在更新；',
+          '已知问题列表是否命中你的刚需（通话、信号、相机、指纹）；',
+          '社区里有没有同机型的人长期在用。'
+        ] }
+      ],
+      note: '刷 ROM 前务必确认包的机型代号与你的设备完全一致 —— 代号差一个字母，结果可能就是变砖。'
+    },
+    {
+      id: 'kernel', title: '内核与调优', kicker: 'Kernel',
+      lead: '内核决定了 CPU 怎么调度、频率怎么升、内存怎么回收、发热怎么压制。厂商的默认调教偏向保守和续航，第三方内核则把选择权交回给你。',
+      blocks: [
+        { t: '调度器与频率', p: '多数「省电内核」做的事情就是压低小核频率、延后大核上线，「性能内核」则相反。真正的差别往往体现在响应速度和待机功耗上，而不是跑分数字。' },
+        { t: '温控', p: '厂商温控通常偏保守，导致玩一会儿就降频。自定义温控可以放宽阈值换取更长时间的性能，代价是更高的温度和更短的器件寿命。' },
+        { t: 'I/O 与内存', p: '调整读写队列与内存回收策略能影响多任务切换的流畅度，但收益通常没有想象中大，而且容易在长时间使用后暴露问题。' },
+        { t: '现实提醒', p: '绝大多数「刷了就明显变快」的说法缺乏对照测试。能稳定感知的一般只有调度响应和待机功耗这两项。建议调优前先记录基线数据，改完再对比，才知道有没有用。' }
+      ],
+      note: '内核与系统版本强相关，刷错版本最常见的后果是开不了机。刷之前确认内核支持的系统版本范围。'
+    },
+    {
+      id: 'module', title: '模块', kicker: 'Modules',
+      lead: '模块是给系统打补丁最轻量的方式：改字体、换相机算法、拦广告、修掉某个耗电的后台服务，都可以用一个模块解决，而不用动系统分区。',
+      blocks: [
+        { t: '模块怎么工作', p: 'Magisk / KernelSU / APatch 的模块，本质是一段开机时被执行的脚本，加一组被挂载覆盖的文件。它不写入系统分区，所以通常能在系统更新后保留（也可能因更新失效）。' },
+        { t: '常见用途', p: '字体替换、hosts 去广告、音效增强、相机算法替换、系统界面调整、性能调度切换等等。' },
+        { t: 'LSPosed 的位置', p: 'LSPosed 本身不是模块，而是一个「让模块生效」的框架 —— Xposed 的现代实现，能在不修改 APK 的情况下改变应用行为。很多深度定制都依赖它。' },
+        { t: '装模块的正确顺序', p: '一次只装一个，重启观察。如果出现开机变慢、异常发热、耗电暴涨，先禁用该模块。多个模块冲突时，用「逐一半禁用」的方式定位，比全卸再全装高效得多。' }
+      ],
+      note: '模块管理的核心是克制：每次只装一个、重启观察、出问题先禁用。不要把模块当成「越多越好」的收集品。'
+    },
+    {
+      id: 'adb', title: '刷机工具', kicker: 'Tools',
+      lead: '工具链决定了你能不能把命令打对、文件刷对、备份存对。',
+      blocks: [
+        { t: 'ADB / Fastboot（官方 Platform Tools）', p: '所有操作的基础。下载最新版，加入 PATH，别用系统包管理器里旧得发霉的版本。' },
+        { t: 'Magisk / KernelSU / APatch 官方包', p: '直接去官方 Release 下载，别信第三方打包。校验 SHA-256，防止供应链投毒。' },
+        { t: 'Mi Unlock / 一加解锁工具 / 三星 ODIN / Pixel Flash Tool', p: '厂商官方工具各有各的坑（如 Mi Unlock 要登录账号、ODIN 要选对四件套）。先看官方文档，再动手。' },
+        { t: 'Python / Termux / ADB App', p: '手机端跑脚本、临时当 ADB 服务端，救急能用，别当主力。' }
+      ],
+      note: '工具版本对应系统版本，系统版本对应机型代号。三样有一样对不上，全是白折腾。'
+    },
+    {
+      id: 'rescue', title: '救砖备份', kicker: 'Rescue',
+      lead: '变砖不可怕，可怕是没备份、没 EDL 线、没授权账号、没官方固件包。',
+      blocks: [
+        { t: '砖的分级', p: '软砖：进 fastboot / recovery 但起不来系统；硬砖：完全不亮屏、不进任何模式、电脑识别不出设备。' },
+        { t: 'EDL 模式（Emergency Download）', p: '高通平台的最后防线。需要短接测试点、或用深度测试授权、或 9008 线。进 EDL 后用 QFIL / Firehose 刷全量包，数据全丢但能救活。' },
+        { t: '三星 / Pixel / 一加 官方救砖', p: '三星用 ODIN 刷四件套（BL/AP/CP/CSC）+ HOME_CSC 保数据；Pixel 用 flash-all.bat；一加用 MSMDownloadTool（需授权）。' },
+        { t: '备份该存什么', ul: [
+          '官方完整固件包（按机型代号 + 版本号存），不只是 OTA 包。',
+          'boot / dtbo / vbmeta / super 分区镜像（fastbootd 里 dump 出来）。',
+          '持久化分区、EFS、modemst1/2 等关键分区。',
+          'Magisk 修补后的 boot 镜像、已安装模块列表。'
+        ] },
+        { t: '日常习惯', p: '每次系统更新前 dump 一套关键分区，存在电脑和云盘。花 5 分钟，省一天愁。' }
+      ],
+      note: '救砖的前提是：官方固件包在手、EDL 线 / 授权账号在手、备份在手。缺一样，修手机店都不一定收。'
+    },
+    {
+      id: 'pitfall', title: '避坑指北', kicker: 'Troubleshoot',
+      lead: '翻车大多不是运气不好，是步骤跳了、版本对不上、贪快没看清。',
+      blocks: [
+        { t: '解锁前没备份', p: '解锁必清数据，这是物理规律。云同步不等于本地备份，照片、微信聊天记录、2FA 密钥、离线地图 —— 统统没了。' },
+        { t: '刷错分区 / 刷错包', p: '把 dtbo 刷进 boot、把 vendor_boot 刷进 dtbo、把别的机型包刷进去。fastboot 里不长眼，输什么刷什么。' },
+        { t: 'Magisk 模块冲突导致开机循环', p: '进 fastboot 刷回原版 boot，或用 `adb wait-for-device shell magisk --remove-modules`。别急着双清。' },
+        { t: '系统更新后 Root 丢失 / 模块失效', p: 'OTA 更新会覆盖 boot。Magisk 可以在更新前「保留 Root」，或者更新后重新打补丁。' },
+        { t: '隐藏 Root 过不了完整性检测', p: 'Play Integrity / SafetyNet / Strong Integrity 会升级。Zygisk + DenyList + Zygisk-Assistant 是目前最稳的组合，但也不保证永远有效。' },
+        { t: '第三方内核不匹配系统版本', p: '内核版本必须与系统构建版本（Build fingerprint / 构建号）完全对应。差一个小版本，开机就卡 Logo。' },
+        { t: '动态分区（super）操作失误', p: '动态分区下不能直接 flash super，要用 fastbootd 配合 dynamic partitions。动不动就把分区表刷坏。' }
+      ],
+      note: '遇到问题先搜「机型代号 + 报错关键词 + XDA / GitHub Issue」。别人踩过的坑，不用自己再踩一遍。'
+    },
+    {
+      id: 'tool', title: '实用脚本与资源', kicker: 'Resources',
+      lead: '把常用的查询、下载、校验做成脚本或收藏夹，省得每次都现找。',
+      blocks: [
+        { t: '设备代号查询', p: 'Settings → About phone → Model / Codename，或 adb shell getprop ro.product.device。网站：devicespezifikationen.de、GSMArena、XDA 机型索引。' },
+        { t: '官方固件下载', p: 'Pixel：developers.google.com/android/ota；一加：oxygenupdater.com / 官网支持页；小米：miuiver.com / xiaomifirmwareupdater.com；三星：samfw.com / frija。' },
+        { t: 'Magisk / KernelSU / APatch 释放页', p: 'GitHub Releases + 官方 Telegram 频道。关注 Release，别只看 README。' },
+        { t: '校验脚本', p: 'Windows: `certutil -hashfile file.zip SHA256`；macOS/Linux: `shasum -a 256 file.zip`。养成下载后必校验的习惯。' },
+        { t: '常用命令速查', ul: [
+          'adb reboot bootloader / recovery / edl',
+          'fastboot devices / fastboot getvar all',
+          'fastboot flash boot magisk_patched.img',
+          'fastboot flash dtbo dtbo.img',
+          'fastboot update rom.zip（完整包）',
+          'fastbootd（动态分区下进入）'
+        ] }
+      ],
+      note: '把这些网址、命令存成浏览器书签或本地 Markdown，下次折腾时直接打开。'
+    }
+  ]
+};
+</script>
+<script>
+/* ============================================================
+   铎的小站 — 刷机/山地车 详情页交互
+   卡片网格渲染、详情视图渲染、面包屑、侧边栏、锚点高亮
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var root = document.documentElement;
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var finePointer = window.matchMedia('(pointer: fine)').matches;
+
+  var wrap = document.querySelector('.wrap');
+  var grid = document.querySelector('[data-card-grid]');
+  var listView = document.querySelector('[data-list-view]');
+  var detailView = document.querySelector('[data-detail-view]');
+  var bcNav = document.querySelector('[data-breadcrumb]');
+  var tocToggle = document.getElementById('tocToggle');
+  var side = document.querySelector('.side');
+
+  var group = DZ.groups.flash;
+  var topics = group.topics || [];
+
+  var iconMap = {
+    bootloader: 'assets/img/flash/bootloader.svg',
+    root: 'assets/img/flash/root.svg',
+    rom: 'assets/img/flash/rom.svg',
+    kernel: 'assets/img/flash/kernel.svg',
+    module: 'assets/img/flash/module.svg',
+    adb: 'assets/img/flash/tool.svg',
+    rescue: 'assets/img/flash/rescue.svg',
+    pitfall: 'assets/img/flash/pitfall.svg',
+    tool: 'assets/img/flash/tool.svg'
+  };
+
+  var mediaMap = {
+    bootloader: 'assets/img/flash/bootloader.svg',
+    root: 'assets/img/flash/root.svg',
+    rom: 'assets/img/flash/rom.svg',
+    kernel: 'assets/img/flash/kernel.svg',
+    module: 'assets/img/flash/module.svg',
+    adb: 'assets/img/flash/adb.svg',
+    rescue: 'assets/img/flash/rescue.svg',
+    pitfall: 'assets/img/flash/pitfall.svg',
+    tool: 'assets/img/flash/tool.svg'
+  };
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return ({ '&': '&', '<': '<', '>': '>', '"': '"', "'": ''' })[c];
+    });
+  }
+
+  function renderBlocks(blocks) {
+    if (!blocks || !blocks.length) return '';
+    return blocks.map(function (b) {
+      if (b.ul && b.ul.length) {
+        return '<div class="entry-block"><h3>' + esc(b.t) + '</h3><ul>' +
+          b.ul.map(function (li) { return '<li>' + esc(li) + '</li>'; }).join('') +
+          '</ul></div>';
+      }
+      return '<div class="entry-block"><h3>' + esc(b.t) + '</h3><p>' + esc(b.p || '') + '</p></div>';
+    }).join('');
+  }
+
+  function renderEntry(topic, index) {
+    var num = String(index + 1).padStart(2, '0');
+    var media = mediaMap[topic.id] || 'assets/img/flash/tool.svg';
+    var icon = iconMap[topic.id] || 'assets/img/flash/tool.svg';
+    var isImg = media.endsWith('.jpg') || media.endsWith('.png') || media.endsWith('.webp');
+    return '' +
+      '<details class="entry reveal" data-id="' + esc(topic.id) + '">' +
+      '  <summary class="entry-summary">' +
+      '    <div class="entry-icon" aria-hidden="true">' +
+      (isImg ?
+        '<img src="' + esc(icon) + '" alt="" loading="lazy">' :
+        '<img src="' + esc(icon) + '" alt="" loading="lazy">') +
+      '    </div>' +
+      '    <div class="entry-meta">' +
+      '      <span class="entry-num">' + esc(group.num) + '-' + esc(num) + '</span>' +
+      '      <h3 class="entry-title">' + esc(topic.title) + '</h3>' +
+      '      <span class="entry-kicker">' + esc(topic.kicker) + '</span>' +
+      '    </div>' +
+      '    <span class="entry-chevron" aria-hidden="true">' +
+      '      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>' +
+      '    </span>' +
+      '  </summary>' +
+      '  <div class="entry-content">' +
+      '    <div class="entry-media" style="--media:' + (isImg ? 'url(' + esc(media) + ')' : 'none') + ';">' +
+      (isImg ? '<img src="' + esc(media) + '" alt="" loading="lazy">' : '') +
+      '    </div>' +
+      '    <p class="entry-lead">' + esc(topic.lead) + '</p>' +
+      renderBlocks(topic.blocks) +
+      (topic.note ? '<div class="entry-block note"><strong>提示</strong> ' + esc(topic.note) + '</div>' : '') +
+      '  </div>' +
+      '</details>';
+  }
+
+  function renderCard(topic, index) {
+    var num = String(index + 1).padStart(2, '0');
+    var media = mediaMap[topic.id] || 'assets/img/flash/tool.svg';
+    var isImg = media.endsWith('.jpg') || media.endsWith('.png') || media.endsWith('.webp');
+    return '' +
+      '<article class="tile reveal" data-go="' + esc(topic.id) + '" data-tilt data-glare>' +
+      '  <div class="tile-media">' +
+      (isImg ?
+        '<img src="' + esc(media) + '" alt="" loading="lazy">' :
+        '<img src="' + esc(media) + '" alt="" loading="lazy">') +
+      '  </div>' +
+      '  <div class="tile-body">' +
+      '    <span class="tile-no">' + esc(group.num) + '-' + esc(num) + '</span>' +
+      '    <h3>' + esc(topic.title) + '</h3>' +
+      '    <p>' + esc(topic.lead) + '</p>' +
+      '    <span class="tile-more">查看详情<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>' +
+      '  </div>' +
+      '</article>';
+  }
+
+  function renderGrid() {
+    if (!grid) return;
+    grid.innerHTML = topics.map(function (t, i) { return renderCard(t, i); }).join('');
+    grid.querySelectorAll('.tile').forEach(function (el, i) {
+      el.style.animationDelay = (i * 0.055) + 's';
+    });
+  }
+
+  function renderBreadcrumb(currentId) {
+    if (!bcNav) return;
+    var current = topics.find(function (t) { return t.id === currentId; });
+    bcNav.innerHTML = '' +
+      '<a href="flash.html" data-go="list"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6 8 12l6 6"/></svg> 全部 ' + esc(group.num) + ' 个分项</a>' +
+      (current ? ' <span>/</span> <span>' + esc(current.title) + '</span>' : '');
+  }
+
+  function renderDetail(id) {
+    if (!detailView) return;
+    var idx = topics.findIndex(function (t) { return t.id === id; });
+    if (idx === -1) return;
+    detailView.innerHTML = renderEntry(topics[idx], idx);
+    detailView.hidden = false;
+    listView.hidden = true;
+    detailView.querySelectorAll('.entry').forEach(function (el, i) {
+      el.style.animationDelay = (i * 0.055) + 's';
+    });
+    renderBreadcrumb(id);
+    updateTOC(id);
+    window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+  }
+
+  function renderList() {
+    if (!detailView || !listView) return;
+    detailView.hidden = true;
+    listView.hidden = false;
+    renderBreadcrumb(null);
+    updateTOC(null);
+    window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+  }
+
+  function updateTOC(activeId) {
+    if (!side) return;
+    var html = '<nav class="side-nav" aria-label="本页目录">';
+    topics.forEach(function (t) {
+      var active = t.id === activeId;
+      html += '<a href="#' + esc(t.id) + '" data-go="' + esc(t.id) + '" class="' + (active ? 'active' : '') + '">' +
+        '<em>' + esc(group.num) + '-' + String(topics.indexOf(t) + 1).padStart(2, '0') + '</em>' +
+        esc(t.title) +
+        '</a>';
+    });
+    html += '</nav>';
+    side.innerHTML = html;
+  }
+
+  grid?.addEventListener('click', function (e) {
+    var card = e.target.closest('[data-go]');
+    if (card && card.dataset.go !== 'list') {
+      e.preventDefault();
+      renderDetail(card.dataset.go);
+      history.pushState({ id: card.dataset.go }, '', '#' + card.dataset.go);
+    }
+  });
+
+  bcNav?.addEventListener('click', function (e) {
+    var link = e.target.closest('[data-go="list"]');
+    if (link) {
+      e.preventDefault();
+      renderList();
+      history.pushState({ id: 'list' }, '', 'flash.html');
+    }
+  });
+
+  detailView?.addEventListener('click', function (e) {
+    var link = e.target.closest('[data-go]');
+    if (link && link.dataset.go !== 'list') {
+      e.preventDefault();
+      renderDetail(link.dataset.go);
+      history.pushState({ id: link.dataset.go }, '', '#' + link.dataset.go);
+    }
+  });
+
+  window.addEventListener('popstate', function (e) {
+    var state = e.state;
+    if (state && state.id && state.id !== 'list') {
+      renderDetail(state.id);
+    } else {
+      renderList();
+    }
+  });
+
+  if (location.hash) {
+    var id = location.hash.slice(1);
+    if (topics.some(function (t) { return t.id === id; })) {
+      setTimeout(function () { renderDetail(id); }, 0);
+    }
+  }
+
+  if (tocToggle && side) {
+    tocToggle.addEventListener('click', function () {
+      var expanded = tocToggle.getAttribute('aria-expanded') === 'true';
+      tocToggle.setAttribute('aria-expanded', String(!expanded));
+      side.classList.toggle('open', !expanded);
+    });
+  }
+
+  renderGrid();
+  renderList();
+})();
+</script>
 </body>
 </html>
