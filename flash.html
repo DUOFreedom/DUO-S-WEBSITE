@@ -706,6 +706,8 @@ main,.foot{position:relative;z-index:10}
 /* ===== 大类标题（二级页顶部） ===== */
 .crumb{margin-bottom:10px}
 .cat-head{margin:20px 0 34px;max-width:64ch}
+/* 大类视图：crumb 变成块级，避免返回链接与标题并排重叠 */
+.crumb.is-cat{display:block}
 .cat-head h2{margin:0 0 12px;font-size:clamp(28px,5.2vw,46px);font-weight:700;
   letter-spacing:-.025em;line-height:1.15}
 .cat-head p{margin:0;font-size:15px;line-height:1.85;
@@ -751,6 +753,7 @@ main,.foot{position:relative;z-index:10}
       <a href="index.html">首页</a>
       <a href="flash.html" class="active">刷机</a>
       <a href="bike.html">山地车</a>
+      <a href="code.html">代码</a>
     </nav>
     <button class="icon-btn" id="themeBtn" type="button" aria-label="切换深浅色主题">
       <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -1585,6 +1588,7 @@ window.DZ.imgExtOf = {"bike":{"am":"svg","care":"svg","cat-know":"svg","cat-park
         '</span></a>';
     });
     if (hs.crumb) hs.crumb.innerHTML = '';
+    if (hs.crumb) hs.crumb.classList.remove('is-cat');
     hs.grid.innerHTML = html;
     reveal(hs.grid); forceVisible(hs.grid);
     wireLinks(hs.grid);
@@ -1598,6 +1602,7 @@ window.DZ.imgExtOf = {"bike":{"am":"svg","care":"svg","cat-know":"svg","cat-park
     if (!cat) { renderCats(hs); return; }
     hs.curCat = catId;
     if (hs.crumb) {
+      hs.crumb.classList.add('is-cat');
       hs.crumb.innerHTML = '<a class="back-link" data-go="cats" role="button" tabindex="0" onclick="return DZGo.go(\'cats\')">' + BACK + '返回大类</a>' +
         '<div class="cat-head"><h2>' + cat.title + '</h2><p>' + cat.desc + '</p></div>';
       wireLinks(hs.crumb);
